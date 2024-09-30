@@ -9,6 +9,7 @@ import Register from './components/Pages/RegisterPage'
 import ManageUsers from './components/Pages/ApprovalsPage'
 import Visualiser from './components/Pages/VisualiserPage'
 import Heatmap from './components/Pages/HeatmapPage'
+import Hydrophone from './components/Pages/HydrophonePage';
 import Partners from './components/Pages/PartnersPage.vue'
 import About from './components/Pages/AboutPage'
 import Home from './components/Pages/HomePage'
@@ -207,6 +208,11 @@ const router = new Router({
       component: Heatmap
     },
     {
+      path: '/hydrophones',
+      name: 'Hydrophones',
+      component: Hydrophone,
+    },
+    {
       // Data import and export page
       path: '/manage-data',
       name: 'ManageData',
@@ -278,6 +284,9 @@ export const store = new Vuex.Store(
       },
       map: null,
       activeMapLayer: "ssemi-map-layer",
+
+      // Hydrophones
+      hydrophones: [],
 
       //Table view state
       tableFilters: Object.assign({}, initTableFilterState),
@@ -388,6 +397,10 @@ export const store = new Vuex.Store(
       setTableFilterDate(state, date) {
         state.tableFilters.date = date
       },
+
+      setHydrophones(state, hydrophones) {
+        state.hydrophones = hydrophones;
+      }
     },
     getters: {
       getTableSightings: state => {
@@ -432,7 +445,11 @@ export const store = new Vuex.Store(
           visibleSpecies.add(sighting.properties.type)
         })
         return [...visibleSpecies]
-      }
+      },
+
+      getHydrophones: state => {
+        return state.hydrophones;
+      },
     },
     actions: {
       async fill_store({ commit }) {
@@ -863,6 +880,57 @@ export const store = new Vuex.Store(
                 errMsg = "Internal Server Error";
               }
               reject(errMsg);
+            })
+        });
+      },
+
+      // eslint-disable-next-line no-unused-vars
+      async get_hydrophone_data({ commit }) {
+        // eslint-disable-next-line no-unused-vars
+        return new Promise((resolve, reject) => {
+          let body = {
+            query: `{
+              feeds {
+                id
+                name
+                latLng {
+                  lat
+                  lng
+                }
+              }
+            }`
+          };
+
+          let options = {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+            },
+          };
+
+          axios.post("https://live.orcasound.net/graphql", body, options)
+            .then(res => {
+              let hydrophoneGeoJSON = [];
+
+              for (const feed of res.data.data.feeds) {
+                const entry = {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [feed.latLng.lng, feed.latLng.lat]
+                  },
+                  "properties": {
+                    "name": feed.name,
+                  }
+                };
+                hydrophoneGeoJSON.push(entry);
+              }
+              //console.log(JSON.stringify(hydrophoneGeoJSON));
+              commit('setHydrophones', hydrophoneGeoJSON);
+              resolve('success');
+            })
+            .catch(err => {
+              console.error(err);
+              reject(err);
             })
         });
       },

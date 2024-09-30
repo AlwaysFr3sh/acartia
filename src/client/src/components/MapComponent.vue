@@ -13,6 +13,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { generateMatchExpression, getPopupHtmlString, legendColorMap } from '../mapUtils'
 import { mapActions } from 'vuex';
 
+import mySVG from '../assets/hydrophone-default.svg';
+
 dayjs.extend(customParseFormat)
 
 export default {
@@ -30,10 +32,14 @@ export default {
     if (this.sightings.length === 0) {
       await this.fill_store()
     }
+    if (this.$store.state.hydrophones.length === 0) {
+      await this.get_hydrophone_data();
+    }
+    console.log("debug Here");
     this.mapSightings()
   },
   methods: {
-    ...mapActions(['fill_store']),
+    ...mapActions(['fill_store', 'get_hydrophone_data']),
     getActiveMapLayer() {
       let activeComponent = this.getParent
 
@@ -66,15 +72,18 @@ export default {
       this.mapView = map
       // Resize map to fit into screen width
       this.mapView.resize()
-
-      let geoData = {
-        "type": "FeatureCollection",
-        "features": this.filteredSightings
-      }
-
+      
       const currentPage = this.getParent;
 
+      // TODO: this is complete trash
+      let geoData = {
+        "type": "FeatureCollection",
+        "features": currentPage === "Hydrophone" ? this.hydrophones : this.filteredSightings,
+      }
+
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
+
+      console.log(currentPage);
 
       // On load event
       map.on('load', function () {
@@ -116,6 +125,24 @@ export default {
             }
           }
           )
+        } else if (currentPage === 'Hydrophone') {
+          // add eye image for testing
+          let img = new Image(30, 30);
+          img.onload = ()=>map.addImage('eye', img);
+          img.src = mySVG;
+          // add hydrophone layer
+          map.addLayer({
+            id: 'ssemmi-hydro-layer',
+            type: 'symbol',
+            source: {
+              type: 'geojson',
+              data: geoData, 
+            },
+            layout: {
+              "icon-image": 'eye',
+              "icon-size": 1,
+            },
+          })
         } else {
           map.addLayer({
             id: 'ssemmi-map-layer',
@@ -166,6 +193,9 @@ export default {
   computed: {
     sightings() {
       return this.$store.state.sightings
+    },
+    hydrophones() {
+      return this.$store.state.hydrophones;
     },
     isAuth() {
       return this.$store.state.isAuthenticated
