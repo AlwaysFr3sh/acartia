@@ -78,7 +78,12 @@ export default {
       // TODO: this is complete trash
       let geoData = {
         "type": "FeatureCollection",
-        "features": currentPage === "Hydrophone" ? this.hydrophones : this.filteredSightings,
+        "features": this.filteredSightings,
+      }
+
+      let hydrophoneGeoData = {
+        "type": "FeatureCollection",
+        "features": this.hydrophones,
       }
 
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
@@ -125,24 +130,6 @@ export default {
             }
           }
           )
-        } else if (currentPage === 'Hydrophone') {
-          // add eye image for testing
-          let img = new Image(30, 30);
-          img.onload = ()=>map.addImage('eye', img);
-          img.src = mySVG;
-          // add hydrophone layer
-          map.addLayer({
-            id: 'ssemmi-hydro-layer',
-            type: 'symbol',
-            source: {
-              type: 'geojson',
-              data: geoData, 
-            },
-            layout: {
-              "icon-image": 'eye',
-              "icon-size": 1,
-            },
-          })
         } else {
           map.addLayer({
             id: 'ssemmi-map-layer',
@@ -166,6 +153,29 @@ export default {
             }
           })
         }
+
+        // TODO: looks terrible and blurry, pls fix!
+        let img = new Image(1000, 1000);
+        img.src = mySVG;
+        img.onload = () => map.addImage('hydrophone', img);
+
+        // add hydrophone layer
+        map.addLayer({
+          id: 'ssemmi-hydro-layer',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: hydrophoneGeoData, 
+          },
+          layout: {
+            "icon-image": 'hydrophone',
+            "icon-size": 0.03,
+            "icon-allow-overlap": true,
+          },
+          paint: {
+          }
+        })
+
       })
 
 

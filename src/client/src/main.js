@@ -9,7 +9,6 @@ import Register from './components/Pages/RegisterPage'
 import ManageUsers from './components/Pages/ApprovalsPage'
 import Visualiser from './components/Pages/VisualiserPage'
 import Heatmap from './components/Pages/HeatmapPage'
-import Hydrophone from './components/Pages/HydrophonePage';
 import Partners from './components/Pages/PartnersPage.vue'
 import About from './components/Pages/AboutPage'
 import Home from './components/Pages/HomePage'
@@ -206,11 +205,6 @@ const router = new Router({
       path: '/heatmap',
       name: 'Heatmap',
       component: Heatmap
-    },
-    {
-      path: '/hydrophones',
-      name: 'Hydrophones',
-      component: Hydrophone,
     },
     {
       // Data import and export page
