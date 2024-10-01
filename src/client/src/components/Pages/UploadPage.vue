@@ -101,7 +101,7 @@
             <input type="submit" id="submit-btn" value="Upload sighting">
         </div>
 
-        
+
         <div class="links">
             <h2>Want to contribute to Acartia? Check out these links!</h2>
             <mdb-row class="row">
@@ -125,7 +125,6 @@
                 </a>
             </mdb-row>
         </div>
-=======
   <div id="about-container">
     <div class="page-desc">
       <h2>Upload Sightings</h2>
@@ -169,6 +168,7 @@
         </form>
       </div>
 
+      </div>
     </div>
   </div>
 </template>
@@ -176,22 +176,12 @@
 <script>
 
 export default {
-
     name: 'About',
-    components: {
-    },
-=======
-  name: 'About',
-
 }
 
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-
-
 .IP {
     padding-top: 12px;
 }
@@ -402,7 +392,8 @@ h2 {
     line-height: 22.4px;
     display: inline-block;
     padding-top: 6px;
-=======
+}
+
 .page-desc {
   font-family: 'Inter';
   text-align: left;
