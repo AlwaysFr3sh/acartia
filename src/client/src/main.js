@@ -1,7 +1,7 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createStore } from 'vuex'
 import App from './App.vue'
-import Vuex from 'vuex'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Login from './components/Pages/LoginPage'
 import Dashboard from './components/Pages/DashboardPage'
 import ManageData from './components/Pages/DataPage'
@@ -21,7 +21,6 @@ import Contribute from './components/Pages/ContributePage'
 import Upload from './components/Pages/UploadPage'
 import ContactUs from './components/Pages/ContactPage'
 import axios from 'axios'
-import Clipboard from 'v-clipboard'
 import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/lib/css/mdb.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
@@ -48,15 +47,12 @@ let initTableFilterState = {
   contributor: ALL_CONTRIBUTORS,
 }
 
-Vue.config.productionTip = false
-
-Vue.use(Clipboard)
-
-Vue.use(Router)
+// Vue.config.productionTip = false
 
 
-const router = new Router({
+const router = createRouter({
   mode: 'history',
+  history: createWebHistory(),
   routes: [
     {
       // Reroutes to login by default upon render
@@ -252,8 +248,7 @@ const router = new Router({
 
 
 // Setup store with vuex
-Vue.use(Vuex)
-export const store = new Vuex.Store(
+export const store = createStore(
   {
     state: {
       //User state
@@ -870,9 +865,12 @@ export const store = new Vuex.Store(
   }
 )
 
-new Vue({
-  render: h => h(App),
-  store: store,
-  router: router,
-  beforeEnter() { this.store.commit('init_store') }
-}).$mount('#app')
+//Create application
+const app = createApp(App)
+
+//Init Plugins
+// app.use(Clipboard)
+app.use(router)
+app.use(store)
+
+app.mount('#app')
