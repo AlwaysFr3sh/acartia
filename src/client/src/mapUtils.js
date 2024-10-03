@@ -1,8 +1,6 @@
 import dayjs from 'dayjs'
-import { getNDaysAgo } from './dateUtils.js'
+import {ALL_SPECIES, ALL_CONTRIBUTORS} from './constants'
 
-const ALL_SPECIES = "allSpecies"
-const ALL_CONTRIBUTORS = "allContributors"
 // Function to generate the mapboxgl match expression
 export function generateMatchExpression(colorMappings) {
   const matchExpression = ['match', ['get', 'type']];
@@ -18,8 +16,8 @@ export function getSpeciesAndContributors(dataPoints) {
   let contributorList = new Set()
 
   dataPoints.forEach(sighting => {
-    speciesList.add(sighting?.properties?.type)
-    contributorList.add(sighting?.properties?.witness)
+    speciesList.add(sighting.properties.type)
+    contributorList.add(sighting.properties.witness)
   })
 
   speciesList = [...speciesList]
@@ -115,9 +113,11 @@ export function transformApiDataToMappableData(currSights) {
   return dataPoints
 }
 
-function filterByDateRange(sightingData, filterObj) {
-  let startDate = filterObj.dateBegin || getNDaysAgo(1)
-  let endDate = filterObj.dateEnd || getNDaysAgo(1)
+export function filterByDateRange(sightingData, filterObj) {
+  let startDate = filterObj.dateBegin
+  let endDate = filterObj.dateEnd
+
+  if (!startDate || !endDate) return []
 
   let endIdx = sightingData.length - 1
   let startIdx = 0
@@ -138,67 +138,41 @@ function filterByDateRange(sightingData, filterObj) {
     }
   }
 
-  sightingData = sightingData.slice(startIdx, endIdx)
+  sightingData = sightingData.slice(startIdx, endIdx + 1) //+1 as slice is non-inclusive of the last element
   return sightingData
 }
 
-function filterByDay(sightingData, filterObj) {
-  let startDate = filterObj.date
-  let endDate = filterObj.date
-
-  let endIdx = sightingData.length - 1
-  let startIdx = 0
-
-  //Sliding window; find last valid idx in date range
-  for (let i = endIdx; i >= 0; i--) {
-    if (dayjs(sightingData[i].properties.created.slice(0, 10)).isSame(dayjs(endDate))) {
-      endIdx = i
-      break
-    }
-  }
-
-  //Sliding window; start at final valid data point and iterate backwards to find the first idx in date range
-  for (let i = endIdx; i >= 0; i--) {
-    if (dayjs(sightingData[i].properties.created.slice(0, 10)).isBefore(dayjs(startDate))) {
-      startIdx = i + 1
-      break
-    }
-  }
-
-  sightingData = sightingData.slice(startIdx, endIdx)
-  return sightingData
-}
-
-function filterByVerificationStatus(sightingData, filterObj) {
+export function filterByVerificationStatus(sightingData, filterObj) {
   if (filterObj.verifiedOnly === true) {
     sightingData = sightingData.filter(sighting => sighting.properties.verified)
   }
   return sightingData
 }
 
-function filterBySpecies(sightingData, filterObj) {
-  if (filterObj.species != ALL_SPECIES) {
+export function filterBySpecies(sightingData, filterObj) {
+  if (sightingData.length == 0) return []
+
     sightingData = sightingData.filter(sighting => {
-      if (sighting.properties.type == filterObj.species) {
+      if (sighting.properties.type == filterObj.species || filterObj.species == ALL_SPECIES) {
         return true
       } else {
         return false
       }
     })
-  }
   return sightingData
 }
 
-function filterByContributor(sightingData, filterObj) {
-  if (filterObj.contributor != ALL_CONTRIBUTORS) {
+export function filterByContributor(sightingData, filterObj) {
+  if (sightingData.length == 0) return []
+
     sightingData = sightingData.filter(sighting => {
-      if (sighting.properties.witness == filterObj.contributor) {
+      if (sighting.properties.witness == filterObj.contributor || filterObj.contributor == ALL_CONTRIBUTORS ) {
         return true
       } else {
         return false
       }
     })
-  }
+
   return sightingData
 }
 
@@ -212,7 +186,7 @@ export function filterSightingData(sightingData, filterObj) {
 }
 
 export function filterTableData(sightingData, filterObj) {
-  sightingData = filterByDay(sightingData, filterObj)
+  sightingData = filterByDateRange(sightingData, filterObj)
   sightingData = filterBySpecies(sightingData, filterObj)
   sightingData = filterByContributor(sightingData, filterObj)
   return sightingData
