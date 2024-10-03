@@ -2,9 +2,8 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 import IPFS from 'ipfs'
 import OrbitDB from 'orbit-db'
-import { filterSightingData, filterTableData } from './mapUtils'
-import { sortApiDataChronologically, getSpeciesAndContributors, transformApiDataToMappableData } from './mapUtils'
-import { initMapFilterState, initTableFilterState }  from "./constants"
+import { filterSightingData, filterTableData, sortApiDataChronologically, getSpeciesAndContributors, transformApiDataToMappableData } from './mapUtils'
+import { generateInitFilterState }  from "./constants"
 
 const store = createStore(
   {
@@ -24,7 +23,7 @@ const store = createStore(
       error: null,
 
       //Map state
-      mapFilters: Object.assign({}, initMapFilterState),
+      mapFilters: generateInitFilterState(7, 1),
       mapOptions: {
         contributors: [],
         species: [],
@@ -33,7 +32,7 @@ const store = createStore(
       activeMapLayer: "ssemi-map-layer",
 
       //Table view state
-      tableFilters: Object.assign({}, initTableFilterState),
+      tableFilters: generateInitFilterState(1, 1),
       tableSightings: []
     },
     mutations: {
@@ -51,7 +50,7 @@ const store = createStore(
         state.error = error;
       },
       resetMapFilters(state) {
-        state.mapFilters = Object.assign({}, initMapFilterState)
+        state.mapFilters = generateInitFilterState(7,1)
         state.filteredSightings = filterSightingData(state.sightings, state.mapFilters)
 
         //Rerender map
@@ -139,7 +138,8 @@ const store = createStore(
         state.tableFilters.contributor = contributor
       },
       setTableFilterDate(state, date) {
-        state.tableFilters.date = date
+        state.tableFilters.dateBegin = date
+        state.tableFilters.dateEnd = date
       },
     },
     getters: {
@@ -228,7 +228,6 @@ const store = createStore(
 
           //Commit sightings to store
           commit("setSightings", dataPoints)
-          console.log("my sightings", JSON.stringify(store.state.sightings))
 
           //Apply default filters on first render.
           //Reduces initial page load by only mapping previous 7 days of data.

@@ -11,7 +11,7 @@
       <div class="table-input-container">
         <div class="date-content ">
           <span id="date-label">Date</span>
-          <input class="date-input" type="date" id="date" name="date" v-model="date">
+          <input class="date-input" type="date" id="date" name="date" v-model="dateEnd">
         </div>
 
         <div class="species-content ">
@@ -140,7 +140,15 @@ export default {
     },
     date: {
       get() {
-        return this.$store.state.tableFilters.date
+        return this.$store.state.tableFilters.dateBegin
+      },
+      set(value) {
+        this.$store.commit('setTableFilterDate', value)
+      },
+    },
+    dateEnd: {
+      get() {
+        return this.$store.state.tableFilters.dateEnd
       },
       set(value) {
         this.$store.commit('setTableFilterDate', value)
