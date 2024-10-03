@@ -11,9 +11,9 @@
       <form>
         <TextInput v-model.trim="loginData.email" label="Email" :is-password-field="false" :isError="isError" />
         <TextInput v-model.trim="loginData.password" label="Password" :is-password-field="true" :isError="isError" />
-        <router-link id="ForgotPassword" class="link" to="/forgot-password">Forgot password?</router-link> 
+        <router-link id="ForgotPassword" class="link" to="/forgot-password">Forgot password?</router-link>
         <Button class="standard-btn" @click="loginMethod" :isLoading="isLoading" :formData="loginData">
-          {{  isLoading ? "Loading..." : "Log in" }}
+          {{ isLoading ? "Loading..." : "Log in" }}
         </Button>
       </form>
 
@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      loginData: {email: "", password: ""},
+      loginData: { email: "", password: "" },
       isLoading: false,
       isError: false,
     }
@@ -168,7 +168,7 @@ form {
 }
 
 #ForgotPassword {
-  margin-top: 10px; 
+  margin-top: 40px;
   margin-left: auto !important;
   display: block;
   text-align: right;
