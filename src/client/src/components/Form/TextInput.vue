@@ -2,15 +2,15 @@
 
 <template>
   <div class="text-input-div">
-    <label class="input-label" ><span class="label-text" :style="{ color: isError ? '#B22A2A' : '3D3951' }">{{ label }}</span></label>
-    <input 
-      :type="inputType" 
-      class="text-input" 
-      v-bind:value="value" 
-      v-on:input="$emit('input', $event.target.value)"
-      :style="{ border: isError ? '2px solid #B22A2A' : '1px solid #3D3951' }"
-    />
-      <img v-if="hideShowButton" width="25px" height="24px" class="hide" :src="require(`@/assets/${hidePasswordIcon}`)" @click="togglePassword"/>
+    <label class="input-label" >
+      <span class="label-text" :style="{ color: isError ? '#B22A2A' : '3D3951' }">{{ label }}</span>
+    </label>
+
+    <input :type="inputType" class="text-input" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
+      :style="{ border: isError ? '2px solid #B22A2A' : '1px solid #3D3951' }"/>
+
+    <img v-if="isPasswordField" width="25px" height="24px" class="hide" :src="require(`@/assets/${hidePasswordIcon}`)" 
+      @click="togglePassword"/>
   </div>
 </template>
 
@@ -18,18 +18,16 @@
 export default {
   props: {
     label: String,
-    inputTypeProp: String,
-    value: String,
-    hideShowButton: Boolean,
+    modelValue: String,
+    isPasswordField: Boolean,
     isError: Boolean,
   },
-
+  emits: ['update:modelValue'],
   data() {
     return {
-      inputType: this.inputTypeProp,
+      inputType: this.isPasswordField ? 'password' : 'text',
     }
   },
-
   methods: {
     togglePassword() {
       if (this.inputType === "password") {
@@ -89,7 +87,5 @@ export default {
   left: 295px;
   margin-bottom: -24px;
 }
-
-
 
 </style>

@@ -29,16 +29,11 @@
               <ErrorMessage v-if="errors.password" :errorMessage="errors.password">Confirmation password does not
                 match.</ErrorMessage>
             </div>
-            <TextInput v-model.trim="registerUserData.name" label="Your Name" inputType="text" :hideShowButton="false"
-              :isError="isError" />
-            <TextInput v-model.trim="registerUserData.initEmail" label="Email" inputType="email" :hideShowButton="false"
-              :isError="isError" />
-            <TextInput v-model.trim="registerUserData.email" label="Confirm Email" inputType="email"
-              :hideShowButton="false" :isError="isError" />
-            <TextInput v-model.trim="registerUserData.initPassword" label="Password" inputTypeProp="password"
-              :hideShowButton="true" :isError="isError" />
-            <TextInput v-model.trim="registerUserData.password" label="Confirm Password" inputTypeProp="password"
-              :hideShowButton="true" :isError="isError" />
+            <TextInput v-model.trim="registerUserData.name" label="Your Name" :is-password-field="false" :isError="isError" />
+            <TextInput v-model.trim="registerUserData.initEmail" label="Email" :is-password-field="false" :isError="isError" />
+            <TextInput v-model.trim="registerUserData.email" label="Confirm Email" :is-password-field="false" :isError="isError" />
+            <TextInput v-model.trim="registerUserData.initPassword" label="Password" :is-password-field="true" :isError="isError" />
+            <TextInput v-model.trim="registerUserData.password" label="Confirm Password" :is-password-field="true" :isError="isError" />
             <div>
               <button class="montserrat-regular button-next" @click="validateForm($event)">Next</button>
               <p class="montserrat-light login-link">Already have an account? <router-link to="/login">Log in</router-link></p>

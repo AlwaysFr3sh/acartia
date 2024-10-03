@@ -7,19 +7,15 @@
 
       <!-- TODO: the error message should be received from the backend instead of hardcoded -->
       <ErrorMessage v-if="isError">The email and/or password you entered did not match our records.</ErrorMessage>
+
       <form>
-        <TextInput v-model.trim="loginData.email" label="Email" inputType="text" :hideShowButton="false"
-          :isError="isError" />
-        <TextInput v-model.trim="loginData.password" label="Password" inputTypeProp="password" :hideShowButton="true"
-          :isError="isError" />
-
+        <TextInput v-model.trim="loginData.email" label="Email" :is-password-field="false" :isError="isError" />
+        <TextInput v-model.trim="loginData.password" label="Password" :is-password-field="true" :isError="isError" />
         <router-link id="ForgotPassword" class="link" to="/forgot-password">Forgot password?</router-link> 
-
-        <Button class="standard-btn" @click.native="loginMethod" :isLoading="isLoading" :formData="loginData">
+        <Button class="standard-btn" @click="loginMethod" :isLoading="isLoading" :formData="loginData">
           {{  isLoading ? "Loading..." : "Log in" }}
         </Button>
       </form>
-
 
       <div id="NoAccount">
         <p>Don't have an account? <router-link id="signup" to="/register">Sign up</router-link></p>
