@@ -1,15 +1,8 @@
-// BUTTON
 <template>
-
-  <button
-    @click.prevent="this.$emit('click')"
-    class="standard-btn"
-    :disabled="isLoading || !this.formCompleted"
-    :style="{ color: formCompleted ? 'white' : '#6D6B7D', backgroundColor: formCompleted ? '00AFBA' : 'BFEBED'}"
-  >
+  <button @click.prevent="this.$emit('click')" class="standard-btn" :disabled="isLoading || !formCompleted"
+    :style="{ color: formCompleted ? 'white' : '#6D6B7D', backgroundColor: formCompleted ? '00AFBA' : 'BFEBED' }">
     <slot></slot>
   </button>
-
 </template>
 <script>
 
@@ -43,7 +36,6 @@ export default {
 
 </script>
 <style scoped>
-
 .standard-btn {
   width: 327px;
   height: 48px;
@@ -59,5 +51,4 @@ export default {
   font-size: 16px;
   outline: none !important;
 }
-
 </style>
