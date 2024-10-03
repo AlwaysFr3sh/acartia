@@ -45,22 +45,22 @@ export default {
       return this.$store.getters.getLastSighting
     },
     mostRecentSightingType() {
-      return this.$store.getters.getLastSighting?.type
+      return this.$store.getters.getLastSighting.type
     },
     mostRecentSightingProfileName() {
-      return this.$store.getters.getLastSighting?.profile?.name
+      return this.$store.getters.getLastSighting.profile.name
     },
     mostRecentSightingDate() {
-      return this.$store.getters.getLastSighting?.created
+      return this.$store.getters.getLastSighting.created
     },
     mostRecentSightingLatitude() {
-      return this.$store.getters.getLastSighting?.latitude
+      return this.$store.getters.getLastSighting.latitude
     },
     mostRecentSightingLongitude() {
-      return this.$store.getters.getLastSighting?.longitude
+      return this.$store.getters.getLastSighting.longitude
     },
     mostRecentSightingPhotoUrl() {
-      return this.$store.getters.getLastSighting?.photo_url
+      return this.$store.getters.getLastSighting.photo_url
     },
   }
 }

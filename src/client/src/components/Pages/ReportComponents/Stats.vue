@@ -28,20 +28,20 @@ export default {
   name: 'Stats',
   computed: {
     mostRecentSightingDate() {
-      let date = this.$store.getters.getLastSighting?.created
+      let date = this.$store.getters.getLastSighting.created
       if (date) {
         date = date.slice(0, 10)
       }
       return date
     },
     speciesCount() {
-      return this.$store.getters.getMapOptions?.species?.length
+      return this.$store.getters.getMapOptions.species.length
     },
     whaleSightingsCount() {
       return this.$store.getters.getSightings.reduce((count, sighting) => {
         const whaleRegex = /whale|orca|dolphin|beluga|humpback|blue|sperm|killer/i;
 
-        if (whaleRegex.test(sighting?.properties?.type)) {
+        if (whaleRegex.test(sighting.properties.type)) {
           return count + 1;
         }
 
