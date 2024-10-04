@@ -81,7 +81,7 @@
           </div>
           <!-- Third Section - Community Guidelines -->
           <div class="guidelines" v-if="currentStage == 'guidelines'">
-            <h1 class="mukta-regular" id="intent-heading">Community Guidelines</h1>
+            <h1 class="mukta-regular intent-heading" id="intent-heading">Community Guidelines</h1>
             <div class="guidelineBorder">
               <p class="montserrat-light">
                 The goal of Acartia is to advance marine conservation and science across the Salish Sea and Cascadia
@@ -102,20 +102,20 @@
             <fieldset class="checkbox-group guideCheck">
               <div class="check-div">
                 <div class="check-border">
-                  <input type="checkbox" id="understood" value="understood">
+                  <input class="guide-checkbox" type="checkbox" id="understood" value="understood">
                 </div>
                 <label class="inter-regular" for="understood">I have read and understood the community
                   guidelines</label>
               </div>
               <div class="check-div">
                 <div class="check-border">
-                  <input type="checkbox" id="emails" value="emails">
+                  <input class="guide-checkbox" type="checkbox" id="emails" value="emails">
                 </div>
                 <label class="inter-regular" for="emails">I agree to receive emails from the Acartia
                   newsletter</label>
               </div>
             </fieldset>
-            <button class="montserrat-regular button-next" type="submit">Sign up</button>
+            <button class="montserrat-regular button-next button-submit" type="submit">Sign up</button>
           </div>
         </form>
       </div>
@@ -343,7 +343,7 @@ export default {
 }
 
 .checkbox-group input[type="checkbox"] {
-  transform: scale(2.3) !important;
+  transform: scale(2.3) ;
   opacity: 0;
 }
 
@@ -443,12 +443,28 @@ export default {
 }
 
 .guidelines {
-  justify-content: center;
+  display: inline-grid;
+  align-items: center;
   max-width: 928px;
+  transform: translateY(-10%);
+}
+
+.intent-heading {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .guideCheck {
   align-items: flex-start;
+}
+
+.guide-checkbox {
+  transform: scale(2.3) translateX(17%) !important;
+}
+
+.button-submit {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a {
@@ -458,19 +474,17 @@ a {
 .back-button {
   background-color: white;
   border: none;
-  transform: translateX(-35vw);
+  transform: translateX(10vw) translateY(100%);
+}
+
+@media (max-width: 800px) { 
+  .back-button{
+    transform: translateX(10vw) translateY(30%) !important;
+  }
 }
 
 .back-button:focus {
   outline: none;
-}
-
-.intent {
-  transform: translateY(-50%);
-}
-
-.guidelines {
-  transform: translateY(-10%)
 }
 
 .icon {
@@ -481,4 +495,5 @@ a {
   margin-top: 10px;
   text-align: center;
 }
+
 </style>
