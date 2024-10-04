@@ -1,15 +1,9 @@
-// BUTTON
-
 <template>
-  <button
-    class="standard-btn"
-    :disabled="isLoading || !formCompleted"
-    :style="{ color: formCompleted ? 'white' : '#6D6B7D', backgroundColor: formCompleted ? '00AFBA' : 'BFEBED'}"
-  >
+  <button @click.prevent="this.$emit('click')" class="standard-btn" :disabled="isLoading || !formCompleted"
+    :style="{ color: formCompleted ? 'white' : '#6D6B7D', backgroundColor: formCompleted ? '00AFBA' : 'BFEBED' }">
     <slot></slot>
   </button>
 </template>
-
 <script>
 
 export default {
@@ -18,8 +12,8 @@ export default {
     isLoading: Boolean,
     formData: Object,
   },
+  emits: ['click'],
   computed: {
-    // This button should be a component so this logic (and the css) doesn't have to be repeated
     formCompleted() {
       if (!this.formData)
         return true;
@@ -41,9 +35,7 @@ export default {
 }
 
 </script>
-
 <style scoped>
-
 .standard-btn {
   width: 327px;
   height: 48px;
@@ -59,5 +51,4 @@ export default {
   font-size: 16px;
   outline: none !important;
 }
-
 </style>

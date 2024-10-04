@@ -64,13 +64,7 @@
       </div>
 
       <!-- Species -->
-      <div class="species-content ">
-        <span id="date-label">Species</span>
-        <select class="species-select" name="species" id="species" v-model="species">
-          <option value="allSpecies">All Species</option>
-          <option v-for="option in speciesOptions" :key="option" :value="option">{{ option }}</option>
-        </select>
-      </div>
+      <SpeciesMultiselect />
 
       <!-- Collapse Button -->
       <div class="collapse-btn-open" @click="toggleSidebar">
@@ -81,13 +75,8 @@
       </div>
 
       <!-- Contributor -->
-      <div class="contributor-content ">
-        <span id="date-label">Contributor</span>
-        <select class="contributor-select" name="contributor" id="contributor" v-model="contributor">
-          <option value="allContributors">All Contributors</option>
-          <option v-for="option in contributorOptions" :key="option" :value="option">{{ option }}</option>
-        </select>
-      </div>
+      <ContributorMultiselect />
+
 
       <!-- Verification Button -->
       <div class="verification-content">
@@ -113,6 +102,7 @@
           </label>
         </div>
       </div>
+
 
       <!-- Reset / Apply Buttons -->
       <div class="btn-container ">
@@ -162,12 +152,16 @@
 
 <script>
 import { legendColorMap } from '../mapUtils'
+import SpeciesMultiselect from './Pages/MapFilterComponents/SpeciesMultiselect.vue';
+import ContributorMultiselect from './Pages/MapFilterComponents/ContributorMultiselect.vue';
 
 const MOBILE_BREAKPOINT = 600
 
 export default {
   name: 'MapFilter',
   components: {
+    SpeciesMultiselect,
+    ContributorMultiselect
   },
   data() {
     return {
@@ -442,6 +436,7 @@ export default {
 }
 
 .verification-content {
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,6 +1,5 @@
 <template>
-  <!-- Stats-->
-  <div class="">
+  <div class="content">
     <h2>Stats</h2>
     <div class="row mt-4">
       <div class="col">
@@ -14,11 +13,6 @@
     </div>
     <p class="fw-bold">Last Data Update</p>
     <p>{{ mostRecentSightingDate }}</p>
-    <div class="slider">
-      <div class="divider-active"></div>
-      <div class="divider"></div>
-      <div class="divider"></div>
-    </div>
   </div>
 </template>
 
@@ -28,20 +22,20 @@ export default {
   name: 'Stats',
   computed: {
     mostRecentSightingDate() {
-      let date = this.$store.getters.getLastSighting?.created
+      let date = this.$store.getters.getLastSighting.created
       if (date) {
         date = date.slice(0, 10)
       }
       return date
     },
     speciesCount() {
-      return this.$store.getters.getMapOptions?.species?.length
+      return this.$store.getters.getMapOptions.species.length
     },
     whaleSightingsCount() {
       return this.$store.getters.getSightings.reduce((count, sighting) => {
         const whaleRegex = /whale|orca|dolphin|beluga|humpback|blue|sperm|killer/i;
 
-        if (whaleRegex.test(sighting?.properties?.type)) {
+        if (whaleRegex.test(sighting.properties.type)) {
           return count + 1;
         }
 
@@ -54,6 +48,10 @@ export default {
 
 
 <style scoped>
+.content {
+  padding: 20px;
+}
+
 h2 {
   font-family: Mukta;
   font-size: 1.5rem !important;
