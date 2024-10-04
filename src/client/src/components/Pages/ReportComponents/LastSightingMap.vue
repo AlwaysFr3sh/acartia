@@ -81,7 +81,7 @@ export default {
 <style>
 #lastSightingContainer {
   width: 100%;
-  height: 45%;
+  height: 40%;
 }
 
 @media (max-width: 768px) {

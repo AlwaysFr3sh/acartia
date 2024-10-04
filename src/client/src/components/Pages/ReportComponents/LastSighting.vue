@@ -1,7 +1,7 @@
 <template>
   <!--Last sighting -->
   <div class="sighting">
-    <h2>Last sighting</h2>
+    <h2 class="sighting-header">Last sighting</h2>
     <LastSightingMap />
     <div class="row sighting-text">
       <div class="col-6 mb-2">
@@ -27,7 +27,7 @@
       </div>
       <div class="col-6 mb-2">
         <p class="sighting-title">Photos:</p>
-        <p class="sighting-text">{{ mostRecentSightingPhotoUrl ? mostRecentSightingPhotoUrl : "No Photos Available" }}
+        <p class="sighting-text">{{ mostRecentSightingPhotoUrl ? mostRecentSightingPhotoUrl : "0" }}
         </p>
       </div>
     </div>
@@ -82,6 +82,11 @@ h2 {
 .sighting {
   text-align: center;
   border-radius: 15px;
+  margin-top: 1rem;
+}
+
+.sighting-header {
+  margin-bottom: 1rem;
 }
 
 .sighting-title {

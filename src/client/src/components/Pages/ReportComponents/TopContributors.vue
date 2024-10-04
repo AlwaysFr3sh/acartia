@@ -86,7 +86,7 @@ dd {
 
 .definition-item {
   display: flex;
-  padding: .7rem;
+  padding: 1rem;
   justify-content: space-between;
   align-items: center;
   width: 100%;
