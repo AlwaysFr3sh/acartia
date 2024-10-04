@@ -36,38 +36,15 @@ const store = createStore(
       tableSightings: []
     },
     mutations: {
-      applyTableFilters(state) {
-        state.tableSightings = filterTableData(state.sightings, state.tableFilters)
-      },
-      emptySightings(state) {
-        state.sightings = []
-        state.filteredSightings = []
-      },
+      //App state
       setLoading(state, isLoading) {
         state.loading = isLoading;
       },
       setError(state, error) {
         state.error = error;
       },
-      resetMapFilters(state) {
-        state.mapFilters = generateInitFilterState(7, 1)
-        state.filteredSightings = filterSightingData(state.sightings, state.mapFilters)
 
-        //Rerender map
-        if (state.map && state.map.getSource(state.activeMapLayer)) {
-          state.map.getSource(state.activeMapLayer).setData({
-            "type": "FeatureCollection",
-            "features": state.filteredSightings
-          })
-        }
-      },
-      setLastSighting(state, sighting) {
-        //Not required to set when refetching data on auth status change
-        //as it will be the same last sighting
-        if (!state.lastSighting) {
-          state.lastSighting = sighting
-        }
-      },
+      //User state
       setAuthentication(state, status) {
         state.isAuthenticated = status
       },
@@ -92,10 +69,25 @@ const store = createStore(
       setProfile(state, profile) {
         state.profile = profile
       },
+
+      //Sightings state
       setSightings(state, sightings) {
         state.sightings = sightings
         state.filteredSightings = sightings
       },
+      emptySightings(state) {
+        state.sightings = []
+        state.filteredSightings = []
+      },
+      setLastSighting(state, sighting) {
+        //Not required to set when refetching data on auth status change
+        //as it will be the same last sighting
+        if (!state.lastSighting) {
+          state.lastSighting = sighting
+        }
+      },
+
+      //Map state
       setMap(state, map) {
         state.map = map
       },
@@ -132,7 +124,22 @@ const store = createStore(
           })
         }
       },
+      resetMapFilters(state) {
+        state.mapFilters = generateInitFilterState(7, 1)
+        state.filteredSightings = filterSightingData(state.sightings, state.mapFilters)
+
+        //Rerender map
+        if (state.map && state.map.getSource(state.activeMapLayer)) {
+          state.map.getSource(state.activeMapLayer).setData({
+            "type": "FeatureCollection",
+            "features": state.filteredSightings
+          })
+        }
+      },
+
+      //Reports table state
       setTableFilterSpecies(state, species) {
+        console.log('setting', species)
         state.tableFilters.species = species
       },
       setTableFilterContributor(state, contributor) {
@@ -141,6 +148,9 @@ const store = createStore(
       setTableFilterDate(state, date) {
         state.tableFilters.dateBegin = date
         state.tableFilters.dateEnd = date
+      },
+      applyTableFilters(state) {
+        state.tableSightings = filterTableData(state.sightings, state.tableFilters)
       },
     },
     getters: {
