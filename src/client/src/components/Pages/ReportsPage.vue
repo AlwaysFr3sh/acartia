@@ -6,23 +6,23 @@
     <div v-else class="all-components-container">
 
       <div class="top-row">
-        <div class="component width-8 ">
+        <div class="component width-9 ">
           <PrimaryChart />
         </div>
-        <div class="component width-4 ">
+        <div class="component width-3 ">
           <LastSighting />
         </div>
       </div>
 
       <div class="middle-row ">
-        <div class="component width-4 ">
+        <div class="component width-32">
           <TopContributors />
         </div>
-        <div class="component width-4 ">
+        <div class="component width-36">
           <Stats />
         </div>
-        <div class="component width-4 ">
-          <SecondaryChart />
+        <div class="component width-32">
+          <SpeciesDiscovered />
         </div>
       </div>
 
@@ -43,7 +43,7 @@ import PrimaryChart from './ReportComponents/PrimaryChart.vue';
 import LastSighting from './ReportComponents/LastSighting.vue';
 import TopContributors from './ReportComponents/TopContributors.vue';
 import Stats from './ReportComponents/Stats.vue';
-import SecondaryChart from './ReportComponents/SecondaryChart.vue';
+import SpeciesDiscovered from './ReportComponents/SpeciesDiscovered.vue';
 import TableSightings from './ReportComponents/TableSightings.vue';
 import LoadingSpinner from './ReportComponents/LoadingSpinner.vue';
 
@@ -55,7 +55,7 @@ export default {
 
     TopContributors,
     Stats,
-    SecondaryChart,
+    SpeciesDiscovered,
 
     TableSightings,
 
@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
 .all-components-container {
-  padding: 10px;
+  padding: 20px;
   background: #e8e8e8;
 }
 
@@ -121,13 +121,26 @@ export default {
   width: 25%;
 }
 
+.width-36 {
+  width: 36%;
+}
+
+.width-32 {
+  width: 32%;
+}
+
 .width-12 {
   width: 100%;
 }
 
 .width-8 {
+  width: 66%;
+}
+
+.width-9 {
   width: 75%;
 }
+
 
 .width-4 {
   width: 33%;
@@ -139,6 +152,8 @@ export default {
   .width-8,
   .width-9,
   .width-4,
+  .width-32,
+  .width-36,
   .width-12 {
     width: 100%;
   }
