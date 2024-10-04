@@ -1,6 +1,5 @@
 import store from '../../store'
-import { getNDaysAgo } from '../../dateUtils'
-import {ALL_SPECIES, ALL_CONTRIBUTORS} from '../../constants'
+import { generateInitFilterState} from '../../constants'
 
 describe('Vuex Store Initial State', () => {
   it('should have the correct initial state for user state', () => {
@@ -20,13 +19,7 @@ describe('Vuex Store Initial State', () => {
   });
 
   it('should have the correct initial state for map state', () => {
-    expect(store.state.mapFilters).toEqual({
-        dateBegin: getNDaysAgo(7),
-        dateEnd: getNDaysAgo(1),
-        species: ALL_SPECIES,
-        contributor: ALL_CONTRIBUTORS,
-        verifiedOnly: false,
-      });
+    expect(store.state.mapFilters).toEqual(generateInitFilterState(7,1));
     expect(store.state.mapOptions).toEqual({
       contributors: [],
       species: [],
@@ -36,12 +29,7 @@ describe('Vuex Store Initial State', () => {
   });
 
   it('should have the correct initial state for table view state', () => {
-    expect(store.state.tableFilters).toEqual(expect.objectContaining({
-        dateBegin: getNDaysAgo(1),
-        dateEnd: getNDaysAgo(1),
-        species: ALL_SPECIES,
-        contributor: ALL_CONTRIBUTORS,
-      }))
+    expect(store.state.tableFilters).toEqual(generateInitFilterState(1, 1))
     expect(store.state.tableSightings).toEqual([]);
   });
 });
