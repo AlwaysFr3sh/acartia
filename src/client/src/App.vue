@@ -2,8 +2,10 @@
   <div>
     <nav id="navbar-top">
       <router-link to="/home" class="navbar-brand" @click="closeMobileMenu">
-        <img src="@/assets/nav-bar-icon.svg" alt="Nav Bar Icon" class="nav-bar-icon" />
-        Acartia
+        <AcartiaLogo />
+        <span>
+          Acartia
+        </span>
       </router-link>
       <div class="hamburger-menu menu-icon" @click="toggleMobileMenu">
         <img src="@/assets/hamburger-icon.svg" alt="Menu" />
@@ -31,7 +33,7 @@
 
         <!-- Map Dropdown -->
         <div class="dropdown" @mouseenter="toggleDropdown('mapDropdown')" @mouseleave="toggleDropdown(null)"
-        :class="{ active: isActive(['/data-explorer', '/heatmap']) }">
+          :class="{ active: isActive(['/data-explorer', '/heatmap']) }">
           <div class="dropdown-link" @click="navigateToDataExplorer">
             <img src="@/assets/menu-map-icon.svg" alt="Map Icon" class="menu-icon" />
             Map
@@ -110,8 +112,12 @@
 
 <script>
 import axios from "axios";
+import AcartiaLogo from "./assets/css/acartia-logo.vue";
 
 export default {
+  components: {
+    AcartiaLogo
+  },
   data() {
     return {
       isDropdownOpen: null,
@@ -198,8 +204,8 @@ export default {
 
 /* Navbar Brand */
 .navbar-brand {
-  justify-content: left;
   display: flex;
+  justify-content: left;
   align-items: center;
   font-family: "Mukta", sans-serif;
   font-size: 24px;
