@@ -138,7 +138,7 @@ export default {
         this.$store.commit('setTableFilterSpecies', value)
       },
     },
-    date: {
+    dateBegin: {
       get() {
         return this.$store.state.tableFilters.dateBegin
       },
