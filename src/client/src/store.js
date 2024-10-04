@@ -3,7 +3,7 @@ import axios from 'axios'
 import IPFS from 'ipfs'
 import OrbitDB from 'orbit-db'
 import { filterSightingData, filterTableData, sortApiDataChronologically, getSpeciesAndContributors, transformApiDataToMappableData } from './mapUtils'
-import { generateInitFilterState }  from "./constants"
+import { generateInitFilterState } from "./constants"
 
 const store = createStore(
   {
@@ -50,7 +50,7 @@ const store = createStore(
         state.error = error;
       },
       resetMapFilters(state) {
-        state.mapFilters = generateInitFilterState(7,1)
+        state.mapFilters = generateInitFilterState(7, 1)
         state.filteredSightings = filterSightingData(state.sightings, state.mapFilters)
 
         //Rerender map
@@ -108,11 +108,12 @@ const store = createStore(
       setFilterVerifiedOnly(state, verifiedStatus) {
         state.mapFilters.verifiedOnly = verifiedStatus
       },
-      setFilterSpecies(state, species) {
-        state.mapFilters.species = species
+      setFilterSpecies(state, newSpecies) {
+        state.mapFilters.species = newSpecies
       },
       setFilterContributor(state, contributor) {
         state.mapFilters.contributor = contributor
+        console.log('curr state', state.mapFilters.contributor)
       },
       setFilterDateBegin(state, dateBegin) {
         state.mapFilters.dateBegin = dateBegin
@@ -144,7 +145,7 @@ const store = createStore(
     },
     getters: {
       getTableSightings: state => {
-          return state.tableSightings
+        return state.tableSightings
       },
       getUserAuthStatus: state => {
         return state.isAuthenticated
@@ -231,7 +232,7 @@ const store = createStore(
 
           //Apply default filters on first render.
           //Reduces initial page load by only mapping previous 7 days of data.
-          // commit("applyMapFilters")
+          commit("applyMapFilters")
 
         } catch (error) {
           commit('setError', error);

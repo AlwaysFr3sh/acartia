@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import {ALL_SPECIES, ALL_CONTRIBUTORS} from './constants'
 
 // Function to generate the mapboxgl match expression
 export function generateMatchExpression(colorMappings) {
@@ -152,26 +151,37 @@ export function filterByVerificationStatus(sightingData, filterObj) {
 export function filterBySpecies(sightingData, filterObj) {
   if (sightingData.length == 0) return []
 
-    sightingData = sightingData.filter(sighting => {
-      if (sighting.properties.type == filterObj.species || filterObj.species == ALL_SPECIES) {
-        return true
-      } else {
-        return false
-      }
-    })
+  //If no applied species filters, return data untouched.
+  if (filterObj.species.length == 0) return sightingData
+
+  let selectedSpecies = filterObj.species.map(obj => obj.name)
+
+  sightingData = sightingData.filter(sighting => {
+    if (selectedSpecies.includes(sighting.properties.type)) {
+      return true
+    } else {
+      return false
+    }
+  })
   return sightingData
 }
 
 export function filterByContributor(sightingData, filterObj) {
   if (sightingData.length == 0) return []
 
-    sightingData = sightingData.filter(sighting => {
-      if (sighting.properties.witness == filterObj.contributor || filterObj.contributor == ALL_CONTRIBUTORS ) {
-        return true
-      } else {
-        return false
-      }
-    })
+  //If no applied species filters, return data untouched.
+  if (filterObj.contributor.length == 0) return sightingData
+
+  let selectedContributors = filterObj.contributor.map(obj => obj.name)
+
+  sightingData = sightingData.filter(sighting => {
+    if (selectedContributors.includes(sighting.properties.witness)) {
+      return true
+    } else {
+      console.log(sighting.properties.witness, ' is not in', selectedContributors)
+      return false
+    }
+  })
 
   return sightingData
 }

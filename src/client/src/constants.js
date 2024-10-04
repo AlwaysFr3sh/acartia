@@ -7,8 +7,8 @@ export function generateInitFilterState(startNDaysAgo, endNDaysAgo) {
   return {
     dateBegin: getNDaysAgo(startNDaysAgo),
     dateEnd: getNDaysAgo(endNDaysAgo),
-    species: ALL_SPECIES,
-    contributor: ALL_CONTRIBUTORS,
+    species: [],
+    contributor: [],
     verifiedOnly: false,
   }
 }
