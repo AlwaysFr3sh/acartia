@@ -20,15 +20,6 @@
       <div id="NoAccount">
         <p>Don't have an account? <router-link id="signup" to="/register">Sign up</router-link></p>
       </div>
-
-      <div id="OrLoginWith">
-        <hr width="60px">
-        <p>or login with</p>
-        <hr width="60px">
-      </div>
-
-      <button class="alternative-btn"><img class="icon" src="../../assets/google.svg" />Log in with Google</button>
-      <button class="alternative-btn"><img class="icon" src="../../assets/linkedin.svg" />Log in with Linkedin</button>
     </section>
   </div>
 </template>
@@ -152,21 +143,6 @@ form {
   margin-top: 16px;
 }
 
-.alternative-btn {
-  border: solid 1px;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-family: "Montserrat";
-  font-weight: 400;
-  font-size: 16px;
-  background-color: white;
-  border-color: #9E9CA8;
-  color: #3D3951;
-  margin-top: 6px;
-  margin-bottom: 8px;
-  height: 56px;
-}
-
 #ForgotPassword {
   margin-top: 40px;
   margin-left: auto !important;
@@ -178,17 +154,6 @@ form {
   margin-left: 12px;
   font-weight: 300;
   color: #007B83;
-}
-
-#OrLoginWith {
-  color: #6D6B7D;
-  display: flex;
-  flex-direction: row;
-  padding: 3px, 0px;
-  justify-content: center;
-  font-size: 14px;
-  margin-top: 20px;
-  margin-bottom: 14px;
 }
 
 #NoAccount {
