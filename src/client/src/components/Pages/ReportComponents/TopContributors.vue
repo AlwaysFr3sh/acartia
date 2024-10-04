@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="content">
     <h2>Top Contributors</h2>
     <dl>
       <div class="definition-item" v-for="(contributor, index) of topContributors" :key="index">
@@ -43,6 +43,10 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  padding: 20px;
+}
+
 h2 {
   font-family: Mukta;
   font-size: 1.5rem !important;

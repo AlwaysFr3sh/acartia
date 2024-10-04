@@ -1,6 +1,5 @@
 <template>
-  <!-- Stats-->
-  <div class="">
+  <div class="content">
     <h2>Stats</h2>
     <div class="row mt-4">
       <div class="col">
@@ -14,11 +13,6 @@
     </div>
     <p class="fw-bold">Last Data Update</p>
     <p>{{ mostRecentSightingDate }}</p>
-    <div class="slider">
-      <div class="divider-active"></div>
-      <div class="divider"></div>
-      <div class="divider"></div>
-    </div>
   </div>
 </template>
 
@@ -54,6 +48,10 @@ export default {
 
 
 <style scoped>
+.content {
+  padding: 20px;
+}
+
 h2 {
   font-family: Mukta;
   font-size: 1.5rem !important;

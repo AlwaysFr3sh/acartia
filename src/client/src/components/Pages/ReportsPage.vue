@@ -6,10 +6,10 @@
     <div v-else class="all-components-container">
 
       <div class="top-row">
-        <div class="component width-9 ">
+        <div class="component width-8 ">
           <PrimaryChart />
         </div>
-        <div class="component width-3 ">
+        <div class="component width-4 ">
           <LastSighting />
         </div>
       </div>
@@ -125,7 +125,7 @@ export default {
   width: 100%;
 }
 
-.width-9 {
+.width-8 {
   width: 75%;
 }
 
@@ -136,6 +136,7 @@ export default {
 @media (max-width: 768px) {
 
   .width-3,
+  .width-8,
   .width-9,
   .width-4,
   .width-12 {
