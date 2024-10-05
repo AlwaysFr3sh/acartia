@@ -45,10 +45,8 @@ const router = createRouter({
       component: Profile,
       props: true,
       beforeEnter: (to, from, next) => {
-        // let hasToken = sessionStorage.getItem('userToken');
-        // let isAuthenticated = store.state.isAuthenticated === true;
-        let isAuthenticated = true;
-        let hasToken = true;
+        let hasToken = sessionStorage.getItem('userToken');
+        let isAuthenticated = store.state.isAuthenticated === true;
         if (isAuthenticated && hasToken) {
           next();
         } else {
