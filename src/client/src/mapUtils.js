@@ -178,7 +178,6 @@ export function filterByContributor(sightingData, filterObj) {
     if (selectedContributors.includes(sighting.properties.witness)) {
       return true
     } else {
-      console.log(sighting.properties.witness, ' is not in', selectedContributors)
       return false
     }
   })

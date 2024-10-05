@@ -105,7 +105,6 @@ const store = createStore(
       },
       setFilterContributor(state, contributor) {
         state.mapFilters.contributor = contributor
-        console.log('curr state', state.mapFilters.contributor)
       },
       setFilterDateBegin(state, dateBegin) {
         state.mapFilters.dateBegin = dateBegin
@@ -139,7 +138,6 @@ const store = createStore(
 
       //Reports table state
       setTableFilterSpecies(state, species) {
-        console.log('setting', species)
         state.tableFilters.species = species
       },
       setTableFilterContributor(state, contributor) {
