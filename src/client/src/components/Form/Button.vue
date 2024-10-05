@@ -1,5 +1,5 @@
 <template>
-  <button @click.prevent="this.$emit('click')" class="standard-btn" :disabled="isLoading || !formCompleted"
+  <button @click.prevent="$emit('click')" class="standard-btn" :disabled="isLoading || !formCompleted"
     :style="{ color: formCompleted ? 'white' : '#6D6B7D', backgroundColor: formCompleted ? '00AFBA' : 'BFEBED' }">
     <slot></slot>
   </button>

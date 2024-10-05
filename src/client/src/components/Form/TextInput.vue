@@ -9,7 +9,7 @@
     <input :type="inputType" class="text-input" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
       :style="{ border: isError ? '2px solid #B22A2A' : '1px solid #3D3951' }"/>
 
-    <img v-if="isPasswordField" width="25px" height="24px" class="hide" :src="require(`@/assets/${hidePasswordIcon}`)" 
+    <img v-if="isPasswordField" class="hide" :src="require(`@/assets/${hidePasswordIcon}`)" 
       @click="togglePassword"/>
   </div>
 </template>
@@ -86,6 +86,8 @@ export default {
   top: -37px;
   left: 295px;
   margin-bottom: -24px;
+  width: 25px;
+  height: 24px;
 }
 
 </style>

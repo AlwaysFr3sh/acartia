@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     loginMethod() {
+      alert("here");
       this.isLoading = true;
       this.$store.dispatch('auth_request', this.loginData)
         .then((loginMessage) => {
