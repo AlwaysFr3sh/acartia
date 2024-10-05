@@ -6,9 +6,10 @@
         <img :src="profilePicture" alt="Profile Picture" v-if="profilePicture" />
         <img src="@/assets/profile-placeholder.svg" alt="Profile Picture Placeholder" v-else />
       </div>
-      <button class="edit-icon">
+      <button class="edit-icon" @click="triggerFileInput">
         <img src="@/assets/edit-icon.svg" alt="Edit Icon" />
       </button>
+      <input type="file" ref="fileInput" style="display: none" @change="onFileChange" />
     </div>
 
     <form class="settings-form" @submit.prevent="updateProfile">
@@ -48,6 +49,15 @@
         <button type="submit" class="save-button">Save Changes</button>
       </div>
     </form>
+
+    <!-- Modal for showing success or error messages -->
+    <div v-if="showModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3>{{ modalTitle }}</h3>
+        <p>{{ modalMessage }}</p>
+        <button @click="closeModal" class="modal-button">OK</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,6 +68,10 @@ export default {
       password: "",
       confirmPassword: "",
       passwordFieldType: "password",
+      logoFile: null, // For storing the uploaded profile picture
+      showModal: false, // For toggling modal visibility
+      modalTitle: "", // Modal title (e.g., "Success" or "Error")
+      modalMessage: "", // Modal message to display
     };
   },
   computed: {
@@ -65,8 +79,7 @@ export default {
       return this.$store.getters.getUserDetails;
     },
     profilePicture() {
-      // Ensure it returns the correct image URL or default to null
-      return this.userDetails.picture ? this.userDetails.picture : null;
+      return this.userDetails.picture || null;
     },
   },
   methods: {
@@ -74,9 +87,23 @@ export default {
       this.passwordFieldType =
         this.passwordFieldType === "password" ? "text" : "password";
     },
+    triggerFileInput() {
+      // Trigger the hidden file input
+      this.$refs.fileInput.click();
+    },
+    onFileChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.logoFile = e.target.result; // Save the base64 image
+        };
+        reader.readAsDataURL(file);
+      }
+    },
     updateProfile() {
-      if (this.password !== this.confirmPassword) {
-        alert("Passwords do not match");
+      if (this.password && this.password !== this.confirmPassword) {
+        this.showModalMessage("Error", "Passwords do not match");
         return;
       }
 
@@ -84,17 +111,27 @@ export default {
         name: this.userDetails.name,
         website: this.userDetails.website,
         email: this.userDetails.email,
-        password: this.password,
+        password: this.password, // If password is set
+        logoFile: this.logoFile, // Include the updated profile picture if changed
       };
 
+      // Dispatch the update profile action
       this.$store
         .dispatch("update_profile", formData)
         .then(() => {
-          alert("Profile updated successfully");
+          this.showModalMessage("Success", "Profile updated successfully");
         })
         .catch((err) => {
-          alert(err.message || "Profile update failed");
+          this.showModalMessage("Error", err.message || "Profile update failed");
         });
+    },
+    showModalMessage(title, message) {
+      this.modalTitle = title;
+      this.modalMessage = message;
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
     },
   },
 };
@@ -224,5 +261,42 @@ export default {
 .save-button:hover {
   background-color: #008f9b;
   color: white;
+}
+
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #008f9b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  background-color: #006f78;
 }
 </style>

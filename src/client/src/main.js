@@ -78,10 +78,8 @@ const router = new Router({
       component: Profile,
       props: true,
       beforeEnter: (to, from, next) => {
-        // let hasToken = sessionStorage.getItem('userToken');
-        // let isAuthenticated = store.state.isAuthenticated === true;
-        let isAuthenticated = true;
-        let hasToken = true;
+        let hasToken = sessionStorage.getItem('userToken');
+        let isAuthenticated = store.state.isAuthenticated === true;
         if (isAuthenticated && hasToken) {
           next();
         } else {
@@ -377,7 +375,7 @@ export const store = new Vuex.Store(
     },
     getters: {
       getTableSightings: state => {
-          return state.tableSightings
+        return state.tableSightings
       },
       getUserAuthStatus: state => {
         return state.isAuthenticated

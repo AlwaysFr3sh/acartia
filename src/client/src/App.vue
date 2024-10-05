@@ -75,7 +75,6 @@
           <div v-if="isDropdownOpen === 'profileDropdown'" class="dropdown-content dropdown-offset">
             <router-link to="/profile/account-settings">Update Profile</router-link>
             <router-link to="/profile/active-tokens">Create Token</router-link>
-            <router-link to="/profile/user-reports">User Report</router-link>
             <router-link to="/profile/your-contributions">Contributor Profile</router-link>
             <router-link to="/profile/delete-account">Delete Profile</router-link>
             <a v-if="!isMobileMenuOpen" @click="logoutMethod"><img src="@/assets/menu-sign-out-icon.svg"
