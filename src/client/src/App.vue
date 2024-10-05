@@ -3,7 +3,7 @@
     <nav id="navbar-top">
       <router-link to="/home" class="navbar-brand" @click="closeMobileMenu">
         <AcartiaLogo />
-        <span>
+        <span v-if="!isMobile">
           Acartia
         </span>
       </router-link>
@@ -180,7 +180,7 @@ export default {
       return this.$store.state.isAdmin;
     },
     isMobile() {
-      return window.innerWidth > 768;
+      return window.innerWidth < 600;
     }
   }
 };
