@@ -1,5 +1,4 @@
 import { transformApiDataToMappableData, filterBySpecies } from '../../mapUtils'
-import {ALL_SPECIES} from '../../constants'
 import testData from './testData'
 
 const mappableData = transformApiDataToMappableData(testData)
@@ -12,25 +11,24 @@ describe('filterBySpecies', () => {
     sightingData = [...mappableData]
 
     filterObj = {
-      species: ALL_SPECIES,
+      species: []
     };
   });
 
-  it('should return all sightings when species filter is set to ALL_SPECIES', () => {
+  it('should return all sightings when species filter is empty', () => {
     const result = filterBySpecies(sightingData, filterObj);
     expect(result).toEqual(sightingData);
   });
 
   it('should filter sightings by a specific species', () => {
-    const testSpecies = 'Orca'
-    filterObj.species = testSpecies
+    filterObj.species.push({name: "Orca"})
 
     const result = filterBySpecies(sightingData, filterObj);
     expect(false).toEqual(result.some(sighting => sighting.properties.type != testSpecies));
   });
 
   it('should return an empty array when no sightings match the species', () => {
-    filterObj.species = 'Howler Monkey';
+    filterObj.species.push({name: "Monkey"})
 
     const result = filterBySpecies(sightingData, filterObj);
     expect(result).toEqual([]);
