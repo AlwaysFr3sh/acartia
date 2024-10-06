@@ -1,14 +1,51 @@
 <template>
-  <div id="about-container">
-    <div class="partner-desc">
-      <h2>Our Partners</h2>
-      <div id="left">
-        Our partners provide the essential data showcased on our platform, offering a
-        comprehensive resource for marine enthusiasts, researchers, and conservationists globally.
-      </div>
-      <div id="middle">
-        Click on each partners icon to see more information about the company
-      </div>
+    <div id="about-container">
+        <div class="partner-desc">
+            <h2>Our Partners</h2>
+            <div id="left">
+                <span>Our partners provide the essential data showcased on our platform, offering a</span> 
+                <span>comprehensive resource for marine enthusiasts, researchers, and conservationists globally.</span>
+            </div>
+            <div id="middle">
+                Click on each partners icon to see more information about the company
+            </div>
+        </div>
+        
+        <div class="partners">
+            <div class="row">
+                <div class="box">
+                    <div class="img"><img src="../../assets/orcasound.png" alt="Orcasound" id="orcasound"></div>
+                    <div class="sm"><a href="https://www.orcasound.net/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                </div>
+                <div class="box">
+                    <div class="img"><img src="../../assets/orcanetwork.png" alt="Orca Network" id="orcanetwork"></div>
+                    <div class="sm"><a href="https://www.orcanetwork.org/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                </div>
+                <div class="box">
+                    <div class="img"><img src="../../assets/typehuman.png" alt="TypeHuman" id="typehuman"></div>
+                    <div class="sm"><a href="https://www.typehuman.com/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="box">
+                    <div class="img"><img src="../../assets/conserveio.png" alt="Conserve.io" id="conserve"></div>
+                    <div class="sm"><a href="https://conserve.io/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                </div>
+                <div class="box">
+                    <div class="img"><img src="../../assets/resolve.png" alt="Resolve Conservation" id="rc"></div>
+                    <div class="sm"><a href="https://www.resolveconservation.com/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                </div>
+                <div class="box">
+                    <div class="img"><img src="../../assets/beamreach.png" alt="Beam Reach" id="br"></div>
+                    <div class="sm"><a href="https://beamreach.blue/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="page-links">
+                    <a href="https://github.com" class="link2">See our partners data contributions<img src="@/assets/right-arrow.svg" alt="Right Arrow" class="rightarrow"/></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="partners">
@@ -61,15 +98,12 @@
 </template>
 
 <script>
-import { mdbContainer, mdbRow, mdbCol } from 'mdbvue';
+import {} from 'mdbvue';
 
-export default {
-  components: {
-    mdbContainer,
-    mdbRow,
-    mdbCol
+  export default {
+    components: {
+    }
   }
-}
 </script>
 
 <style scoped>
@@ -86,12 +120,10 @@ export default {
   padding-bottom: 108px;
 }
 
-#container {
-  width: auto;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  margin-left: 25%;
+.partners{
+    width: 1128px;
+    height: auto;
+    margin: auto;
 }
 
 .partner-desc h2 {
@@ -125,6 +157,33 @@ export default {
   margin-top: 24px;
 }
 
+.row {
+    display: inline-flex;
+    gap: 54px;
+    margin-bottom: 54px;
+}
+
+.box {
+    width: 343px;
+    height: 409px;
+    font-weight: 500;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    border-style: hidden !important;
+    display: inline-block;
+}
+
+.img {
+    width: 262.08px;
+    height: 343px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
 a:link {
   color: black;
 }
@@ -148,70 +207,29 @@ a:active {
   margin-bottom: 3px;
 }
 
-.icon1 {
-  margin-top: 20%;
-  margin-bottom: 10%;
-  text-align: center;
-}
-
-.icon2 {
-  margin-top: 37%;
-  text-align: center;
-}
-
-.icon3 {
-  margin-top: 50%;
-  text-align: center;
-}
-
-.icon4 {
-  margin-top: 50%;
-  margin-bottom: 10%;
-  text-align: center;
-}
-
-.icon5 {
-  margin-top: 30%;
-  font-weight: 500;
-  text-align: center;
-}
-
-.icon6 {
-  margin-top: 15%;
-  font-weight: 500;
-  text-align: center;
-}
-
 .sm {
-  font-weight: 500;
-  font-family: 'Montserrat';
-  font-size: 16px;
-
-}
-
-.rounded-xl {
-  border-radius: 16px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  border-style: hidden !important;
+    width: auto;
+    height: auto;
+    text-align: center;
+    padding: 10px 12px 10px 12px;
+    margin: auto;
 }
 
 #orcasound {
-  width: 110%;
-  height: auto;
-  padding-top: 10%;
-  padding-right: 10%;
+    width: 110%;
+    height: auto;
+
 }
 
 #orcanetwork {
-  width: 100%;
-  height: auto;
-  padding-top: 30%;
+    width: 100%;
+    height: auto;
+
 }
 
 #typehuman {
-  width: 100%;
-  height: auto;
-  padding-top: 50%;
+    width: 100%;
+    height: auto;
 }
 
 #conserve {
@@ -233,17 +251,17 @@ a:active {
 }
 
 .page-links {
-  padding: 10px 12px 10px 12px;
-  margin-bottom: 54px;
+    padding: 10px 12px 10px 12px;
+    margin-bottom: 54px;
+    text-align: center;
 }
 
 .link2 {
-  font-weight: 500;
-  font-family: 'Montserrat';
-  font-size: 16px;
-  line-height: 22.4px;
-  display: inline-block;
-  margin-left: 42%;
+    font-weight: 500;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    line-height: 22.4px;
+    display: inline-block;
 }
 
 .rightarrow {
