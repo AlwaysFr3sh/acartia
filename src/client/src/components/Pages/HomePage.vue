@@ -1,19 +1,16 @@
 <template>
   <div>
-    <Info />
     <Map id="home-map"></Map>
   </div>
 </template>
 
 <script>
 import Map from '../MapComponent'
-import Info from '../InfoPopUpComponent.vue'
 
 export default {
   name: 'Home',
   components: {
     Map,
-    Info
   },
 }
 </script>

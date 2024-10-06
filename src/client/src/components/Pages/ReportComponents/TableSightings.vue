@@ -9,37 +9,25 @@
       </div>
 
       <div class="table-input-container">
+        <SpeciesMultiselect />
+
+        <ContributorMultiselect />
+
         <div class="date-content ">
           <span id="date-label">Date</span>
-          <input class="date-input" type="date" id="date" name="date" v-model="date">
-        </div>
-
-        <div class="species-content ">
-          <span id="date-label">Species</span>
-          <select class="species-select" name="species" id="species" v-model="species">
-            <option value="allSpecies">All Species</option>
-            <option v-for="option in speciesOptions" :key="option" :value="option">{{ option }}</option>
-          </select>
-        </div>
-
-        <div class="contributor-content ">
-          <span id="date-label">Contributor</span>
-          <select class="contributor-select" name="contributor" id="contributor" v-model="contributor">
-            <option value="allContributors">All Contributors</option>
-            <option v-for="option in contributorOptions" :key="option" :value="option">{{ option }}</option>
-          </select>
+          <input class="date-input" type="date" id="date" name="date" v-model="dateEnd">
         </div>
 
         <button class="apply-btn" @click="applyTableFilters">
           Filter
           <img src="../../../assets/icon-filter.svg" alt="filter icon" />
         </button>
-
       </div>
+
     </div>
 
 
-    <table class="table table-bordered">
+    <table v-if="!isMobile" class="table table-bordered">
       <thead>
         <tr>
           <th>Sighting ID</th>
@@ -47,7 +35,6 @@
           <th>Contributor</th>
           <th>Species</th>
           <th>Location</th>
-          <th>Reports</th>
         </tr>
       </thead>
 
@@ -66,7 +53,6 @@
           <td>{{ sighting.properties.witness }}</td>
           <td>{{ sighting.properties.type }}</td>
           <td>Lat: {{ sighting.geometry.coordinates[0] }} Long: {{ sighting.geometry.coordinates[1] }} </td>
-          <td><a href="#" class="text-primary">View Reports</a></td>
         </tr>
       </tbody>
     </table>
@@ -74,17 +60,22 @@
 
     <!-- mobile table  -->
 
-    <table class="table table-mobile">
+    <table v-else class="table">
+      <tbody v-if="tableSightings.length == 0">
+        <tr>
+          <td colspan="6">
+            No data available
+          </td>
+        </tr>
+      </tbody>
 
-      <tbody>
+      <tbody v-else>
         <tr v-for="(sighting, index) of tableSightings" :key="index">
-          <td>
+          <td class="mobile-data-entry">
             <p>{{ sighting.properties.created }} </p>
             <p> {{ sighting.properties.entity }}</p>
             <p> {{ sighting.properties.type }}</p>
             <p> Lat: {{ sighting.geometry.coordinates[0] }} Long: {{ sighting.geometry.coordinates[1] }} </p>
-
-            <a href="#" class="text-primary">View Reports</a>
           </td>
         </tr>
       </tbody>
@@ -103,17 +94,36 @@
 </template>
 
 <script>
+import ContributorMultiselect from './ContributorMultiselect.vue';
+import SpeciesMultiselect from './SpeciesMultiselect.vue';
+
+const MOBILE_BREAKPOINT = 600
+
 export default {
   name: 'TableSightings',
+  components: {
+    SpeciesMultiselect,
+    ContributorMultiselect
+  },
   data() {
     return {
-      viewingMore: false
+      viewingMore: false,
+      screenWidth: window.innerWidth,
     }
   },
   created() {
     this.$store.commit('applyTableFilters')
   },
+  mounted() {
+    window.addEventListener('resize', this.handleResize)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   methods: {
+    handleResize() {
+      this.screenWidth = window.innerWidth
+    },
     toggleViewMore() {
       this.viewingMore = !this.viewingMore
     },
@@ -122,13 +132,8 @@ export default {
     }
   },
   computed: {
-    contributor: {
-      get() {
-        return this.$store.state.tableFilters.contributor
-      },
-      set(value) {
-        this.$store.commit('setTableFilterContributor', value)
-      },
+    isMobile() {
+      return this.screenWidth <= MOBILE_BREAKPOINT
     },
     species: {
       get() {
@@ -138,9 +143,17 @@ export default {
         this.$store.commit('setTableFilterSpecies', value)
       },
     },
-    date: {
+    dateBegin: {
       get() {
-        return this.$store.state.tableFilters.date
+        return this.$store.state.tableFilters.dateBegin
+      },
+      set(value) {
+        this.$store.commit('setTableFilterDate', value)
+      },
+    },
+    dateEnd: {
+      get() {
+        return this.$store.state.tableFilters.dateEnd
       },
       set(value) {
         this.$store.commit('setTableFilterDate', value)
@@ -152,12 +165,6 @@ export default {
       } else {
         return this.$store.getters.getTableSightings.slice(0, 6)
       }
-    },
-    //same as the map options saved in the store. Reusable filed for the table.
-    contributorOptions: {
-      get() {
-        return this.$store.state.mapOptions.contributors
-      },
     },
     speciesOptions: {
       get() {
@@ -181,8 +188,8 @@ export default {
   border-radius: 0.625rem;
   background: var(--Primary-Primary-100, #00AFBA);
   display: flex;
-  height: 3rem;
-  margin-top: 1.5rem;
+  height: 3.3rem;
+  margin-top: 1.3rem;
   width: 10rem;
   padding: 0.625rem 1.5rem;
   justify-content: center;
@@ -209,6 +216,15 @@ export default {
   background: white;
 }
 
+.table-header {
+  font-family: Mukta;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 105%;
+}
+
+
 .table-header-container {
   display: flex;
   flex-direction: row;
@@ -226,18 +242,13 @@ export default {
   gap: 10px;
 }
 
-.date-input,
-.species-select,
-.contributor-select {
+.date-input {
   display: flex;
-  width: 100%;
-  height: 3rem;
+  border: 0.5px solid black;
+  height: 3.2rem;
   padding: 0.8125rem 0.75rem;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 0.625rem;
-  flex-shrink: 0;
-  align-self: stretch;
   border-radius: 0.375rem;
   background: var(--Neutrals-White, #FFF);
   color: var(--Neutrals-Gray-80, #3D3951);
@@ -248,14 +259,12 @@ export default {
   line-height: 140%;
 }
 
-.contributor-content,
-.species-content,
 .date-content {
   display: flex;
-  width: 15rem;
   height: 4.5625rem;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 5px;
 }
 
 #date-label {
@@ -340,27 +349,20 @@ a {
   display: none;
 }
 
-@media (max-width: 768px) {
-  .table-input-container {
+@media (max-width: 600px) {
+  .table-header-container {
     flex-direction: column;
-    /* 모바일 뷰에서 세로로 정렬 */
-    width: 100%;
-    /* 전체 너비 사용 */
-    gap: 20px;
-    /* 각 필드 사이에 충분한 여백 추가 */
   }
 
-  .date-content,
-  .species-content,
-  .contributor-content {
+  .table-input-container {
+    flex-direction: column;
     width: 100%;
-    /* 각 필드가 화면 전체 너비를 차지 */
+    gap: 20px;
   }
 
   .table-mobile {
     display: block;
     width: 100%;
-
   }
 
   .table-mobile tr td {
@@ -369,6 +371,14 @@ a {
 
   .table-bordered {
     display: none;
+  }
+
+  .date-input {
+    width: 350px;
+  }
+
+  .mobile-data-entry {
+    width: 200px;
   }
 }
 </style>

@@ -1,32 +1,34 @@
 <template>
   <!--Last sighting -->
   <div class="sighting">
-    <h2>Last sighting</h2>
+    <h2 class="sighting-header">Last sighting</h2>
     <LastSightingMap />
     <div class="row sighting-text">
-      <div class="col-6">
+      <div class="col-6 mb-2">
         <p class="sighting-title">Type:</p>
-        <p>{{ mostRecentSightingType }}</p>
+        <p class="sighting-text">{{ mostRecentSightingType }}</p>
       </div>
-      <div class="col-6">
+      <div class="col-6 mb-2">
         <p class="sighting-title">Sighter:</p>
-        <p>{{ mostRecentSightingProfileName }}</p>
+        <p class="sighting-text">{{ mostRecentSightingProfileName }}</p>
       </div>
-      <div class="col-6">
+      <div class="col-6 mb-2">
         <p class="sighting-title">Date:</p>
-        <p>{{ mostRecentSightingDate }}</p>
+        <p class="sighting-text">{{ mostRecentSightingDate }}</p>
       </div>
-      <div class="col-6">
+      <div class="col-6 mb-2">
         <p class="sighting-title">Pod/Non Pod:</p>
-        <p>Non Pod</p>
+        <p class="sighting-text">Non Pod</p>
       </div>
-      <div class="col-6">
+      <div class="col-6 mb-2">
         <p class="sighting-title">Location:</p>
-        <p>Lat: {{ mostRecentSightingLatitude }} Long: {{ mostRecentSightingLongitude }}</p>
+        <p class="sighting-text">Lat: {{ mostRecentSightingLatitude }} <br /> Long: {{ mostRecentSightingLongitude }}
+        </p>
       </div>
-      <div class="col-6">
+      <div class="col-6 mb-2">
         <p class="sighting-title">Photos:</p>
-        <p>{{ mostRecentSightingPhotoUrl ? mostRecentSightingPhotoUrl : "No Photos Available" }}</p>
+        <p class="sighting-text">{{ mostRecentSightingPhotoUrl ? mostRecentSightingPhotoUrl : "0" }}
+        </p>
       </div>
     </div>
   </div>
@@ -45,22 +47,22 @@ export default {
       return this.$store.getters.getLastSighting
     },
     mostRecentSightingType() {
-      return this.$store.getters.getLastSighting?.type
+      return this.$store.getters.getLastSighting.type
     },
     mostRecentSightingProfileName() {
-      return this.$store.getters.getLastSighting?.profile?.name
+      return this.$store.getters.getLastSighting.profile.name
     },
     mostRecentSightingDate() {
-      return this.$store.getters.getLastSighting?.created
+      return this.$store.getters.getLastSighting.created
     },
     mostRecentSightingLatitude() {
-      return this.$store.getters.getLastSighting?.latitude
+      return this.$store.getters.getLastSighting.latitude
     },
     mostRecentSightingLongitude() {
-      return this.$store.getters.getLastSighting?.longitude
+      return this.$store.getters.getLastSighting.longitude
     },
     mostRecentSightingPhotoUrl() {
-      return this.$store.getters.getLastSighting?.photo_url
+      return this.$store.getters.getLastSighting.photo_url
     },
   }
 }
@@ -80,6 +82,10 @@ h2 {
 .sighting {
   text-align: center;
   border-radius: 15px;
+  margin-top: 1rem;
+}
+
+.sighting-header {
   margin-bottom: 1rem;
 }
 
@@ -89,6 +95,16 @@ h2 {
   font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
+  margin-bottom: 0px;
+}
+
+.sighting-text {
+  color: var(--Neutrals-Black, #0C0826);
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
   line-height: 140%;
 }
 </style>
