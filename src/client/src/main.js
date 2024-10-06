@@ -20,6 +20,7 @@ import Contributions from './components/Pages/ContributionPage'
 import Contribute from './components/Pages/ContributePage'
 import Upload from './components/Pages/UploadPage'
 import ContactUs from './components/Pages/ContactPage'
+import ExportData from './components/Pages/ExportPage'
 import axios from 'axios'
 import Clipboard from 'v-clipboard'
 import 'bootstrap-css-only/css/bootstrap.min.css'
@@ -239,6 +240,12 @@ const router = new Router({
       path: '/contact-us',
       name: 'ContactUs',
       component: ContactUs
+    },
+    {
+      //Export data page
+      path: '/export',
+      name: 'ExportData',
+      component: ExportData
     },
   ]
 })
