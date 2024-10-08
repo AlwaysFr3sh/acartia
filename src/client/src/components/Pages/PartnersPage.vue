@@ -1,16 +1,17 @@
 <template>
+  <div>
     <div id="about-container">
         <div class="partner-desc">
             <h2>Our Partners</h2>
             <div id="left">
-                <span>Our partners provide the essential data showcased on our platform, offering a</span> 
+                <span>Our partners provide the essential data showcased on our platform, offering a</span>
                 <span>comprehensive resource for marine enthusiasts, researchers, and conservationists globally.</span>
             </div>
             <div id="middle">
                 Click on each partners icon to see more information about the company
             </div>
         </div>
-        
+
         <div class="partners">
             <div class="row">
                 <div class="box">
