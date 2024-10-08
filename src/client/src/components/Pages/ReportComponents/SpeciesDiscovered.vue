@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <h2>Species Discovered(Monthly)</h2>
     <div id="species-chart"></div>
   </div>
@@ -69,6 +69,10 @@ export default {
 
 
 <style scoped>
+.content {
+  padding: 20px;
+}
+
 h2 {
   font-family: Mukta;
   font-size: 1.5rem !important;

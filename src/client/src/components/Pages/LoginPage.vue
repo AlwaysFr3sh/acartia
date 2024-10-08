@@ -7,32 +7,19 @@
 
       <!-- TODO: the error message should be received from the backend instead of hardcoded -->
       <ErrorMessage v-if="isError">The email and/or password you entered did not match our records.</ErrorMessage>
+
       <form>
-        <TextInput v-model.trim="loginData.email" label="Email" inputType="text" :hideShowButton="false"
-          :isError="isError" />
-        <TextInput v-model.trim="loginData.password" label="Password" inputTypeProp="password" :hideShowButton="true"
-          :isError="isError" />
-
-        <router-link id="ForgotPassword" class="link" to="/forgot-password">Forgot password?</router-link> 
-
-        <Button class="standard-btn" @click.native="loginMethod" :isLoading="isLoading" :formData="loginData">
-          {{  isLoading ? "Loading..." : "Log in" }}
+        <TextInput v-model.trim="loginData.email" label="Email" :is-password-field="false" :isError="isError" />
+        <TextInput v-model.trim="loginData.password" label="Password" :is-password-field="true" :isError="isError" />
+        <router-link id="ForgotPassword" class="link" to="/forgot-password">Forgot password?</router-link>
+        <Button class="standard-btn" @click="loginMethod" :isLoading="isLoading" :formData="loginData">
+          {{ isLoading ? "Loading..." : "Log in" }}
         </Button>
       </form>
-
 
       <div id="NoAccount">
         <p>Don't have an account? <router-link id="signup" to="/register">Sign up</router-link></p>
       </div>
-
-      <div id="OrLoginWith">
-        <hr width="60px">
-        <p>or login with</p>
-        <hr width="60px">
-      </div>
-
-      <button class="alternative-btn"><img class="icon" src="../../assets/google.svg" />Log in with Google</button>
-      <button class="alternative-btn"><img class="icon" src="../../assets/linkedin.svg" />Log in with Linkedin</button>
     </section>
   </div>
 </template>
@@ -52,7 +39,7 @@ export default {
   },
   data() {
     return {
-      loginData: {email: "", password: ""},
+      loginData: { email: "", password: "" },
       isLoading: false,
       isError: false,
     }
@@ -156,23 +143,8 @@ form {
   margin-top: 16px;
 }
 
-.alternative-btn {
-  border: solid 1px;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-family: "Montserrat";
-  font-weight: 400;
-  font-size: 16px;
-  background-color: white;
-  border-color: #9E9CA8;
-  color: #3D3951;
-  margin-top: 6px;
-  margin-bottom: 8px;
-  height: 56px;
-}
-
 #ForgotPassword {
-  margin-top: 10px; 
+  margin-top: 40px;
   margin-left: auto !important;
   display: block;
   text-align: right;
@@ -182,17 +154,6 @@ form {
   margin-left: 12px;
   font-weight: 300;
   color: #007B83;
-}
-
-#OrLoginWith {
-  color: #6D6B7D;
-  display: flex;
-  flex-direction: row;
-  padding: 3px, 0px;
-  justify-content: center;
-  font-size: 14px;
-  margin-top: 20px;
-  margin-bottom: 14px;
 }
 
 #NoAccount {
