@@ -2,6 +2,7 @@
   <div>
     <MapFilterComponent />
     <div style="z-index:1;" id='mapContainer'></div>
+    <Layers />
   </div>
 </template>
 
@@ -13,6 +14,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { generateMatchExpression, getPopupHtmlString, legendColorMap } from '../mapUtils'
 import { mapActions } from 'vuex';
 
+import Layers from './MapLayer.vue';
+
 import mySVG from '../assets/hydrophone-default.svg';
 
 dayjs.extend(customParseFormat)
@@ -20,7 +23,8 @@ dayjs.extend(customParseFormat)
 export default {
   name: 'Map',
   components: {
-    MapFilterComponent
+    MapFilterComponent,
+    Layers,
   },
   data() {
     return {
@@ -35,7 +39,6 @@ export default {
     if (this.$store.state.hydrophones.length === 0) {
       await this.get_hydrophone_data();
     }
-    console.log("debug Here");
     this.mapSightings()
   },
   methods: {
@@ -63,7 +66,6 @@ export default {
         zoom: 7.0
       });
 
-
       // Add navigation buttons on top right of the map
       const nav = new mapboxgl.NavigationControl()
       map.addControl(nav, "top-right")
@@ -75,7 +77,6 @@ export default {
       
       const currentPage = this.getParent;
 
-      // TODO: this is complete trash
       let geoData = {
         "type": "FeatureCollection",
         "features": this.filteredSightings,
@@ -89,9 +90,8 @@ export default {
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
 
       console.log(currentPage);
-
       // On load event
-      map.on('load', function () {
+      map.on('style.load', function () {
         if (currentPage === 'Heatmap') {
           map.addLayer({
             id: 'ssemmi-heat-layer',
@@ -154,30 +154,26 @@ export default {
           })
         }
 
-        // TODO: looks terrible and blurry, pls fix!
+        // Load Hydrophone Image
         let img = new Image(1000, 1000);
         img.src = mySVG;
         img.onload = () => map.addImage('hydrophone', img);
 
-        // add hydrophone layer
+        map.addSource('bobby', {type: 'geojson', data: hydrophoneGeoData});
         map.addLayer({
           id: 'ssemmi-hydro-layer',
           type: 'symbol',
-          source: {
-            type: 'geojson',
-            data: hydrophoneGeoData, 
-          },
+
+          source: 'bobby',
           layout: {
-            "icon-image": 'hydrophone',
-            "icon-size": 0.03,
-            "icon-allow-overlap": true,
+            'icon-image': 'hydrophone',
+            'icon-size': 0.03,
+            'icon-allow-overlap': true,
+            'visibility': 'visible',
           },
-          paint: {
-          }
         })
 
       })
-
 
       // Click listener to display extra information upon clicking on a sightings point
       map.on('click', 'ssemmi-map-layer', function (e) {

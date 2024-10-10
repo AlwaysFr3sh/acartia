@@ -1,0 +1,191 @@
+<template>
+  <div>
+    <div v-if="isOpened" class="desktop-open">
+      <div class="title-row">
+        <h1 class="title">Layers</h1>
+        <img class="close-button" :src="require('@/assets/cross.svg')" @click="() => isOpened = false"/>
+      </div>
+
+      <hr>
+
+      <h2>Map Type</h2>
+      <div class="map-type-row">
+        <div class="map-type" @click="toggleMapStyle('light-v11')">
+          <img class="option" :src="require('@/assets/DefaultMapThumbnail.png')" />
+          <p>Default</p>
+        </div>
+        <div class="map-type" @click="toggleMapStyle('satellite-v9')">
+          <img class="option" :src="require('@/assets/SatelliteThumbnail.png')" />
+          <p>Satellite</p>
+        </div>
+        <div class="map-type" @click="toggleMapStyle('outdoors-v12')">
+          <img class="option" :src="require('@/assets/TerrainThumbnail.png')" />
+          <p>Terrain</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <h2>Map Overlays</h2>
+      <div class="map-type-row">
+        <div class="map-type" @click="toggleMapLayer('ssemmi-hydro-layer')">
+          <img class="option" :src="require('@/assets/HydrophoneThumbnail.png')" />
+          <p>Hydrophones</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="desktop-closed" @click="() => isOpened = true">
+      <div class="desktop-closed-content">
+        <img class="layers-icon" :src="require('@/assets/layers-icon.svg')" />
+        <p class="closed-text">Layers</p>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+
+export default {
+  name: "Layers",
+  data() {
+    return {
+      isOpened: false,
+    }
+  },
+  methods: {
+    toggleMapStyle(style) {
+      //https://docs.mapbox.com/mapbox-gl-js/example/style-switch/
+      // TODO: is this likely to break?
+      const currentStyle = this.$store.state.map.getStyle().sprite.split('/')[4];
+      if ((currentStyle != style) && this.$store.state.map.isStyleLoaded()) {
+        this.$store.state.map.setStyle(`mapbox://styles/mapbox/${style}`);
+      }
+    },
+
+    toggleMapLayer(mapLayerId) {
+      const layerVisibility = this.$store.state.map.getLayoutProperty(mapLayerId, 'visibility');
+      const newVisibility = layerVisibility === 'visible' ? 'none' : 'visible';
+      this.$store.state.map.setLayoutProperty(mapLayerId, 'visibility', newVisibility);
+    },
+  }
+}
+
+</script>
+<style scoped>
+
+hr {
+  width: 100%;
+  background-color: #9BA5B7;
+}
+
+p {
+  text-align: center;
+  font-family: "Inter";
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 19px;
+  margin-bottom: 0;
+  color: #545F71;
+}
+
+h2 {
+  font-family: "Inter";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px; 
+  color: #545F71;
+  margin: 0;
+}
+
+.map-type {
+  align-items: center;
+}
+
+.map-type-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.option {
+  width: 75px;
+  height: 75px;
+  border-radius: 6px;
+}
+
+.title-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: "Inter";
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #545F71;
+}
+
+.desktop-open {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 9999;
+
+  border-radius: 16px;
+  width: 343px;
+  /*height: 455px;*/
+  background-color: #F2F2FF;
+  padding: 24px;
+}
+
+.desktop-closed {
+  background-color: white;
+  background-image: url("../assets/SatelliteThumbnail.png");
+  background-size: 100px 100px;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 9999;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.desktop-closed-content {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  display: flex;
+  flex-direction: row;
+  height: 25.75px;
+  justify-content: space-between;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-bottom: 5px;
+}
+
+.closed-text {
+  width: auto;
+  color: white;
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.layers-icon {
+  width: 30px;
+}
+
+.close-button {
+  cursor: pointer;
+}
+
+</style>

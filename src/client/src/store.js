@@ -31,6 +31,9 @@ const store = createStore(
       map: null,
       activeMapLayer: "ssemi-map-layer",
 
+      // Hydrophones
+      hydrophones: [],
+
       //Table view state
       tableFilters: generateInitFilterState(1, 1),
       tableSightings: []
@@ -150,6 +153,9 @@ const store = createStore(
       applyTableFilters(state) {
         state.tableSightings = filterTableData(state.sightings, state.tableFilters)
       },
+      setHydrophones(state, hydrophones) {
+        state.hydrophones = hydrophones;
+      }
     },
     getters: {
       getTableSightings: state => {
@@ -194,6 +200,9 @@ const store = createStore(
           visibleSpecies.add(sighting.properties.type)
         })
         return [...visibleSpecies]
+      },
+      getHydrophones: state => {
+        return state.hydrophones;
       }
     },
     actions: {
@@ -626,6 +635,54 @@ const store = createStore(
                 errMsg = "Internal Server Error";
               }
               reject(errMsg);
+            })
+        });
+      },
+
+      async get_hydrophone_data({ commit }) {
+        return new Promise((resolve, reject) => {
+          let body = {
+            query: `{
+              feeds {
+                id
+                name
+                latLng {
+                  lat
+                  lng
+                }
+              }
+            }`
+          }
+
+          let options = {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+            },
+          }
+
+          axios.post("https://live.orcasound.net/graphql", body, options)
+            .then(res => {
+              let hydrophoneGeoJSON = [];
+
+              for (const feed of res.data.data.feeds) {
+                const entry = {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [feed.latLng.lng, feed.latLng.lat]
+                  },
+                  "properties": {
+                    "name": feed.name,
+                  }
+                };
+                hydrophoneGeoJSON.push(entry);
+              }
+              commit('setHydrophones', hydrophoneGeoJSON);
+              resolve('success');
+            })
+            .catch(err => {
+              console.error(err);
+              reject(err);
             })
         });
       },
