@@ -55,7 +55,6 @@ export default {
       }
     },
     mapSightings() {
-
       // Grab access token for Mapbox
       mapboxgl.accessToken = this.mapboxKey
 
@@ -88,11 +87,7 @@ export default {
         "features": this.hydrophones,
       }
 
-      //const hydrophonesVisibility = this.$store.getters.getHydrophonesVisibility;
-
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
-
-      console.log(currentPage);
 
       // On load event
       map.on('style.load', () => {
@@ -168,7 +163,6 @@ export default {
         map.addLayer({
           id: 'ssemmi-hydro-layer',
           type: 'symbol',
-
           source: 'hydrophoneData',
           layout: {
             'icon-image': 'hydrophone',
@@ -177,7 +171,6 @@ export default {
             'visibility': hydrophonesVisibility,
           },
         })
-
       })
 
       // Click listener to display extra information upon clicking on a sightings point
