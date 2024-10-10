@@ -171,26 +171,17 @@
       </div>
     </div>
   </div>
->>>>>>> main
 </template>
 
 <script>
 
 export default {
     name: 'About',
-<<<<<<< HEAD
-    components: {
-    },
-=======
->>>>>>> main
 }
 
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-
-=======
 .IP {
     padding-top: 12px;
 }
