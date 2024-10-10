@@ -10,16 +10,16 @@
 
       <h2>Map Type</h2>
       <div class="map-type-row">
-        <div class="map-type" @click="toggleMapStyle('light-v11')">
-          <img class="option" :src="require('@/assets/DefaultMapThumbnail.png')" />
+        <div class="map-type" @click="toggleMapStyle('light-v10')">
+          <img class="option" :class="{ 'option-active': mapStyleIsActive('light-v10')}" :src="require('@/assets/DefaultMapThumbnail.png')" />
           <p>Default</p>
         </div>
         <div class="map-type" @click="toggleMapStyle('satellite-v9')">
-          <img class="option" :src="require('@/assets/SatelliteThumbnail.png')" />
+          <img class="option" :class="{ 'option-active': mapStyleIsActive('satellite-v9')}" :src="require('@/assets/SatelliteThumbnail.png')" />
           <p>Satellite</p>
         </div>
         <div class="map-type" @click="toggleMapStyle('outdoors-v12')">
-          <img class="option" :src="require('@/assets/TerrainThumbnail.png')" />
+          <img class="option" :class="{ 'option-active': mapStyleIsActive('outdoors-v12')}" :src="require('@/assets/TerrainThumbnail.png')" />
           <p>Terrain</p>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <h2>Map Overlays</h2>
       <div class="map-type-row">
         <div class="map-type" @click="toggleMapLayer('ssemmi-hydro-layer')">
-          <img class="option" :src="require('@/assets/HydrophoneThumbnail.png')" />
+          <img class="option" :class="{'option-active': mapLayerIsActive('ssemmi-hydro-layer')}" :src="require('@/assets/HydrophoneThumbnail.png')" />
           <p>Hydrophones</p>
         </div>
       </div>
@@ -38,6 +38,7 @@
     <div v-else class="desktop-closed" @click="() => isOpened = true">
       <div class="desktop-closed-content">
         <img class="layers-icon" :src="require('@/assets/layers-icon.svg')" />
+        <img class="layers-icon-mobile" :src="require('@/assets/layers-icon-mobile.svg')" />
         <p class="closed-text">Layers</p>
       </div>
     </div>
@@ -61,12 +62,18 @@ export default {
         this.$store.state.map.setStyle(`mapbox://styles/mapbox/${style}`);
       }
     },
-
     toggleMapLayer(mapLayerId) {
       const layerVisibility = this.$store.state.map.getLayoutProperty(mapLayerId, 'visibility');
       const newVisibility = layerVisibility === 'visible' ? 'none' : 'visible';
+      this.$store.commit('setHydrophonesVisibility', newVisibility);
       this.$store.state.map.setLayoutProperty(mapLayerId, 'visibility', newVisibility);
     },
+    mapStyleIsActive(mapStyle) {
+      return this.$store.state.map.getStyle().sprite.split('/')[4] === mapStyle;
+    },
+    mapLayerIsActive(mapLayerId) {
+      return this.$store.state.map.getLayoutProperty(mapLayerId, 'visibility') === 'visible';
+    }
   }
 }
 
@@ -84,6 +91,7 @@ p {
   font-size: 14px;
   font-weight: 300;
   line-height: 19px;
+  margin-top: 5px;
   margin-bottom: 0;
   color: #545F71;
 }
@@ -113,10 +121,15 @@ h2 {
   border-radius: 6px;
 }
 
+.option-active {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
+}
+
 .title-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
 }
 
 .title {
@@ -152,16 +165,20 @@ h2 {
   z-index: 9999;
   border-radius: 16px;
   cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .desktop-closed-content {
-  position: fixed;
+  /*position: fixed;
   bottom: 25px;
-  left: 25px;
+  left: 25px;*/
   display: flex;
   flex-direction: row;
   height: 25.75px;
-  justify-content: space-between;
+  justify-content: center;
   padding-left: 6px;
   padding-right: 6px;
   margin-bottom: 5px;
@@ -174,6 +191,7 @@ h2 {
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;
+  margin-left: 3px;
 
   display: flex;
   justify-content: center;
@@ -181,11 +199,50 @@ h2 {
 }
 
 .layers-icon {
+  width: 24px;
+}
+
+.layers-icon-mobile {
+  display: none;
   width: 30px;
 }
 
 .close-button {
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+
+  .desktop-open {
+    bottom: 150px;
+  }
+
+  .desktop-closed {
+    bottom: 150px;
+    left: 20px;
+    border-radius: 50%;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-image: none;
+    padding: 0;
+  }
+
+  .desktop-closed-content {
+    margin: 0;
+  }
+
+  .closed-text {
+    display: none;
+  }
+
+  .layers-icon {
+    display: none;
+  }
+
+  .layers-icon-mobile {
+    display: block;
+  }
 }
 
 </style>

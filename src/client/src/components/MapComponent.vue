@@ -55,6 +55,7 @@ export default {
       }
     },
     mapSightings() {
+
       // Grab access token for Mapbox
       mapboxgl.accessToken = this.mapboxKey
 
@@ -87,11 +88,14 @@ export default {
         "features": this.hydrophones,
       }
 
+      //const hydrophonesVisibility = this.$store.getters.getHydrophonesVisibility;
+
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
 
       console.log(currentPage);
+
       // On load event
-      map.on('style.load', function () {
+      map.on('style.load', () => {
         if (currentPage === 'Heatmap') {
           map.addLayer({
             id: 'ssemmi-heat-layer',
@@ -158,18 +162,19 @@ export default {
         let img = new Image(1000, 1000);
         img.src = mySVG;
         img.onload = () => map.addImage('hydrophone', img);
+        const hydrophonesVisibility = this.$store.getters.getHydrophonesVisibility;
 
-        map.addSource('bobby', {type: 'geojson', data: hydrophoneGeoData});
+        map.addSource('hydrophoneData', {type: 'geojson', data: hydrophoneGeoData});
         map.addLayer({
           id: 'ssemmi-hydro-layer',
           type: 'symbol',
 
-          source: 'bobby',
+          source: 'hydrophoneData',
           layout: {
             'icon-image': 'hydrophone',
             'icon-size': 0.03,
             'icon-allow-overlap': true,
-            'visibility': 'visible',
+            'visibility': hydrophonesVisibility,
           },
         })
 
@@ -211,7 +216,7 @@ export default {
     },
     filteredSightings() {
       return this.$store.getters.getFilteredSightings
-    }
+    },
   }
 }
 </script>
