@@ -215,7 +215,7 @@ h2 {
   }
 
   .desktop-closed {
-    bottom: 150px;
+    bottom: 12%;
     left: 20px;
     border-radius: 50%;
     justify-content: center;
