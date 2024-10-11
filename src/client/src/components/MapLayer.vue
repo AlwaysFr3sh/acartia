@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isOpened" class="desktop-open">
+    <div v-if="isOpened" class="panel-open">
       <div class="title-row">
         <h1 class="title">Layers</h1>
         <img class="close-button" :src="require('@/assets/cross.svg')" @click="() => isOpened = false"/>
@@ -35,8 +35,8 @@
       </div>
     </div>
 
-    <div v-else class="desktop-closed" @click="() => isOpened = true">
-      <div class="desktop-closed-content">
+    <div v-else class="panel-closed" @click="() => isOpened = true">
+      <div class="panel-closed-content">
         <img class="layers-icon" :src="require('@/assets/layers-icon.svg')" />
         <img class="layers-icon-mobile" :src="require('@/assets/layers-icon-mobile.svg')" />
         <p class="closed-text">Layers</p>
@@ -129,7 +129,6 @@ h2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
 }
 
 .title {
@@ -140,20 +139,18 @@ h2 {
   color: #545F71;
 }
 
-.desktop-open {
+.panel-open {
   position: fixed;
   bottom: 25px;
   left: 25px;
   z-index: 998;
-
   border-radius: 16px;
   width: 343px;
-  /*height: 455px;*/
   background-color: #F2F2FF;
   padding: 24px;
 }
 
-.desktop-closed {
+.panel-closed {
   background-color: white;
   background-image: url("../assets/SatelliteThumbnail.png");
   background-size: 100px 100px;
@@ -165,13 +162,12 @@ h2 {
   z-index: 998;
   border-radius: 16px;
   cursor: pointer;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
-.desktop-closed-content {
+.panel-closed-content {
   display: flex;
   flex-direction: row;
   height: 25.75px;
@@ -189,7 +185,6 @@ h2 {
   font-size: 16px;
   line-height: 22px;
   margin-left: 3px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -210,11 +205,11 @@ h2 {
 
 @media screen and (max-width: 600px) {
 
-  .desktop-open {
+  .panel-open {
     bottom: 150px;
   }
 
-  .desktop-closed {
+  .panel-closed {
     bottom: 12%;
     left: 20px;
     border-radius: 50%;
@@ -225,7 +220,7 @@ h2 {
     padding: 0;
   }
 
-  .desktop-closed-content {
+  .panel-closed-content {
     margin: 0;
   }
 
