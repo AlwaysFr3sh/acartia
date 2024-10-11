@@ -144,7 +144,7 @@ h2 {
   position: fixed;
   bottom: 25px;
   left: 25px;
-  z-index: 9999;
+  z-index: 998;
 
   border-radius: 16px;
   width: 343px;
@@ -162,7 +162,7 @@ h2 {
   position: fixed;
   bottom: 25px;
   left: 25px;
-  z-index: 9999;
+  z-index: 998;
   border-radius: 16px;
   cursor: pointer;
 
@@ -172,9 +172,6 @@ h2 {
 }
 
 .desktop-closed-content {
-  /*position: fixed;
-  bottom: 25px;
-  left: 25px;*/
   display: flex;
   flex-direction: row;
   height: 25.75px;
