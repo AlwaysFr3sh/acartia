@@ -33,7 +33,6 @@ const store = createStore(
 
       // Hydrophones
       hydrophones: [],
-      hydrophonesVisible: false,
       hydrophonesVisibility: 'none',
 
       //Table view state
@@ -158,9 +157,6 @@ const store = createStore(
       setHydrophones(state, hydrophones) {
         state.hydrophones = hydrophones;
       },
-      setHydrophonesVisible(state, visibility) {
-        state.hydrophonesVisible = visibility;
-      },
       setHydrophonesVisibility(state, visibility) {
         state.hydrophonesVisibility = visibility;
       }
@@ -211,9 +207,6 @@ const store = createStore(
       },
       getHydrophones: state => {
         return state.hydrophones;
-      },
-      getHydrophonesVisible: state => {
-        return state.hydrophonesVisible;
       },
       getHydrophonesVisibility: state => {
         return state.hydrophonesVisibility;
