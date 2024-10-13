@@ -282,8 +282,40 @@ export const legendColorMap = {
   "Whale - Unidentified": "#7B33FF"
 };
 
+const monthPrefixes = {
+  Jan: 1,
+  Feb: 2,
+  Mar: 3,
+  Apr: 4,
+  May: 5,
+  Jun: 6,
+  Jul: 7,
+  Aug: 8,
+  Sep: 9,
+  Oct: 10,
+  Nov: 11,
+  Dec: 12
+};
+
+function splitApiDate(dateString) {
+  //Date string from API is returned like this
+  // Mon Oct 07 2024 18:01:33 GMT+0000 (Coordinated Universal Time)
+
+  let dateTimeArray = dateString.split(" ")
+  let month = dateTimeArray[1]
+  let date = dateTimeArray[2]
+  let year = dateTimeArray[3]
+  let time = dateTimeArray[4]
+  let fullDate = [year, monthPrefixes[month], date].join("-")
+
+  return { month, date, year, fullDate, time }
+}
+
 export function getPopupHtmlString(sighting) {
   let verified = sighting.verified == 1 ? "True" : "False"
+  let { fullDate, time } = splitApiDate(sighting.ssemmi_date_added)
+  let gmtDateString = [fullDate, time].join(' ')
+  let ptDateString = dayjs(gmtDateString).add(4, "hour").toString().slice(0,25)
 
   return `<div style="
     display: inline-flex;
@@ -297,6 +329,9 @@ export function getPopupHtmlString(sighting) {
     position: relative;
     border-radius: 10px;
 ">
+    <span></span>
+
+    <hr style="width: 100%; border: 1px solid #ccc; margin: 10px 0;">
     <span style="
         color: var(--Primary, #545F71);
         font-family: Inter, sans-serif;
@@ -305,10 +340,10 @@ export function getPopupHtmlString(sighting) {
         font-weight: 600;
         line-height: 19px;
         letter-spacing: -0.28px;
-        margin-top: 10px; /* Added margin-top for the first span */
-    "><b>Date: </b><span style="font-weight: 400;">
+    "><b>Time of Sighting (PT): </b><span style="font-weight: 400;"><br/>
 
-    ${sighting.created}
+    ${ptDateString} <br/>
+
 
     </span></span>
 
@@ -385,12 +420,11 @@ text-align:left;
         font-weight: 600;
         line-height: 19px;
         letter-spacing: -0.28px;
-    "><b>Time of Sighting: </b><span style="font-weight: 400;">
+    "><b>Time of Sighting (GMT): </b><span style="font-weight: 400;"><br/>
 
-    ${sighting.ssemmi_date_added}
+    ${gmtDateString}
 
     <span></span>
-
 
         <hr style="width: 100%; border: 1px solid #ccc; margin: 10px 0;">
             <span style="
