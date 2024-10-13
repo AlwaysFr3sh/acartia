@@ -23,7 +23,7 @@
             <li>
               Integrate your application with Acartia by following the steps in the contribution guide on our GitHub
               using the link below.
-              <a class="btn btn-primary" data-mdb-ripple-init href="https://github.com/salish-sea/acartia" role="button"
+              <a class="btn btn-primary" data-mdb-ripple-init @click="linkToGithub" role="button"
                 id="buttons">
                 <img src="@/assets/git-icon.svg" alt="GitHub Icon" class="icon" />
                 Github
@@ -33,8 +33,8 @@
             <li>
               Add you own data by manually inputting a single sighting at a time, or by uploading a csv file using the
               link below.
-              <a class="btn btn-primary" data-mdb-ripple-init @click="linkToGithub" role="button" id="buttons">
-                <img src="@/assets/git-icon.svg" alt="Upload Icon" class="icon" />
+              <a class="btn btn-primary" data-mdb-ripple-init href="/upload" role="button" id="buttons">
+                <img src="@/assets/upload-icon.svg" alt="Upload Icon" class="icon" />
                 Upload Sightings
                 <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
               </a>
@@ -47,29 +47,29 @@
       <h2>
         Want to download Acartia data? Check out this link!
       </h2>
-      <mdb-row class="row">
-        <a class="btn btn-primary" data-mdb-ripple-init href="mailto:info@acartia.io" role="button" id="export-btn">
+      <div class="row">
+        <a class="btn btn-primary" data-mdb-ripple-init href="/export" role="button" id="export-btn">
+          <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
           <img src="@/assets/download-icon.svg" alt="Export Icon" class="icon" />
           Export data
           <span>Download Acartia sightings data here.</span>
         </a>
-        <a class="btn btn-primary" data-mdb-ripple-init href="mailto:info@acartia.io" role="button" id="contact-btn">
+        <a class="btn btn-primary" data-mdb-ripple-init href="/contact-us" role="button" id="contact-btn">
+          <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
           <img src="@/assets/mail-icon.svg" alt="Mail Icon" class="icon" />
           Contact us
           <span>Get in touch with Acartia.</span>
         </a>
-      </mdb-row>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mdbRow } from 'mdbvue'
+import {} from 'mdbvue'
 
 export default {
-  name: 'About',
   components: {
-    mdbRow
   },
   methods: {
     linkToGithub() {
@@ -211,6 +211,8 @@ export default {
 .icon {
   max-width: 70%;
   max-height: 70%;
+  padding-bottom: 5px;
+  padding-right: 5px;
 }
 
 .righticon {
@@ -235,6 +237,7 @@ export default {
   line-height: 25.2px;
   color: rgba(61, 57, 81, 1);
   text-transform: none;
+  margin-right: 24px;
 }
 
 #export-btn span {

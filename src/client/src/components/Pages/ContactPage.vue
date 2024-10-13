@@ -21,7 +21,7 @@
                 <div class ="input">
                     <label>What can we help you with?*</label>
                     <textarea>
-                        Rich text editor.
+                    
                     </textarea>
                 </div>
                 <div class ="input">
@@ -31,37 +31,36 @@
         </div>
         <div class="links">
             <h2>Want to contribute to Acartia? Check out these links!</h2>
-            <mdb-row class="row">
-                <a class="btn btn-primary" data-mdb-ripple-init href="mailto:info@acartia.io" role="button" id="btns">
+            <div class="row">
+                <a class="btn btn-primary" data-mdb-ripple-init href="/integrate" role="button" id="btns">
                     <img src="@/assets/htc-icon.svg" alt="Hand Icon" class="cont-icon" />
                     How to Contribute
                     <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
                     <span>New to uploading data? Click here to learn how you can provide data.</span>
                 </a>
-                <a class="btn btn-primary" data-mdb-ripple-init href="mailto:info@acartia.io" role="button" id="btns">
+                <a class="btn btn-primary" data-mdb-ripple-init href="https://github.com/salish-sea/acartia" target="_blank" role="button" id="btns">
                     <img src="@/assets/git-icon.svg" alt="GitHub Icon" class="cont-icon" />
                     Github
                     <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
                     <span>Integrate your application with Acartia.</span>
                 </a>
-                <a class="btn btn-primary" data-mdb-ripple-init href="mailto:info@acartia.io" role="button" id="btns">
+                <a class="btn btn-primary" data-mdb-ripple-init href="/upload" role="button" id="btns">
                     <img src="@/assets/upload-icon.svg" alt="Upload Icon" class="cont-icon" />
                     Upload Sightings
                     <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
                     <span>Upload your sightings here.</span>
                 </a>
-            </mdb-row>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mdbRow } from 'mdbvue'
+import {} from 'mdbvue'
 
 export default {
   name: 'About',
   components: {
-    mdbRow
   },
 }
 </script>

@@ -16,84 +16,37 @@
             <div class="row">
                 <div class="box">
                     <div class="img"><img src="../../assets/orcasound.png" alt="Orcasound" id="orcasound"></div>
-                    <div class="sm"><a href="https://www.orcasound.net/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                    <div class="sm"><a href="https://www.orcasound.net/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
                 <div class="box">
                     <div class="img"><img src="../../assets/orcanetwork.png" alt="Orca Network" id="orcanetwork"></div>
-                    <div class="sm"><a href="https://www.orcanetwork.org/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                    <div class="sm"><a href="https://www.orcanetwork.org/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
                 <div class="box">
                     <div class="img"><img src="../../assets/typehuman.png" alt="TypeHuman" id="typehuman"></div>
-                    <div class="sm"><a href="https://www.typehuman.com/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                    <div class="sm"><a href="https://www.typehuman.com/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
             </div>
             <div class="row">
                 <div class="box">
                     <div class="img"><img src="../../assets/conserveio.png" alt="Conserve.io" id="conserve"></div>
-                    <div class="sm"><a href="https://conserve.io/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                    <div class="sm"><a href="https://conserve.io/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
                 <div class="box">
                     <div class="img"><img src="../../assets/resolve.png" alt="Resolve Conservation" id="rc"></div>
-                    <div class="sm"><a href="https://www.resolveconservation.com/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                    <div class="sm"><a href="https://www.resolveconservation.com/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
                 <div class="box">
                     <div class="img"><img src="../../assets/beamreach.png" alt="Beam Reach" id="br"></div>
-                    <div class="sm"><a href="https://beamreach.blue/" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+                    <div class="sm"><a href="https://beamreach.blue/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
             </div>
             <div>
                 <div class="page-links">
-                    <a href="https://github.com" class="link2">See our partners data contributions<img src="@/assets/right-arrow.svg" alt="Right Arrow" class="rightarrow"/></a>
+                    <a href="https://github.com/salish-sea/acartia" class="link2">See our partners data contributions<img src="@/assets/right-arrow.svg" alt="Right Arrow" class="rightarrow"/></a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="partners">
-      <mdb-container id="container">
-        <mdb-row>
-          <div class="col-3 border mb-5 mr-5 rounded-xl" id="borders">
-            <mdb-col col="sm"><img src="../../assets/orcasound.png" alt="Orcasound" id="orcasound"></mdb-col>
-            <div class="icon1"><a href="https://www.orcasound.net/" class="sm"><img src="@/assets/plus-icon.svg"
-                  alt="Plus Icon" class="icon" />See more</a></div>
-          </div>
-          <div class="col-3 border mb-5 mr-5 rounded-xl">
-            <mdb-col col="sm"><img src="../../assets/orcanetwork.png" alt="Orca Network" id="orcanetwork"></mdb-col>
-            <div class="icon2"><a href="https://www.orcanetwork.org/" class="sm"><img src="@/assets/plus-icon.svg"
-                  alt="Plus Icon" class="icon" />See more</a></div>
-          </div>
-          <div class="col-3 border mb-5 mr-5 rounded-xl">
-            <mdb-col col="sm"><img src="../../assets/typehuman.png" alt="TypeHuman" id="typehuman"></mdb-col>
-            <div class="icon3"><a href="https://www.typehuman.com/" class="sm"><img src="@/assets/plus-icon.svg"
-                  alt="Plus Icon" class="icon" />See more</a></div>
-          </div>
-        </mdb-row>
-        <mdb-row>
-          <div class="col-3 border mb-5 mr-5 rounded-xl">
-            <mdb-col col="sm"><img src="../../assets/conserveio.png" alt="Conserve.io" id="conserve"></mdb-col>
-            <div class="icon4"><a href="https://conserve.io/" class="sm"><img src="@/assets/plus-icon.svg"
-                  alt="Plus Icon" class="icon" />See more</a></div>
-          </div>
-          <div class="col-3 border mb-5 mr-5 rounded-xl">
-            <mdb-col col="sm"><img src="../../assets/resolve.png" alt="Resolve Conservation" id="rc"></mdb-col>
-            <div class="icon5"><a href="https://www.resolveconservation.com/" class="sm"><img
-                  src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon" />See more</a></div>
-          </div>
-          <div class="col-3 border mb-5 mr-5 rounded-xl">
-            <mdb-col col="sm"><img src="../../assets/beamreach.png" alt="Beam Reach" id="br"></mdb-col>
-            <div class="icon6"><a href="https://beamreach.blue/" class="sm"><img src="@/assets/plus-icon.svg"
-                  alt="Plus Icon" class="icon" />See more</a></div>
-          </div>
-        </mdb-row>
-      </mdb-container>
-      <mdb-row>
-        <mdb-col col="12">
-          <div class="page-links">
-            <a href="https://github.com" class="link2">See our partners data contributions<img
-                src="@/assets/right-arrow.svg" alt="Right Arrow" class="rightarrow" /></a>
-          </div>
-        </mdb-col>
-      </mdb-row>
     </div>
   </div>
 </template>
