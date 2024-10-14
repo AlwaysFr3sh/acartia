@@ -59,7 +59,7 @@
             <router-link to="/integrate" v-if="isAuth">How To Contribute</router-link>
             <router-link to="/upload">Upload File</router-link>
             <router-link to="/import-data">Import Data Manually</router-link>
-            <router-link to="/export-data">Export Data</router-link>
+            <router-link to="/export">Export Data</router-link>
             <router-link to="/github">Github</router-link>
             <router-link to="/contact-us">Contact Us</router-link>
           </div>
