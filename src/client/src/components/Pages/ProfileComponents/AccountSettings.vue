@@ -143,6 +143,7 @@ export default {
 .edit-icon {
   position: absolute;
   background: rgba(8, 13, 38, 0.1);
+  border-color: black;
   border-radius: 0.625rem;
   padding: 0.25rem;
   cursor: pointer;
