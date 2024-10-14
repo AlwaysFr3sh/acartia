@@ -255,6 +255,7 @@ export default {
 
 .filter-button {
   background: #eef1f4;
+  border-color: black;
   border-radius: 0.6rem;
   padding: 1vw;
   margin-left: 1vw;

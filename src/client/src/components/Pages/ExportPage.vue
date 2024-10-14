@@ -1,33 +1,11 @@
 <template>
   <div class="cont">
-    <h1>Contact us</h1>
-        <div class="contact-page">
-            <div id="contact-msg">
-                <span>Have a question or feedback for us? Fill out your information here and well reach out to you as soon as we can.</span>
+    <h1>Export Data</h1>
+        <div class="export-page">
+            <div id="export-msg">
+                <span>Export all the data points as a CSV file.</span>
             </div>
-            <form class ="contact-form">
-                <div class ="input">
-                    <label>Name*</label>
-                    <input type="text">
-                </div>
-                <div class ="input">
-                    <label>Email*</label>
-                    <input type="text">
-                </div>
-                <div class ="input">
-                    <label>Organization</label>
-                    <input type="text">
-                </div>
-                <div class ="input">
-                    <label>What can we help you with?*</label>
-                    <textarea>
-                    
-                    </textarea>
-                </div>
-                <div class ="input">
-                    <input type="submit" id="submit-btn">
-                </div>
-            </form>
+            <button type="button" id="export-btn">Export data<img src="@/assets/export-white.svg" alt="Export Icon" class="export-icon" /></button>
         </div>
         <div class="links">
             <h2>Want to contribute to Acartia? Check out these links!</h2>
@@ -95,15 +73,15 @@ export default {
     text-align: center;
 }
 
-.contact-page {
+.export-page {
     width: 1120px;
-    height: auto;
+    height: 418px;
     padding: 0px 160px 0px 160px;
     padding-bottom: 24px;
     margin: auto;
 }
 
-#contact-msg {
+#export-msg {
     font-family: 'Montserrat';
     line-height: 22px;
     font-size: 16px;
@@ -116,48 +94,7 @@ export default {
     padding-bottom: 24px;
 }
 
-.input {
-  width: 327px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  padding-bottom: 24px;
-}
-
-.input label {
-  font-family: 'Montserrat';
-  font-weight: 500;
-  font-size: 12px;
-  color: rgba(61, 57, 81, 1);
-  margin-bottom: 0px;
-  padding: 0px 4px 4px 4px;
-}
-
-.input input {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #3d3951;
-  border-radius: 4px;
-  font-family: 'Montserrat';
-  font-weight: 500;
-  font-size: 16px;
-  color: #0c0826;
-  
-}
-
-.input textarea {
-    width: 327px;
-    height: 204px;
-    color: rgba(61, 57, 81, 1);
-    border-radius: 6px;
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 500;
-    padding: 12px;
-}
-
-#submit-btn {
+#export-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -165,11 +102,13 @@ export default {
     width: 327px;
     height: 48px;
     background: #00AFBA;
+    border: 0px;
     border-radius: 10px;
     color: rgba(255, 255, 255, 1);
     font-family: 'Montserrat';
     font-size: 16px;
     font-weight: 500;
+    margin: auto;
 }
 
 .links {

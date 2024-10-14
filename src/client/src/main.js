@@ -19,3 +19,4 @@ store.dispatch('init_store');
 
 // Mount the app
 app.mount('#app');
+

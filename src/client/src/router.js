@@ -17,6 +17,7 @@ import Contributions from './components/Pages/ContributionPage'
 import Contribute from './components/Pages/ContributePage'
 import Upload from './components/Pages/UploadPage'
 import ContactUs from './components/Pages/ContactPage'
+import ExportData from './components/Pages/ExportPage'
 import store from './store'
 
 const router = createRouter({
@@ -209,6 +210,11 @@ const router = createRouter({
       path: '/contact-us',
       name: 'ContactUs',
       component: ContactUs
+    },
+    {
+      path: '/export',
+      name: 'ExportData',
+      component: ExportData
     },
   ]
 })

@@ -299,8 +299,8 @@ export default {
 
 .filter-sort {
   display: flex;
-  gap: 0.5vw;
-  /* Reduced gap */
+  gap: 0.5vw; /* Reduced gap */
+  margin-left: 5px;
 }
 
 .filter-button,
@@ -308,6 +308,7 @@ export default {
 .clear-button {
   background: #eef1f4;
   border-radius: 0.5rem;
+  border-color: black;
   padding: 1rem;
   cursor: pointer;
 }
@@ -388,9 +389,15 @@ tbody td {
 
 .pagination-button {
   background: #eef1f4;
+  border-color: black;
   border-radius: 0.5rem;
   padding: 0.25rem;
   cursor: pointer;
+}
+
+.pagination-button:disabled {
+  border-color: #D3D3D3;
+  border-style: solid;
 }
 
 .pagination-button img {
