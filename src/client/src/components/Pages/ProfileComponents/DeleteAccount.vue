@@ -66,7 +66,7 @@ export default {
           this.$router.push('/');
         }, 2000);
       } catch (error) {
-        this.notificationMessage = error.response?.data?.message || 'Account deletion failed';
+        this.notificationMessage = error.response.data.message || 'Account deletion failed';
         this.notificationType = 'error-message';
       }
     },

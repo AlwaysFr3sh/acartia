@@ -13,7 +13,11 @@ export function generateMatchExpression(colorMappings) {
 // Method to filter sightings by a user's DID
 export function filterUserSightings(sightings, did) {
   return sightings.filter(sighting => {
-    const submitterDid = sighting?.submitter_did;
+    if (!sighting.submitter) {
+      return false
+    }
+
+    const submitterDid = sighting.submitter_did;
     // Check if the sighting's DID matches the provided DID
     return submitterDid && submitterDid === did;
   });
