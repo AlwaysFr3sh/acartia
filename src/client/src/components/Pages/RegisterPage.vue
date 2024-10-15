@@ -38,14 +38,7 @@
               <button class="montserrat-regular button-next" @click="validateForm($event)">Next</button>
               <p class="montserrat-light login-link">Already have an account? <router-link to="/login">Log in</router-link></p>
             </div>
-            <div class="line-container">
-              <hr class="line">
-              <p class="montserrat-light login-text">or login with</p>
-            </div>
-            <button class="button montserrat-light"><img class="icon" src="../../assets/google.svg" />Register with
-              Google</button>
-            <button class="button montserrat-light"><img class="icon" src="../../assets/linkedin.svg" />Register with
-              LinkedIn</button>
+
           </div>
           <!-- Second Section - Intent -->
           <div class="intent" v-if="currentStage == 'intent'">
@@ -401,15 +394,6 @@ export default {
   font-size: 14px;
   color: #6D6B7D;
   z-index: 1;
-}
-
-.button {
-  width: 327px;
-  height: 56px;
-  border: 1px solid #9E9CA8;
-  border-radius: 10px;
-  background-color: white;
-  margin: 10px;
 }
 
 .guidelineBorder {
