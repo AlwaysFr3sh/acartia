@@ -122,6 +122,9 @@ export default {
       isMobileMenuOpen: false // Track mobile menu state
     };
   },
+  beforeCreate() {
+    this.$store.dispatch('restore_user_details');
+  },
   created() {
     axios.interceptors.response.use(undefined, err => {
       return new Promise((resolve, reject) => {
