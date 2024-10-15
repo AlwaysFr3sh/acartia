@@ -74,23 +74,23 @@ export default {
       this.mapView = map
       // Resize map to fit into screen width
       this.mapView.resize()
-      
+
       const currentPage = this.getParent;
-
-      let geoData = {
-        "type": "FeatureCollection",
-        "features": this.filteredSightings,
-      }
-
-      let hydrophoneGeoData = {
-        "type": "FeatureCollection",
-        "features": this.hydrophones,
-      }
 
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
 
       // On load event
       map.on('style.load', () => {
+
+        let geoData = {
+          "type": "FeatureCollection",
+          "features": this.filteredSightings,
+        }
+        let hydrophoneGeoData = {
+          "type": "FeatureCollection",
+          "features": this.hydrophones,
+        }
+
         if (currentPage === 'Heatmap') {
           map.addLayer({
             id: 'ssemmi-heat-layer',
@@ -159,7 +159,7 @@ export default {
         img.onload = () => map.addImage('hydrophone', img);
         const hydrophonesVisibility = this.$store.getters.getHydrophonesVisibility;
 
-        map.addSource('hydrophoneData', {type: 'geojson', data: hydrophoneGeoData});
+        map.addSource('hydrophoneData', { type: 'geojson', data: hydrophoneGeoData });
         map.addLayer({
           id: 'ssemmi-hydro-layer',
           type: 'symbol',
