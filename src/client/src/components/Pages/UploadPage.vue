@@ -21,11 +21,19 @@
       <form class="manual-form">
         <div class="input">
           <label>Date Sighted*</label>
-          <input type="date" v-model="sighting.dateSighted" required>
+          <input type="text" v-model="sighting.created" required>
+        </div>
+        <div class="input">
+          <label>Latitude*</label>
+          <input type="text" v-model="sighting.latitude" required>
+        </div>
+        <div class="input">
+          <label>Longitude*</label>
+          <input type="text" v-model="sighting.longitude" required>
         </div>
         <div class="input">
           <label>Species*</label>
-          <input type="text" v-model="sighting.species" required>
+          <input type="text" v-model="sighting.type" required>
         </div>
         <div class="input">
           <label>Pod</label>
@@ -33,15 +41,11 @@
         </div>
         <div class="input">
           <label>Number Sighted*</label>
-          <input type="number" v-model="sighting.numberSightings" required>
-        </div>
-        <div class="input">
-          <label>Observed Behaviours</label>
-          <input type="text" v-model="sighting.observedBehaviours">
+          <input type="number" v-model="sighting.no_sighted" required>
         </div>
         <div class="input">
           <label>Additional notes</label>
-          <textarea v-model="sighting.additionalNotes"></textarea>
+          <textarea v-model="sighting.data_source_comments"></textarea>
         </div>
       </form>
     </div>
@@ -77,242 +81,264 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-    name: 'About',
-    data() {
-        return {
-          sighting: {
-                dateSighted: '',
-                species: '',
-                pod: '',
-                numberSightings: null,
-                observedBehaviours: '',
-                additionalNotes: ''
-          }
-        };
-    },
-    methods: {
-        uploadSighting() {
-            // Handle the upload logic here
+  name: 'About',
+  data() {
+    return {
+      sighting: {
+        data_source_id: "",
+        data_source_witness: "",
+        data_source_entity: "",
+        data_source_name: "Spotter-API",
+        no_sighted: "",
+        latitude: "",
+        longitude: "",
+        type: '',
+        data_source_comments: "",
+        created: "",
+        photo_url:"",
+      }
+    };
+  },
+  methods: {
+    async uploadSighting() {
+      let requestAuth;
+
+      //only allow upload if user is signed in
+      if (this.$store.state.userDetails.token) {
+        requestAuth.headers = {
+          'Authorization': 'Bearer ' + process.env.VUE_APP_MASTER_KEY,
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
+      }
+
+      try {
+        let res = await axios.post('http://localhost:9000', this.sighting, requestAuth)
+        console.log("success: ", res)
+      } catch (error) {
+        console.log(error)
+      }
     }
+  }
 }
 </script>
 <style scoped>
-  .IP {
-    padding-top: 12px;
-  }
+.IP {
+  padding-top: 12px;
+}
 
-  .input button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 24px 10px 24px;
-    width: 327px;
-    height: 48px;
-    background: rgba(238, 241, 244, 1);
-    border-radius: 10px;
-    color: rgba(61, 57, 81, 1);
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 12px;
-  }
+.input button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 24px 10px 24px;
+  width: 327px;
+  height: 48px;
+  background: rgba(238, 241, 244, 1);
+  border-radius: 10px;
+  color: rgba(61, 57, 81, 1);
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 12px;
+}
 
-  .upload-container {
-    font-family: 'Montserrat';
-    color: rgba(61, 57, 81, 1);
-  }
+.upload-container {
+  font-family: 'Montserrat';
+  color: rgba(61, 57, 81, 1);
+}
 
-  .header h1 {
-    font-family: 'Mukta';
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 32px;
-    text-align: center;
-    display: block;
-    width: 375px;
-    height: auto;
-    margin: auto;
-    padding-top: 96px;
-    padding-bottom: 24px;
-    color: rgba(61, 57, 81, 1);
-  }
+.header h1 {
+  font-family: 'Mukta';
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 32px;
+  text-align: center;
+  display: block;
+  width: 375px;
+  height: auto;
+  margin: auto;
+  padding-top: 96px;
+  padding-bottom: 24px;
+  color: rgba(61, 57, 81, 1);
+}
 
-  h2 {
-    font-family: 'Mukta';
-    font-size: 28px !important;
-    font-weight: 600 !important;
-    line-height: 29.4px;
-    text-align: center;
-  }
+h2 {
+  font-family: 'Mukta';
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  line-height: 29.4px;
+  text-align: center;
+}
 
-  .tab {
-    width: 1120px;
-    height: auto;
-    margin: auto;
-    font-family: 'Montserrat';
-    font-weight: 600;
-    font-size: 16px;
-  }
+.tab {
+  width: 1120px;
+  height: auto;
+  margin: auto;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 16px;
+}
 
-  #manual-upload {
-    width: 1120px;
-    height: auto;
-    padding: 0px 160px 0px 160px;
-    padding-bottom: 24px;
-    margin: auto;
-  }
+#manual-upload {
+  width: 1120px;
+  height: auto;
+  padding: 0px 160px 0px 160px;
+  padding-bottom: 24px;
+  margin: auto;
+}
 
-  .input {
-    width: 327px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    padding-bottom: 24px;
-  }
+.input {
+  width: 327px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding-bottom: 24px;
+}
 
-  .input label {
-    font-family: 'Montserrat';
-    font-weight: 500;
-    font-size: 12px;
-    color: rgba(61, 57, 81, 1);
-    margin-bottom: 0px;
-    padding: 0px 4px 4px 4px;
-  }
+.input label {
+  font-family: 'Montserrat';
+  font-weight: 500;
+  font-size: 12px;
+  color: rgba(61, 57, 81, 1);
+  margin-bottom: 0px;
+  padding: 0px 4px 4px 4px;
+}
 
-  .input input {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #3d3951;
-    border-radius: 4px;
-    font-family: 'Montserrat';
-    font-weight: 500;
-    font-size: 16px;
-    color: rgba(61, 57, 81, 1);
-  }
+.input input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #3d3951;
+  border-radius: 4px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  font-size: 16px;
+  color: rgba(61, 57, 81, 1);
+}
 
-  .input select {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #3d3951;
-    border-radius: 4px;
-    font-family: 'Montserrat';
-    font-weight: 500;
-    font-size: 16px;
-    color: rgba(61, 57, 81, 1);
-  }
+.input select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #3d3951;
+  border-radius: 4px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  font-size: 16px;
+  color: rgba(61, 57, 81, 1);
+}
 
-  .input textarea {
-    width: 327px;
-    height: 204px;
-    color: rgba(61, 57, 81, 1);
-    border-radius: 6px;
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 500;
-    padding: 12px;
-  }
+.input textarea {
+  width: 327px;
+  height: 204px;
+  color: rgba(61, 57, 81, 1);
+  border-radius: 6px;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px;
+}
 
-  #submit-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 24px 10px 24px;
-    width: 327px;
-    height: 48px;
-    background: #00AFBA;
-    border-radius: 10px;
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 500;
-  }
+#submit-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 24px 10px 24px;
+  width: 327px;
+  height: 48px;
+  background: #00AFBA;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 500;
+}
 
-  .links {
-    font-family: 'Montserrat';
-    text-align: left;
-    position: relative;
-    width: 1120px;
-    height: auto;
-    margin: auto;
-    padding-top: 24px;
-  }
+.links {
+  font-family: 'Montserrat';
+  text-align: left;
+  position: relative;
+  width: 1120px;
+  height: auto;
+  margin: auto;
+  padding-top: 24px;
+}
 
-  .cont-icon {
-    max-width: 25%;
-    max-height: 25%;
-    margin-right: 6px;
-    margin-bottom: 4px;
-  }
+.cont-icon {
+  max-width: 25%;
+  max-height: 25%;
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
 
-  .righticon {
-    float: right;
-    padding-top: 2px;
-    padding-right: 0px;
-  }
+.righticon {
+  float: right;
+  padding-top: 2px;
+  padding-right: 0px;
+}
 
-  #btns {
-    display: block;
-    padding: 24px;
-    border: none;
-    border-radius: 12px;
-    background-color: rgba(240, 251, 251, 1) !important;
-    text-decoration: none;
-    width: 327px;
-    height: 127px;
-    box-shadow: none;
-    font-family: 'Mukta';
-    font-weight: 500;
-    font-size: 24px;
-    text-align: left;
-    line-height: 25.2px;
-    color: rgba(61, 57, 81, 1);
-    text-transform: none;
-    margin: 12px;
-  }
+#btns {
+  display: block;
+  padding: 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(240, 251, 251, 1) !important;
+  text-decoration: none;
+  width: 327px;
+  height: 127px;
+  box-shadow: none;
+  font-family: 'Mukta';
+  font-weight: 500;
+  font-size: 24px;
+  text-align: left;
+  line-height: 25.2px;
+  color: rgba(61, 57, 81, 1);
+  text-transform: none;
+  margin: 12px;
+}
 
-  #btns span {
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22.4px;
-    display: inline-block;
-    padding-top: 6px;
-  }
+#btns span {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22.4px;
+  display: inline-block;
+  padding-top: 6px;
+}
 
-  #contact-btn {
-    display: block;
-    padding: 24px;
-    border: none;
-    border-radius: 12px;
-    background-color: rgba(240, 251, 251, 1) !important;
-    text-decoration: none;
-    width: 327px;
-    height: auto;
-    box-shadow: none;
-    font-family: 'Mukta';
-    font-weight: 500;
-    font-size: 24px;
-    text-align: left;
-    line-height: 25.2px;
-    color: rgba(61, 57, 81, 1);
-    text-transform: none;
-    margin: auto;
-  }
+#contact-btn {
+  display: block;
+  padding: 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(240, 251, 251, 1) !important;
+  text-decoration: none;
+  width: 327px;
+  height: auto;
+  box-shadow: none;
+  font-family: 'Mukta';
+  font-weight: 500;
+  font-size: 24px;
+  text-align: left;
+  line-height: 25.2px;
+  color: rgba(61, 57, 81, 1);
+  text-transform: none;
+  margin: auto;
+}
 
-  #contact-btn span {
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22.4px;
-    display: inline-block;
-    padding-top: 6px;
-  }
+#contact-btn span {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22.4px;
+  display: inline-block;
+  padding-top: 6px;
+}
 
-  .row {
-    margin-top: 24px;
-    margin-bottom: 24px;
-  }
+.row {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
 </style>
