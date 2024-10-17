@@ -103,68 +103,108 @@
                 </a>
             </div>
         </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Tabs from './UploadPageComponents/Tabs.vue'
 import Tab from './UploadPageComponents/Tab.vue'
+import axios from 'axios'
 
 export default {
   components: {
     Tabs,
     Tab
   }
+  
+  data() {
+    return {
+      sighting: {
+        data_source_id: "",
+        data_source_witness: "",
+        data_source_entity: "",
+        data_source_name: "Spotter-API",
+        no_sighted: "",
+        latitude: "",
+        longitude: "",
+        type: '',
+        data_source_comments: "",
+        created: "",
+        photo_url:"",
+      }
+    };
+  },
+  methods: {
+    async uploadSighting() {
+      let requestAuth;
+
+      //only allow upload if user is signed in
+      if (this.$store.state.userDetails.token) {
+        requestAuth.headers = {
+          'Authorization': 'Bearer ' + process.env.VUE_APP_MASTER_KEY,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+
+      try {
+        let res = await axios.post('http://localhost:9000', this.sighting, requestAuth)
+        console.log("success: ", res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
 .IP {
-    padding-top: 12px;
+  padding-top: 12px;
 }
 
 .input button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 24px 10px 24px;
-    width: 327px;
-    height: 48px;
-    background: rgba(238, 241, 244, 1);
-    border-radius: 10px;
-    color: rgba(61, 57, 81, 1);
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 24px 10px 24px;
+  width: 327px;
+  height: 48px;
+  background: rgba(238, 241, 244, 1);
+  border-radius: 10px;
+  color: rgba(61, 57, 81, 1);
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 12px;
 }
 
 .upload-container {
-    font-family: 'Montserrat';
-    color: rgba(61, 57, 81, 1);
+  font-family: 'Montserrat';
+  color: rgba(61, 57, 81, 1);
 }
 
 .header h1 {
-    font-family: 'Mukta';
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 32px;
-    text-align: center;
-    display: block;
-    width: 375px;
-    height: auto;
-    margin: auto;
-    padding-top: 96px;
-    padding-bottom: 24px;
-    color: rgba(61, 57, 81, 1);
+  font-family: 'Mukta';
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 32px;
+  text-align: center;
+  display: block;
+  width: 375px;
+  height: auto;
+  margin: auto;
+  padding-top: 96px;
+  padding-bottom: 24px;
+  color: rgba(61, 57, 81, 1);
 }
 
 h2 {
-    font-family: 'Mukta';
-    font-size: 28px !important;
-    font-weight: 600 !important;
-    line-height: 29.4px;
-    text-align: center;
+  font-family: 'Mukta';
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  line-height: 29.4px;
+  text-align: center;
 }
 
 .manual-upload {
@@ -218,30 +258,29 @@ h2 {
 }
 
 .input textarea {
-    width: 327px;
-    height: 204px;
-    color: rgba(61, 57, 81, 1);
-    border-radius: 6px;
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 500;
-    padding: 12px;
+  width: 327px;
+  height: 204px;
+  color: rgba(61, 57, 81, 1);
+  border-radius: 6px;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px;
 }
 
 #submit-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 24px 10px 24px;
-    width: 327px;
-    height: 48px;
-    background: #00AFBA;
-    border: none;
-    border-radius: 10px;
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 24px 10px 24px;
+  width: 327px;
+  height: 48px;
+  background: #00AFBA;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .file-upload {
@@ -316,78 +355,78 @@ h2 {
 }
 
 .cont-icon {
-    max-width: 25%;
-    max-height: 25%;
-    margin-right: 6px;
-    margin-bottom: 4px;
+  max-width: 25%;
+  max-height: 25%;
+  margin-right: 6px;
+  margin-bottom: 4px;
 }
 
 .righticon {
-    float: right;
-    padding-top: 2px;
-    padding-right: 0px;
+  float: right;
+  padding-top: 2px;
+  padding-right: 0px;
 }
 
 #btns {
-    display: block;
-    padding: 24px;
-    border: none;
-    border-radius: 12px;
-    background-color: rgba(240, 251, 251, 1) !important;
-    text-decoration: none;
-    width: 327px;
-    height: 127px;
-    box-shadow: none;
-    font-family: 'Mukta';
-    font-weight: 500;
-    font-size: 24px;
-    text-align: left;
-    line-height: 25.2px;
-    color: rgba(61, 57, 81, 1);
-    text-transform: none;
-    margin: 12px;
+  display: block;
+  padding: 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(240, 251, 251, 1) !important;
+  text-decoration: none;
+  width: 327px;
+  height: 127px;
+  box-shadow: none;
+  font-family: 'Mukta';
+  font-weight: 500;
+  font-size: 24px;
+  text-align: left;
+  line-height: 25.2px;
+  color: rgba(61, 57, 81, 1);
+  text-transform: none;
+  margin: 12px;
 }
 
 #btns span {
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22.4px;
-    display: inline-block;
-    padding-top: 6px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22.4px;
+  display: inline-block;
+  padding-top: 6px;
 }
 
 #contact-btn {
-    display: block;
-    padding: 24px;
-    border: none;
-    border-radius: 12px;
-    background-color: rgba(240, 251, 251, 1) !important;
-    text-decoration: none;
-    width: 327px;
-    height: auto;
-    box-shadow: none;
-    font-family: 'Mukta';
-    font-weight: 500;
-    font-size: 24px;
-    text-align: left;
-    line-height: 25.2px;
-    color: rgba(61, 57, 81, 1);
-    text-transform: none;
-    margin: auto;
+  display: block;
+  padding: 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(240, 251, 251, 1) !important;
+  text-decoration: none;
+  width: 327px;
+  height: auto;
+  box-shadow: none;
+  font-family: 'Mukta';
+  font-weight: 500;
+  font-size: 24px;
+  text-align: left;
+  line-height: 25.2px;
+  color: rgba(61, 57, 81, 1);
+  text-transform: none;
+  margin: auto;
 }
 
 #contact-btn span {
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22.4px;
-    display: inline-block;
-    padding-top: 6px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22.4px;
+  display: inline-block;
+  padding-top: 6px;
 }
 
 .row {
-    margin-top: 24px;
-    margin-bottom: 24px;
+  margin-top: 24px;
+  margin-bottom: 24px;
 }
 </style>

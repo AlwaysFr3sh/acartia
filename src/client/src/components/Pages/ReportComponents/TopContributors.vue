@@ -33,7 +33,7 @@ export default {
       })
 
       if (contributors.length > 4) {
-        return contributors.slice(0, 4)
+        return contributors.slice(0, 3)
       }
 
       return contributors

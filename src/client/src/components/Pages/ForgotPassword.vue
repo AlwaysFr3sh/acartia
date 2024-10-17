@@ -11,10 +11,10 @@
         <p>Enter your email and we'll send you a link to reset your password.</p>
       </div>
 
-      <TextInput v-if="!isSubmitted" v-model.trim="loginData.email" label="Email" inputTypeProp="text"
-        :hideShowButton="false" :isError="isError" />
+      <TextInput v-if="!isSubmitted" v-model.trim="loginData.email" label="Email" :is-password-field="false" 
+        :isError="isError" />
 
-    <Button @click.native="buttonAction" :isLoading="isLoading" :formData="this.loginData">
+    <Button @click="buttonAction" :isLoading="isLoading" :formData="loginData">
       {{ buttonText }}
     </Button>
 

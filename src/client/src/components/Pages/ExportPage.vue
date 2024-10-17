@@ -5,7 +5,7 @@
             <div id="export-msg">
                 <span>Export all the data points as a CSV file.</span>
             </div>
-            <button type="button" id="export-btn">Export data<img src="@/assets/export-white.svg" alt="Export Icon" class="export-icon" /></button>
+            <button @click="getExport" type="button" id="export-btn">Export data<img src="@/assets/export-white.svg" alt="Export Icon" class="export-icon" /></button>
         </div>
         <div class="links">
             <h2>Want to contribute to Acartia? Check out these links!</h2>
@@ -40,13 +40,23 @@ export default {
   name: 'About',
   components: {
   },
+  methods: {
+    getExport() {
+      this.$store.dispatch("get_data_export")
+        .then(res => {
+          const fileUrl = window.URL.createObjectURL(new Blob([res.data]))
+          const fileLink = document.createElement('a')
+          fileLink.href = fileUrl
+          fileLink.setAttribute('download', 'acartia-export.csv')
+          document.body.appendChild(fileLink)
+          fileLink.click()
+        })
+    },
+  }
 }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-
 .cont {
     color: rgba(61, 57, 81, 1);
 }

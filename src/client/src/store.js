@@ -31,6 +31,10 @@ const store = createStore(
       map: null,
       activeMapLayer: "ssemi-map-layer",
 
+      // Hydrophones
+      hydrophones: [],
+      hydrophonesVisibility: 'none',
+
       //Table view state
       tableFilters: generateInitFilterState(1, 1),
       tableSightings: []
@@ -150,6 +154,12 @@ const store = createStore(
       applyTableFilters(state) {
         state.tableSightings = filterTableData(state.sightings, state.tableFilters)
       },
+      setHydrophones(state, hydrophones) {
+        state.hydrophones = hydrophones;
+      },
+      setHydrophonesVisibility(state, visibility) {
+        state.hydrophonesVisibility = visibility;
+      }
     },
     getters: {
       getTableSightings: state => {
@@ -194,6 +204,12 @@ const store = createStore(
           visibleSpecies.add(sighting.properties.type)
         })
         return [...visibleSpecies]
+      },
+      getHydrophones: state => {
+        return state.hydrophones;
+      },
+      getHydrophonesVisibility: state => {
+        return state.hydrophonesVisibility;
       }
     },
     actions: {
@@ -286,6 +302,10 @@ const store = createStore(
                 commit('setIsAdmin', true)
               }
               sessionStorage.setItem('userToken', user.data.token)
+
+              // TODO: should we be using session or local storage??
+              sessionStorage.setItem('userDetails', JSON.stringify(user.data));
+
               // Login success
 
               resolve("Login successful!")
@@ -301,6 +321,8 @@ const store = createStore(
 
               // Clear token
               sessionStorage.removeItem('userToken')
+
+              sessionStorage.removeItem('userDetails');
 
               // Check network and set error message if network is inactive
               if (!err.response) {
@@ -629,6 +651,79 @@ const store = createStore(
             })
         });
       },
+
+      //eslint-disable-next-line no-unused-vars
+      async reset_password({ commit }, password) {
+        console.log("DEBUG new password: " + password);
+        let payload = {
+          password: password
+        };
+
+        let options = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        const response = await axios.put(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/password-resets/`, payload, options);
+        return response;
+      },
+
+      async get_hydrophone_data({ commit }) {
+        return new Promise((resolve, reject) => {
+          let body = {
+            query: `{
+              feeds {
+                id
+                name
+                latLng {
+                  lat
+                  lng
+                }
+              }
+            }`
+          }
+
+          let options = {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+            },
+          }
+
+          axios.post("https://live.orcasound.net/graphql", body, options)
+            .then(res => {
+              let hydrophoneGeoJSON = [];
+
+              for (const feed of res.data.data.feeds) {
+                const entry = {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [feed.latLng.lng, feed.latLng.lat]
+                  },
+                  "properties": {
+                    "name": feed.name,
+                  }
+                };
+                hydrophoneGeoJSON.push(entry);
+              }
+              commit('setHydrophones', hydrophoneGeoJSON);
+              resolve('success');
+            })
+            .catch(err => {
+              console.error(err);
+              reject(err);
+            })
+        });
+      },
+      restore_user_details({ commit }) {
+        // TODO: logout if no user details in session storage
+        if (!this.getters.getUserDetails && sessionStorage.getItem('userDetails')) {
+          const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+          commit('setUserDetails', userDetails);
+        }
+      }
+
     },
   }
 )

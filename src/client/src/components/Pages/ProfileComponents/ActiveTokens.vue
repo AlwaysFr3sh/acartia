@@ -5,12 +5,7 @@
     <!-- Search and Filter -->
     <div class="search-filter">
       <div class="search-input">
-        <input
-          type="text"
-          placeholder="Search tokens..."
-          v-model="searchTerm_token"
-          @input="filterTokens"
-        />
+        <input type="text" placeholder="Search tokens..." v-model="searchTerm_token" @input="filterTokens" />
         <img src="@/assets/search-icon.svg" alt="Search Icon" />
       </div>
       <button class="filter-button">
@@ -37,18 +32,12 @@
             <td>{{ token.createdAt }}</td>
             <td>
               <div class="dropdown">
-                <button
-                  class="dropdown-toggle"
-                  @click="toggleDropdown(token.id)"
-                >
-                  <img
-                    src="@/assets/table-option-icon.svg"
-                    alt="Actions Icon"
-                  />
+                <button class="dropdown-toggle" @click="toggleDropdown(token.id)">
+                  <img src="@/assets/table-option-icon.svg" alt="Actions Icon" />
                 </button>
                 <ul v-if="isDropdownOpen(token.id)" class="dropdown-menu">
                   <li @click="copyToken(token.token)">Copy</li>
-                  <li @click="deleteToken(token.id)">Delete</li>
+                  <li @click="openDeleteModal(token)">Delete</li>
                 </ul>
               </div>
             </td>
@@ -58,14 +47,42 @@
     </div>
 
     <!-- Create Token Button -->
-    <button class="create-token-button" @click="createToken">
+    <button class="create-token-button" @click="openTokenModal">
       Create Token
     </button>
+
+    <!-- Token Creation Modal -->
+    <div v-if="isTokenModalOpen" class="modal-overlay">
+      <div class="modal-content">
+        <h2>Create New Token</h2>
+        <form @submit.prevent="createToken">
+          <label for="tokenName">Token Name:</label>
+          <input type="text" id="tokenName" v-model="newTokenName" placeholder="Enter token name..." required />
+          <div class="modal-actions">
+            <button type="submit" class="modal-btn modal-btn-create">Create</button>
+            <button type="button" class="modal-btn modal-btn-cancel" @click="closeTokenModal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Token Confirmation Modal -->
+    <div v-if="isDeleteModalOpen" class="modal-overlay">
+      <div class="modal-content">
+        <h2>Delete Token</h2>
+        <p>Are you sure you want to delete the token: {{ tokenToDelete.name }}?</p>
+        <div class="modal-actions">
+          <button @click="deleteToken(tokenToDelete)" class="modal-btn modal-btn-create">Delete</button>
+          <button @click="closeDeleteModal" class="modal-btn modal-btn-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import dayjs from "dayjs";
+import axios from "axios";
 
 export default {
   data() {
@@ -73,7 +90,11 @@ export default {
       searchTerm_token: "",
       userTokens: [],
       filteredTokens: [],
-      openDropdownId: null
+      openDropdownId: null,
+      isTokenModalOpen: false,
+      isDeleteModalOpen: false,
+      newTokenName: "",
+      tokenToDelete: null,
     };
   },
   methods: {
@@ -91,19 +112,24 @@ export default {
     },
     filterTokens() {
       const term = this.searchTerm_token.toLowerCase();
-      this.filteredTokens = this.userTokens.filter(
-        token =>
-          token.name.toLowerCase().includes(term) ||
-          token.token.toLowerCase().includes(term)
-      );
+      this.filteredTokens = this.userTokens.filter(token => {
+        const tokenName = token.name ? token.name.toLowerCase() : ''; // Handle undefined names
+        const tokenValue = token.token ? token.token.toLowerCase() : ''; // Handle undefined tokens
+        return tokenName.includes(term) || tokenValue.includes(term);
+      });
+    },
+    openTokenModal() {
+      this.isTokenModalOpen = true; // Open the modal
+    },
+    closeTokenModal() {
+      this.isTokenModalOpen = false; // Close the modal
+      this.newTokenName = ""; // Reset the token name field
     },
     createToken() {
-      // Logic to create a new token
-      // Replace this with actual API call
-      const tokenName = prompt("Enter token name:");
+      const tokenName = this.newTokenName;
       if (tokenName) {
         this.$store
-          .dispatch("create_user_token", { name: tokenName })
+          .dispatch("create_token", tokenName)
           .then(res => {
             const newToken = {
               id: res.data._id,
@@ -113,7 +139,7 @@ export default {
             };
             this.userTokens.push(newToken);
             this.filterTokens(); // Update the filtered list
-            alert("New token created");
+            this.closeTokenModal(); // Close the modal after creation
           })
           .catch(err => {
             console.error(err);
@@ -132,22 +158,35 @@ export default {
         }
       );
     },
-    deleteToken(id) {
-      // Logic to delete a token
-      // Replace this with actual API call
-      if (confirm("Are you sure you want to delete this token?")) {
-        this.$store
-          .dispatch("delete_user_token", { id })
-          .then(() => {
-            this.userTokens = this.userTokens.filter(token => token.id !== id);
-            this.filterTokens(); // Update the filtered list
-            alert("Token deleted");
-          })
-          .catch(err => {
-            console.error(err);
-            alert("Failed to delete token");
-          });
-      }
+    openDeleteModal(token) {
+      this.tokenToDelete = token;
+      this.isDeleteModalOpen = true;
+    },
+    closeDeleteModal() {
+      this.isDeleteModalOpen = false;
+      this.tokenToDelete = null;
+    },
+    deleteToken(token) {
+      const requestAuth = {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.getUserToken,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+
+      axios
+        .delete(
+          `${process.env.VUE_APP_WEB_SERVER_URL}/v1/users/tokens/${token.id}`,
+          requestAuth
+        )
+        .then((response) => {
+          console.log(response);
+          this.loadUserTokens();
+          this.closeDeleteModal(); // Close the modal after deletion
+        })
+        .catch((err) => {
+          console.error(`Failed to delete token: ${err}`);
+        });
     },
     toggleDropdown(id) {
       this.openDropdownId = this.openDropdownId === id ? null : id;
@@ -174,7 +213,8 @@ export default {
 }
 
 .token-content h1 {
-  font-size: 2.5rem; /* Responsive font-size using viewport width */
+  font-size: 2.5rem;
+  /* Responsive font-size using viewport width */
   font-family: "Mukta", sans-serif;
   font-weight: 600;
   color: #3d3951;
@@ -185,7 +225,8 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 75vw;
-  max-width: 90vw; /* Make the search filter take up most of the viewport */
+  max-width: 90vw;
+  /* Make the search filter take up most of the viewport */
   margin-bottom: 2vw;
 }
 
@@ -214,6 +255,7 @@ export default {
 
 .filter-button {
   background: #eef1f4;
+  border-color: black;
   border-radius: 0.6rem;
   padding: 1vw;
   margin-left: 1vw;
@@ -225,18 +267,22 @@ export default {
 }
 
 .filter-button img {
-  width: 1.25rem; /* Responsive icon size */
+  width: 1.25rem;
+  /* Responsive icon size */
   height: auto;
 }
 
 /* Token Table */
 .token-table-container {
-  width: 75vw; /* Relative width to ensure responsiveness */
-  overflow-x: auto; /* Horizontal scroll if necessary */
+  width: 75vw;
+  /* Relative width to ensure responsiveness */
+  overflow-x: auto;
+  /* Horizontal scroll if necessary */
 }
 
 table {
-  width: 100%; /* Table width adjusts with its container */
+  width: 100%;
+  /* Table width adjusts with its container */
   border-collapse: collapse;
   font-size: 1rem;
   border: 0.063rem solid #eef1f4;
@@ -248,7 +294,8 @@ thead tr {
 }
 
 thead th {
-  padding: 1vw; /* Responsive padding */
+  padding: 1vw;
+  /* Responsive padding */
   text-align: center;
   font-weight: 600;
   border-bottom: 0.25rem solid #6d6b7d;
@@ -260,7 +307,8 @@ tbody tr {
 }
 
 tbody td {
-  padding: 1.5vw; /* Responsive padding */
+  padding: 1.5vw;
+  /* Responsive padding */
   text-align: center;
 }
 
@@ -269,13 +317,15 @@ tbody td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 20vw; /* Max width for token column to truncate on smaller screens */
+  max-width: 20vw;
+  /* Max width for token column to truncate on smaller screens */
 }
 
 .create-token-button {
   background-color: #00afba;
   color: white;
-  padding: 0.75rem 1.25rem; /* Responsive padding */
+  padding: 0.75rem 1.25rem;
+  /* Responsive padding */
   border-radius: 0.8rem;
   font-size: 1rem;
   cursor: pointer;
@@ -316,30 +366,95 @@ tbody td {
   background-color: #f5f7fa;
 }
 
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 30vw;
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+  font-family: "Mukta", sans-serif;
+  font-size: 1.5rem;
+  color: #3d3951;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #3d3951;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-btn-create {
+  background-color: #00afba;
+  color: white;
+}
+
+.modal-btn-cancel {
+  background-color: #eef1f4;
+  color: #3d3951;
+}
+
 /* Desktop-specific styles for narrower table */
 @media (min-width: 1024px) {
   .token-table-container {
-    width: 50vw; /* Make the table container narrower on desktop */
+    width: 50vw;
+    /* Make the table container narrower on desktop */
   }
 
   table {
-    font-size: 0.9rem; /* Slightly smaller font for desktop */
+    font-size: 0.9rem;
+    /* Slightly smaller font for desktop */
   }
 
   thead th,
   tbody td {
-    padding: 0.8vw; /* Narrower padding on desktop */
+    padding: 0.8vw;
+    /* Narrower padding on desktop */
   }
 
   .token-text {
-    max-width: 15vw; /* Reduce the max width for token text on desktop */
+    max-width: 15vw;
+    /* Reduce the max width for token text on desktop */
   }
 
   .search-filter {
     display: flex;
     justify-content: space-between;
     width: 50vw;
-    max-width: 90vw; /* Make the search filter take up most of the viewport */
+    max-width: 90vw;
+    /* Make the search filter take up most of the viewport */
     margin-bottom: 2vw;
   }
 }

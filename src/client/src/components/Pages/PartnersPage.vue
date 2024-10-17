@@ -13,6 +13,40 @@
         </div>
 
         <div class="partners">
+          <div class="box">
+              <div class="img"><img src="../../assets/orcasound.png" alt="Orcasound" id="orcasound"></div>
+              <div class="sm"><a href="https://www.orcasound.net/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+          </div>
+
+          <div class="box">
+              <div class="img"><img src="../../assets/orcanetwork.png" alt="Orca Network" id="orcanetwork"></div>
+              <div class="sm"><a href="https://www.orcanetwork.org/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+          </div>
+
+          <div class="box">
+              <div class="img"><img src="../../assets/typehuman.png" alt="TypeHuman" id="typehuman"></div>
+              <div class="sm"><a href="https://www.typehuman.com/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+          </div>
+          
+
+          <div class="box">
+              <div class="img"><img src="../../assets/conserveio.png" alt="Conserve.io" id="conserve"></div>
+              <div class="sm"><a href="https://conserve.io/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+          </div>
+
+          <div class="box">
+              <div class="img"><img src="../../assets/resolve.png" alt="Resolve Conservation" id="rc"></div>
+              <div class="sm"><a href="https://www.resolveconservation.com/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+          </div>
+
+          <div class="box">
+              <div class="img"><img src="../../assets/beamreach.png" alt="Beam Reach" id="br"></div>
+              <div class="sm"><a href="https://beamreach.blue/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
+          </div>
+        </div>
+
+        <!--
+        <div class="partners">
             <div class="row">
                 <div class="box">
                     <div class="img"><img src="../../assets/orcasound.png" alt="Orcasound" id="orcasound"></div>
@@ -41,12 +75,14 @@
                     <div class="sm"><a href="https://beamreach.blue/" target="_blank" class="sm"><img src="@/assets/plus-icon.svg" alt="Plus Icon" class="icon"/>See more</a></div>
                 </div>
             </div>
-            <div>
-                <div class="page-links">
-                    <a href="https://github.com/salish-sea/acartia" class="link2">See our partners data contributions<img src="@/assets/right-arrow.svg" alt="Right Arrow" class="rightarrow"/></a>
-                </div>
-            </div>
+
         </div>
+      -->
+      <div>
+          <div class="page-links">
+              <a href="https://github.com/salish-sea/acartia" class="link2">See our partners data contributions<img src="@/assets/right-arrow.svg" alt="Right Arrow" class="rightarrow"/></a>
+          </div>
+      </div>
     </div>
   </div>
 </template>
@@ -67,7 +103,7 @@ import {} from 'mdbvue';
 .partner-desc {
   text-align: center;
   position: relative;
-  width: 743px;
+  max-width: 743px;
   height: auto;
   margin: auto;
   top: 54px;
@@ -75,9 +111,13 @@ import {} from 'mdbvue';
 }
 
 .partners{
-    width: 1128px;
+    max-width: 1128px;
     height: auto;
     margin: auto;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(343px, 1fr));
+    gap: 30px 10px;;
 }
 
 .partner-desc h2 {
@@ -86,7 +126,7 @@ import {} from 'mdbvue';
   font-weight: 600 !important;
   line-height: 44px !important;
   text-align: center !important;
-  color: rgba(61, 57, 81, 1);
+  color: #3D3951; 
 }
 
 #left {
@@ -127,6 +167,8 @@ import {} from 'mdbvue';
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
     border-style: hidden !important;
     display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .img {
@@ -206,6 +248,7 @@ a:active {
 
 .page-links {
     padding: 10px 12px 10px 12px;
+    margin-top: 60px;
     margin-bottom: 54px;
     text-align: center;
 }
@@ -223,5 +266,14 @@ a:active {
   display: inline-block;
   margin-left: 8px;
   padding-bottom: 2px;
+}
+
+@media (max-width: 600px) {
+  #middle,
+  #left {
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 14px;
+  }
 }
 </style>

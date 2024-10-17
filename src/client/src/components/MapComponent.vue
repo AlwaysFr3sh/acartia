@@ -2,6 +2,7 @@
   <div>
     <MapFilterComponent />
     <div style="z-index:1;" id='mapContainer'></div>
+    <Layers />
   </div>
 </template>
 
@@ -13,12 +14,17 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { generateMatchExpression, getPopupHtmlString, legendColorMap } from '../mapUtils'
 import { mapActions } from 'vuex';
 
+import Layers from './MapLayer.vue';
+
+import mySVG from '../assets/hydrophone-default.svg';
+
 dayjs.extend(customParseFormat)
 
 export default {
   name: 'Map',
   components: {
-    MapFilterComponent
+    MapFilterComponent,
+    Layers,
   },
   data() {
     return {
@@ -30,10 +36,13 @@ export default {
     if (this.sightings.length === 0) {
       await this.fill_store()
     }
+    if (this.$store.state.hydrophones.length === 0) {
+      await this.get_hydrophone_data();
+    }
     this.mapSightings()
   },
   methods: {
-    ...mapActions(['fill_store']),
+    ...mapActions(['fill_store', 'get_hydrophone_data']),
     getActiveMapLayer() {
       let activeComponent = this.getParent
 
@@ -57,7 +66,6 @@ export default {
         zoom: 7.0
       });
 
-
       // Add navigation buttons on top right of the map
       const nav = new mapboxgl.NavigationControl()
       map.addControl(nav, "top-right")
@@ -67,17 +75,22 @@ export default {
       // Resize map to fit into screen width
       this.mapView.resize()
 
-      let geoData = {
-        "type": "FeatureCollection",
-        "features": this.filteredSightings
-      }
-
       const currentPage = this.getParent;
 
       this.$store.commit("setActiveMapLayer", this.getActiveMapLayer())
 
       // On load event
-      map.on('load', function () {
+      map.on('style.load', () => {
+
+        let geoData = {
+          "type": "FeatureCollection",
+          "features": this.filteredSightings,
+        }
+        let hydrophoneGeoData = {
+          "type": "FeatureCollection",
+          "features": this.hydrophones,
+        }
+
         if (currentPage === 'Heatmap') {
           map.addLayer({
             id: 'ssemmi-heat-layer',
@@ -139,8 +152,26 @@ export default {
             }
           })
         }
-      })
 
+        // Load Hydrophone Image
+        let img = new Image(1000, 1000);
+        img.src = mySVG;
+        img.onload = () => map.addImage('hydrophone', img);
+        const hydrophonesVisibility = this.$store.getters.getHydrophonesVisibility;
+
+        map.addSource('hydrophoneData', { type: 'geojson', data: hydrophoneGeoData });
+        map.addLayer({
+          id: 'ssemmi-hydro-layer',
+          type: 'symbol',
+          source: 'hydrophoneData',
+          layout: {
+            'icon-image': 'hydrophone',
+            'icon-size': 0.03,
+            'icon-allow-overlap': true,
+            'visibility': hydrophonesVisibility,
+          },
+        })
+      })
 
       // Click listener to display extra information upon clicking on a sightings point
       map.on('click', 'ssemmi-map-layer', function (e) {
@@ -167,6 +198,9 @@ export default {
     sightings() {
       return this.$store.state.sightings
     },
+    hydrophones() {
+      return this.$store.state.hydrophones;
+    },
     isAuth() {
       return this.$store.state.isAuthenticated
     },
@@ -175,7 +209,7 @@ export default {
     },
     filteredSightings() {
       return this.$store.getters.getFilteredSightings
-    }
+    },
   }
 }
 </script>

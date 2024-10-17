@@ -34,11 +34,6 @@
           <p v-if="isMenuVisible || isMobile" class="home">Active Tokens</p>
           <img v-if="isMenuVisible" class="arrow-icon" src="@/assets/menu-arrow-icon.svg" alt="Arrow Icon" />
         </div>
-        <div class="side-navigation-item" @click="navigateTo('user-reports')">
-          <img class="menu-icon" src="@/assets/menu-reports-icon.svg" alt="User Reports Icon" />
-          <p v-if="isMenuVisible || isMobile" class="home">User Reports</p>
-          <img v-if="isMenuVisible" class="arrow-icon" src="@/assets/menu-arrow-icon.svg" alt="Arrow Icon" />
-        </div>
         <div class="side-navigation-item" @click="navigateTo('your-contributions')">
           <img class="menu-icon" src="@/assets/menu-contributions-icon.svg" alt="Your Contributions Icon" />
           <p v-if="isMenuVisible || isMobile" class="home">
@@ -67,11 +62,11 @@
 </template>
 
 <script>
+
 import AccountSettings from "./ProfileComponents/AccountSettings.vue";
 import ActiveTokens from "./ProfileComponents/ActiveTokens.vue";
 import DeleteAccount from "./ProfileComponents/DeleteAccount.vue";
 import Contributions from "./ProfileComponents/Contributions.vue";
-import UserReports from "./ProfileComponents/UserReports.vue";
 
 export default {
   props: ["section"], // Accept section as a prop
@@ -79,8 +74,7 @@ export default {
     AccountSettings,
     ActiveTokens,
     DeleteAccount,
-    Contributions,
-    UserReports
+    Contributions
   },
   data() {
     return {
@@ -99,7 +93,6 @@ export default {
       const components = {
         "account-settings": "AccountSettings",
         "active-tokens": "ActiveTokens",
-        "user-reports": "UserReports",
         "your-contributions": "Contributions",
         "delete-account": "DeleteAccount"
       };
@@ -125,7 +118,7 @@ export default {
     updateViewBasedOnWidth() {
       // Detect mobile view using matchMedia
       this.isMobile = window.matchMedia("(max-width: 768px)").matches;
-    }
+    },
   },
   mounted() {
     this.updateViewBasedOnWidth(); // Set initial view on mount
