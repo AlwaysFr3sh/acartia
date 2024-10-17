@@ -646,6 +646,23 @@ const store = createStore(
         });
       },
 
+      //eslint-disable-next-line no-unused-vars
+      async reset_password({ commit }, password) {
+        console.log("DEBUG new password: " + password);
+        let payload = {
+          password: password
+        };
+
+        let options = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        const response = await axios.put(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/password-resets/`, payload, options);
+        return response;
+      },
+
       async get_hydrophone_data({ commit }) {
         return new Promise((resolve, reject) => {
           let body = {
