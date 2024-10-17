@@ -62,6 +62,7 @@
 </template>
 
 <script>
+
 import AccountSettings from "./ProfileComponents/AccountSettings.vue";
 import ActiveTokens from "./ProfileComponents/ActiveTokens.vue";
 import DeleteAccount from "./ProfileComponents/DeleteAccount.vue";
@@ -117,7 +118,7 @@ export default {
     updateViewBasedOnWidth() {
       // Detect mobile view using matchMedia
       this.isMobile = window.matchMedia("(max-width: 768px)").matches;
-    }
+    },
   },
   mounted() {
     this.updateViewBasedOnWidth(); // Set initial view on mount

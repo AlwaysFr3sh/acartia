@@ -302,6 +302,10 @@ const store = createStore(
                 commit('setIsAdmin', true)
               }
               sessionStorage.setItem('userToken', user.data.token)
+
+              // TODO: should we be using session or local storage??
+              sessionStorage.setItem('userDetails', JSON.stringify(user.data));
+
               // Login success
 
               resolve("Login successful!")
@@ -317,6 +321,8 @@ const store = createStore(
 
               // Clear token
               sessionStorage.removeItem('userToken')
+
+              sessionStorage.removeItem('userDetails');
 
               // Check network and set error message if network is inactive
               if (!err.response) {
@@ -710,6 +716,14 @@ const store = createStore(
             })
         });
       },
+      restore_user_details({ commit }) {
+        // TODO: logout if no user details in session storage
+        if (!this.getters.getUserDetails && sessionStorage.getItem('userDetails')) {
+          const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+          commit('setUserDetails', userDetails);
+        }
+      }
+
     },
   }
 )
