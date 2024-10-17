@@ -66,6 +66,7 @@ export default {
     const token = this.$route.query.token;
     const url = `${process.env.VUE_APP_WEB_SERVER_URL}/v1/forgot-password/${token}`;
     try {
+      if (!token) throw new Error('Missing token');
       await axios.get(url, requestAuth);
     } catch (err) {
       if (err.response.status === 404) 
