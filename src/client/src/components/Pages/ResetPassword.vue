@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section v-if="showForm" class="reset-password-section">
+    <section class="reset-password-section">
       <h1 class="header">
         {{ isSubmitted ? "Your password has been reset" : "Reset Password" }}
       </h1>
@@ -14,25 +14,22 @@
         <TextInput 
           v-model.trim="data.password"
           label="Password" 
-          inputTypeProp="password" 
-          :hideShowButton="true"
+          :is-password-field="true"
           :isError="isError"
         />
         <TextInput 
           v-model.trim="data.confirmPassword"
           label="Confirm Password" 
-          inputTypeProp="password" 
-          :hideShowButton="true"
+          :is-password-field="true"
           :isError="isError"
         />
 
-        <Button @click.native="resetPassword" :isLoading="isLoading" :formData="data">
+        <Button @click="resetPassword" :isLoading="isLoading" :formData="data">
           Reset password
         </Button>
-
       </form>
 
-      <Button v-if="isSubmitted" @click.native="$router.replace({name: 'Login'})">
+      <Button v-if="isSubmitted" @click="() => $router.replace({name: 'Login'})">
         Log In
       </Button>
     </section>
@@ -42,6 +39,7 @@
 import TextInput from '../Form/TextInput.vue';
 import ErrorMessage from '../Form/ErrorMessage.vue';
 import Button from '../Form/Button.vue';
+import axios from 'axios';
 
 export default {
   name: "reset-password",
@@ -59,10 +57,26 @@ export default {
       isError: false,
     }
   },
-  methods: {
-    resetPassword() {
+  async mounted() {
+    const requestAuth = {
+      headers: {
+        'Content-Type': 'application/json', // TODO: is this even right??  
+      }
+    }
+    const token = this.$route.query.token;
+    const url = `${process.env.VUE_APP_WEB_SERVER_URL}/v1/forgot-password/${token}`;
+    try {
+      if (!token) throw new Error('Missing token');
+      await axios.get(url, requestAuth);
+    } catch (err) {
+      if (err.response.status === 404) 
+        alert('Error: Invalid token')
+        this.$router.replace({ name: 'Home'});
+    }
 
-      function validatePasswords(password, confirmPassword) {
+  },
+  methods: {
+    validatePasswords(password, confirmPassword) {
         const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
         if (password != confirmPassword)  
           throw new Error('Passwords do not match')
@@ -74,42 +88,38 @@ export default {
             <li style="margin: 0">Passwords must be at least 8 characters long.</li>\
           </ul> \
         ');
-      }
+    },
 
+    resetPassword() {
       try {
         if (this.data.password || this.data.confirmPassword) {
-          validatePasswords(this.data.password, this.data.confirmPassword)
-          // this should be moved to the .then() of the server invocation once implemented
-          this.isError = false;
-          this.isSubmitted = true; 
+          this.validatePasswords(this.data.password, this.data.confirmPassword);
+
+          this.$store.dispatch('reset_password', this.data.password)
+            .then((response) => {
+              console.log(response.statusText);
+              this.isLoading = false;
+              this.isSubmitted = true;
+            })
+            .catch((err) => {
+              this.errorMessage = err.response.status === 404 ? "Token has expired or doesn't exist" : err.message;
+              this.isError = true;
+              this.isLoading = false;
+            })
         }
       }
       catch(error)  {
         this.isError = true;
         this.errorMessage = error.message;
       }
-
-      // invoke server endpoint here
     }
-    
   },
-  computed: {
-    // only show form if token is present and valid
-    showForm() {
-      return this.$route.query.token ? true : false;
-      /*
-       * TODO: return true/false depending on whether token is valid
-       * I'm pretty sure there is an endpoint on the server under "password-reset"
-       * specifically for this 
-       */
-    }
-  }
 }
 </script>
 <style scoped>
 
 button {
-  margin-top: 16px;
+  margin-top: 36px;
 }
 
 .header {
