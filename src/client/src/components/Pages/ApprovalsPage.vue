@@ -1,32 +1,31 @@
 <template>
   <div>
-    <div class="table-heading">
-      <h1 class="request-table-title">Manage Users</h1>
-    </div>
+    <h1 class="request-table-title">Manage Users</h1>
     <div>
-      <h2>Pending Approval</h2>
+      <h2 class="subheading">Pending Approval</h2>
     </div>
     <div class="user-table">
-      <mdb-tbl v-if="(userReqTable.rows.length > 0)" btn responsive :pagination="(userReqTable.rows > 10)">
-        <mdb-tbl-head>
+      <Table v-if="(userReqTable.rows.length > 0)" :rows="userReqTable.rows" :pagination="(userReqTable.rows.length > 10)">
+        <template v-slot:head>
           <tr>
             <th>Name</th>
             <th>Email</th>
             <th>Created</th>
             <th>Actions</th>
           </tr>
-        </mdb-tbl-head>
-        <mdb-tbl-body>
-          <tr v-for="item in userReqTable.rows" :key="item.reference">
+        </template>
+        <template v-slot="{ item }">
+          <tr>
             <td>{{ item.name }}</td>
             <td>{{ item.email }}</td>
             <td>{{ item.createdAt }}</td>
-            <td><mdb-btn size="sm" to="/" @click="approveUserMethod(item)" class="btn">Approve</mdb-btn>
-              <mdb-btn size="sm" to="/" @click="deleteUserMethod(item)" class="btn btn-right">Deny</mdb-btn>
+            <td class="button-cell">
+              <button @click="approveUserMethod(item)">Approve</button>
+              <button @click="deleteUserMethod(item)">Deny</button>
             </td>
           </tr>
-        </mdb-tbl-body>
-      </mdb-tbl>
+        </template>
+      </Table>
       <div v-else>
         There are no users waiting to be approved.
       </div>
@@ -35,8 +34,8 @@
       <h2 class="subheading">Permissions</h2>
     </div>
     <div class="user-table">
-      <mdb-tbl btn responsive :pagination="(userTable.rows > 10)">
-        <mdb-tbl-head>
+      <Table :rows="userTable.rows" :pagination="(userReqTable.rows.length > 10)">
+        <template v-slot:head>
           <tr>
             <th>Name</th>
             <th>Email</th>
@@ -44,21 +43,20 @@
             <th>Type</th>
             <th>Actions</th>
           </tr>
-        </mdb-tbl-head>
-        <mdb-tbl-body>
-          <tr v-for="item in userTable.rows" :key="item.reference">
-            <td>{{ item.name }}</td>
+        </template>
+        <template v-slot="{ item }">
+          <tr>
+            <td>{{  item.name }}</td>
             <td>{{ item.email }}</td>
             <td>{{ item.createdAt }}</td>
             <td>{{ item.type }}</td>
-            <td class="center-text"><mdb-btn size="sm" to="/" @click="switchUserRoleMethod(item)" class="btn center">{{
-              (item.type === 'user' ? 'Make Admin' : 'Revoke Admin') }}</mdb-btn>
-              <mdb-btn size="sm" to="/" @click="deleteUserMethod(item)" class="btn btn-right"><mdb-icon
-                  icon="times-circle" /> Delete</mdb-btn>
+            <td>
+              <button @click="switchUserRoleMethod(item)">{{ (item.type === 'user' ? 'Make Admin' : 'Revoke Admin') }}</button>
+              <button @click="deleteUserMethod(item)">Delete</button>
             </td>
           </tr>
-        </mdb-tbl-body>
-      </mdb-tbl>
+        </template>
+      </Table>
     </div>
   </div>
 </template>
@@ -66,16 +64,12 @@
 <script>
 import axios from 'axios'
 import dayjs from 'dayjs'
-import { mdbTblHead, mdbTblBody, mdbTbl, mdbIcon, mdbBtn } from 'mdbvue'
+import Table from '../Table.vue';
 
 export default {
   name: 'DatatablePage',
   components: {
-    mdbTbl,
-    mdbTblHead,
-    mdbTblBody,
-    mdbIcon,
-    mdbBtn
+    Table,
   },
   data() {
     return {
@@ -244,25 +238,20 @@ export default {
 
 <style scoped>
 .user-table {
-  width: 50%;
-  padding: 10px;
-  margin: auto;
-  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  max-width: 1000px;
 }
 
 .subheading {
-  padding-top: 5%;
-}
-
-.table-heading {
-  padding: 5%;
+  text-align: center;
+  margin-top: 50px;
 }
 
 .request-table-title {
-  float: left;
+  text-align: center;
+  margin-top: 100px;
 }
 
-.btn-right {
-  float: right;
-}
 </style>
