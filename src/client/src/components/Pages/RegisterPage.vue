@@ -265,6 +265,10 @@ export default {
 
 #register-heading {
   text-align: center;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 32px;
+  color: #3D3951;
 }
 
 .use-ssemmi-form label {
@@ -302,7 +306,7 @@ export default {
   background-color: #BFEBED;
   border: none;
   border-radius: 10px;
-  margin-top: 24px;
+  margin-top: 39px;
 }
 
 .line {

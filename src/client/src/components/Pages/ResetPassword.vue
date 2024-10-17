@@ -14,25 +14,22 @@
         <TextInput 
           v-model.trim="data.password"
           label="Password" 
-          inputTypeProp="password" 
-          :hideShowButton="true"
+          :is-password-field="true"
           :isError="isError"
         />
         <TextInput 
           v-model.trim="data.confirmPassword"
           label="Confirm Password" 
-          inputTypeProp="password" 
-          :hideShowButton="true"
+          :is-password-field="true"
           :isError="isError"
         />
 
-        <Button @click.native="resetPassword" :isLoading="isLoading" :formData="data">
+        <Button @click="resetPassword" :isLoading="isLoading" :formData="data">
           Reset password
         </Button>
-
       </form>
 
-      <Button v-if="isSubmitted" @click.native="$router.replace({name: 'Login'})">
+      <Button v-if="isSubmitted" @click="() => $router.replace({name: 'Login'})">
         Log In
       </Button>
     </section>
@@ -109,7 +106,7 @@ export default {
 <style scoped>
 
 button {
-  margin-top: 16px;
+  margin-top: 36px;
 }
 
 .header {

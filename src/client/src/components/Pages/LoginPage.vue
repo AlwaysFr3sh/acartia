@@ -144,7 +144,6 @@ form {
 }
 
 #ForgotPassword {
-  margin-top: 40px;
   margin-left: auto !important;
   display: block;
   text-align: right;
