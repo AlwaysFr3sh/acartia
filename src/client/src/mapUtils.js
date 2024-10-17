@@ -125,6 +125,41 @@ export function transformApiDataToMappableData(currSights) {
   return dataPoints
 }
 
+export function getSpeciesCounts(sightingData) {
+  if (sightingData.length == 0) return []
+  let speciesCount = {}
+
+  const whaleRegex = /orca|killer/i;
+
+
+  sightingData = sightingData.forEach(sighting => {
+    //check if type of killer whale or orca. lets combine due to messy data
+    let species = sighting.properties.type
+
+    if (whaleRegex.test(sighting.properties.type)) {
+      species = "Orca"
+    }
+
+    if (speciesCount[species]) {
+      speciesCount[species]++
+    } else {
+      speciesCount[species] = 1
+    }
+  })
+
+  let arr = Object.entries(speciesCount).map(([species, value]) => {
+    return { species, value }
+  }).sort((a, b) => {
+    if (a.value < b.value) {
+      return 1
+    } else {
+      return -1
+    }
+  })
+
+  return arr
+}
+
 export function filterByDateRange(sightingData, filterObj) {
   let startDate = filterObj.dateBegin
   let endDate = filterObj.dateEnd
@@ -328,7 +363,7 @@ export function getPopupHtmlString(sighting) {
   let verified = sighting.verified == 1 ? "True" : "False"
   let { fullDate, time } = splitApiDate(sighting.ssemmi_date_added)
   let gmtDateString = [fullDate, time].join(' ')
-  let ptDateString = dayjs(gmtDateString).add(4, "hour").toString().slice(0,25)
+  let ptDateString = dayjs(gmtDateString).add(4, "hour").toString().slice(0, 25)
 
   return `<div style="
     display: inline-flex;

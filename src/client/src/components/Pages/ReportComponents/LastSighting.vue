@@ -3,7 +3,7 @@
   <div class="sighting">
     <h2 class="sighting-header">Last sighting</h2>
     <LastSightingMap />
-    <div class="row sighting-text">
+    <div class="row">
       <div class="col-6 mb-2">
         <p class="sighting-title">Type:</p>
         <p class="sighting-text">{{ mostRecentSightingType }}</p>
@@ -22,7 +22,7 @@
       </div>
       <div class="col-6 mb-2">
         <p class="sighting-title">Location:</p>
-        <p class="sighting-text">Lat: {{ mostRecentSightingLatitude }} <br /> Long: {{ mostRecentSightingLongitude }}
+        <p class="sighting-text">Lat: {{ mostRecentSightingLatitude }} Long: {{ mostRecentSightingLongitude }}
         </p>
       </div>
       <div class="col-6 mb-2">
@@ -104,7 +104,10 @@ h2 {
   font-family: Montserrat;
   font-size: 1rem;
   font-style: normal;
-  font-weight: 500;
-  line-height: 140%;
+  font-weight: 400;
+  line-height: 100%;
+}
+.row {
+  margin-top:1rem;
 }
 </style>
