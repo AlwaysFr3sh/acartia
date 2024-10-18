@@ -43,7 +43,7 @@ export default {
       var svg = d3.select("#primaryChart")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", "400")
+        .attr("height", "100%")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
