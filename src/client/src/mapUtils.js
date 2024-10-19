@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { getNDaysAgo } from './dateUtils'
 
 // Function to generate the mapboxgl match expression
 export function generateMatchExpression(colorMappings) {
@@ -128,9 +129,18 @@ export function transformApiDataToMappableData(currSights) {
 export function getSpeciesCounts(sightingData) {
   if (sightingData.length == 0) return []
   let speciesCount = {}
-
   const whaleRegex = /orca|killer/i;
 
+  let today = dayjs()
+  let today2 = dayjs()
+  let todaysMonth = today.month()
+
+  while (today.month() == todaysMonth) {
+    today = today.subtract(1, "day")
+  }
+
+  let diff = today2.diff(today, "day")
+  sightingData = filterByDateRange(sightingData, { dateBegin: getNDaysAgo(diff), dateEnd: getNDaysAgo(0) })
 
   sightingData = sightingData.forEach(sighting => {
     //check if type of killer whale or orca. lets combine due to messy data
@@ -159,6 +169,7 @@ export function getSpeciesCounts(sightingData) {
 
   return arr
 }
+
 
 export function filterByDateRange(sightingData, filterObj) {
   let startDate = filterObj.dateBegin
