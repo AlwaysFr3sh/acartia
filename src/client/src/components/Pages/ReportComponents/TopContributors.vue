@@ -44,12 +44,16 @@ export default {
 
 <style scoped>
 .content {
+ height:100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 h2 {
   font-family: Mukta;
-  font-size: 1.5rem !important;
+  font-size:calc(14px + 0.4vw);
   font-style: normal;
   font-weight: 500;
   line-height: 105%;
@@ -59,14 +63,13 @@ h2 {
 dt {
   text-align: center;
   font-family: Mukta;
-  font-size: 1.125rem;
+  font-size:calc(14px + 0.4vw);
   font-style: normal;
   font-weight: 400;
 }
 
 dd {
   font-family: Montserrat;
-  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: 140%;
@@ -86,9 +89,10 @@ dd {
 
 .definition-item {
   display: flex;
-  padding: 1rem;
+  padding: 1vh;
   justify-content: space-between;
   align-items: center;
+  font-size:calc(14px + 0.4vw);
   width: 100%;
 }
 

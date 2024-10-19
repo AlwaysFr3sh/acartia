@@ -18,6 +18,10 @@ import Contribute from './components/Pages/ContributePage'
 import Upload from './components/Pages/UploadPage'
 import ContactUs from './components/Pages/ContactPage'
 import ExportData from './components/Pages/ExportPage'
+import AccountSettings from './components/Pages/ProfileComponents/AccountSettings.vue'
+import ActiveTokens from './components/Pages/ProfileComponents/ActiveTokens.vue'
+import YourContributions from './components/Pages/ProfileComponents/Contributions.vue'
+import DeleteAccount from './components/Pages/ProfileComponents/DeleteAccount.vue'
 import store from './store'
 
 const router = createRouter({
@@ -215,6 +219,26 @@ const router = createRouter({
       path: '/export',
       name: 'ExportData',
       component: ExportData
+    },
+    {
+      path: '/account-settings',
+      name: 'AccountSettings',
+      component: AccountSettings
+    },
+    {
+      path: '/active-tokens',
+      name: 'ActiveTokens',
+      component: ActiveTokens
+    },
+    {
+      path: '/your-contributions',
+      name: 'YourContributions',
+      component: YourContributions
+    },
+    {
+      path: '/delete-account',
+      name: 'DeleteAccount',
+      component: DeleteAccount
     },
   ]
 })

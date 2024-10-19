@@ -436,7 +436,7 @@ export default {
 }
 
 .verification-content {
-  margin-top: 1rem;
+  margin-top:1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

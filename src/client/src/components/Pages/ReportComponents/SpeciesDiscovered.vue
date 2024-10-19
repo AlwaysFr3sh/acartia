@@ -15,16 +15,16 @@ export default {
     secondaryChart() {
 
       let data = getSpeciesCounts(this.$store.state.sightings).slice(0, 5)
-      console.log(data)
 
-      let margin = { top: 10, right: 10, bottom: 20, left: 80 },
-        width = 500 - margin.left - margin.right,
-        height = 180 - margin.top - margin.bottom;
+      let margin = { top: 10, right: 10, bottom: 20, left: 80 }
+      // Calculate the width and height based on the parent container's dimensions
+      let width = document.getElementById("species-chart").clientWidth
+      let height = document.getElementById("species-chart").clientHeight - 100
 
       let svg = d3.select("#species-chart")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", "200")
+        .attr("height", "100%")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -89,6 +89,7 @@ h2 {
 
 #species-chart {
   width: 100%;
+  height: 25vh;
 }
 
 .shape {

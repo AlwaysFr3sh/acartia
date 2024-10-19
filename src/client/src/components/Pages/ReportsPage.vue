@@ -93,6 +93,7 @@ export default {
 .top-row {
   display: flex;
   height: 50vh;
+  min-height: 50vh;
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -104,6 +105,7 @@ export default {
 .middle-row {
   display: flex;
   height: 30vh;
+  min-height: 30vh;
   flex-wrap: nowrap;
   gap: 20px;
   margin-bottom: 30px;

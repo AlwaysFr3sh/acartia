@@ -92,9 +92,8 @@ h2 {
 .sighting-title {
   overflow-x: visible;
   font-family: Montserrat;
-  font-size: 0.75rem;
   font-style: normal;
-  font-weight: 400;
+  font-size:calc(10px + 0.3vw);
   margin-bottom: 0px;
 }
 
@@ -102,12 +101,13 @@ h2 {
   color: var(--Neutrals-Black, #0C0826);
   text-align: center;
   font-family: Montserrat;
-  font-size: 1rem;
+  font-size:calc(10px + 0.3vw);
   font-style: normal;
   font-weight: 400;
   line-height: 100%;
 }
 .row {
-  margin-top:1rem;
+  height:25vh;
+  margin-top:0.5rem;
 }
 </style>

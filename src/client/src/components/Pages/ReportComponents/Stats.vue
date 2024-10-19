@@ -49,12 +49,17 @@ export default {
 
 <style scoped>
 .content {
+  height:100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 h2 {
   font-family: Mukta;
-  font-size: 1.5rem !important;
+  font-size: 1.50vw;
+  font-size:calc(18px + 0.4vw);
   font-style: normal;
   font-weight: 500;
   line-height: 105%;
@@ -76,7 +81,7 @@ p {
   color: var(--Neutrals-Black, #0C0826);
   text-align: center;
   font-family: Mukta;
-  font-size: 1.25rem;
+  font-size:calc(14px + 0.4vw);
   font-style: normal;
   font-weight: 500;
   line-height: 105%;
