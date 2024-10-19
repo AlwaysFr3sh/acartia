@@ -79,6 +79,9 @@ const store = createStore(
         state.sightings = sightings
         state.filteredSightings = sightings
       },
+      setFilteredSightings(state, sightings) {
+        state.filteredSightings = sightings
+      },
       emptySightings(state) {
         state.sightings = []
         state.filteredSightings = []
@@ -117,7 +120,8 @@ const store = createStore(
         state.mapFilters.dateEnd = dateEnd
       },
       applyMapFilters(state) {
-        state.filteredSightings = filterSightingData(state.sightings, state.mapFilters)
+        let filteredData = filterSightingData(state.sightings, state.mapFilters)
+        state.filteredSightings = filteredData
 
         //Rerender map
         if (state.map && state.map.getSource(state.activeMapLayer)) {
@@ -190,6 +194,9 @@ const store = createStore(
         return state.lastSighting
       },
       getFilteredSightingsLength: state => {
+        if (!state.filteredSightings) {
+          return 0
+        }
         return state.filteredSightings.length
       },
       getMapFilters: state => {
@@ -239,6 +246,7 @@ const store = createStore(
 
           //sort data first then grab reference to the most recent sighting for the reports page
           let dataPoints = sortApiDataChronologically(sightings.data)
+
           let lastSighting = Object.assign({}, dataPoints[dataPoints.length - 2])
           commit("setLastSighting", lastSighting)
 
@@ -345,7 +353,8 @@ const store = createStore(
             commit('setUserToken', null)
             commit('setUserDetails', {})
             commit('setAuthentication', false)
-            commit('setSightings', null)
+            commit('setSightings', [])
+            commit('setFilteredSightings', [])
             commit('setIsAdmin', false)
             sessionStorage.clear()
           }
