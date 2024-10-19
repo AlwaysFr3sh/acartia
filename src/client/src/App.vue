@@ -156,7 +156,6 @@ export default {
     logoutMethod() {
       this.$store.dispatch("auth_logout").then(() => {
         this.$router.push("/");
-        this.$router.go();
       });
     },
     isActive(routes) {
