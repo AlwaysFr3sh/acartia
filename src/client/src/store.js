@@ -165,9 +165,12 @@ const store = createStore(
       },
       addToast(state, toast) {
         state.toasts.push(toast);
+
+        const duration = 2000;
+
         setTimeout(() => {
           state.toasts = state.toasts.filter((t) => t.id !== toast.id);
-        }, 2000)
+        }, duration)
       }
     },
     getters: {
