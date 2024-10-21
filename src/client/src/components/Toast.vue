@@ -1,5 +1,7 @@
 // Toast.vue
 
+// Loosely inspired by https://medium.com/@serpentarium13/how-to-toast-on-your-own-in-vue-5962c0f954d1
+
 // TODO: different colors and icons for different statuses??
 //       (when would we use other statuses?)
 
