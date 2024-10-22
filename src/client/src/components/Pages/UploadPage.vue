@@ -167,7 +167,6 @@ export default {
 
       try {
         await axios.delete(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings/c1420b76-96ea-4230-beb3-18b143347f4a`, requestAuth)
-        console.log("DELETED SIGHTING")
         this.clearForm()
         //TODO: add success toast
       } catch (error) {
@@ -191,12 +190,9 @@ export default {
         }
       }
 
-      console.log("POSTING: ", this.sighting)
-
       try {
         await axios.post(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings`, this.sighting, requestAuth)
         this.clearForm()
-        console.log("SUCCESS POSTING")
         //TODO: add success toast
       } catch (error) {
         //TODO: add error toast
@@ -296,7 +292,6 @@ export default {
         })
     },
     onFileChange(e) {
-      console.log("we changing")
       const files = e.target.files || e.dataTransfer.files;
       if (!files.length)
         return;

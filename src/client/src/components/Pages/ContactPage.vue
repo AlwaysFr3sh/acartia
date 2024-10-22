@@ -73,7 +73,6 @@ export default {
   methods: {
     async sendEmail() {
       if (!this.$store.state.token) {
-        console.log("no user in state")
         return
       }
 

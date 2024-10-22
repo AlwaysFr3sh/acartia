@@ -179,7 +179,6 @@ export default {
 
     HandleNext(event) {
       event.preventDefault();
-      console.log("going to the next stage of the form...")
       if (this.currentStage == "start") {
         this.currentStage = "intent"
       }
@@ -460,7 +459,7 @@ a {
   transform: translateX(10vw) translateY(100%);
 }
 
-@media (max-width: 800px) { 
+@media (max-width: 800px) {
   .back-button{
     transform: translateX(10vw) translateY(30%) !important;
   }
