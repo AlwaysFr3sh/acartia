@@ -35,9 +35,12 @@ const store = createStore(
       hydrophones: [],
       hydrophonesVisibility: 'none',
 
-      //Table view state
+      // Table view state
       tableFilters: generateInitFilterState(1, 1),
-      tableSightings: []
+      tableSightings: [],
+
+      // Notifications
+      toasts: [],
     },
     mutations: {
       //App state
@@ -163,6 +166,15 @@ const store = createStore(
       },
       setHydrophonesVisibility(state, visibility) {
         state.hydrophonesVisibility = visibility;
+      },
+      addToast(state, toast) {
+        state.toasts.push(toast);
+
+        const duration = 2000;
+
+        setTimeout(() => {
+          state.toasts = state.toasts.filter((t) => t.id !== toast.id);
+        }, duration)
       }
     },
     getters: {
@@ -731,7 +743,18 @@ const store = createStore(
           const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
           commit('setUserDetails', userDetails);
         }
-      }
+      },
+
+      createToast({ commit }, toast) {
+        const toastId = Date.now().toString(36) + Math.random().toString(36).slice(2);
+        const newToast = {
+          id: toastId,
+          message: toast.message,
+          status: toast.status,
+        };
+
+        commit('addToast', newToast);
+      },
 
     },
   }

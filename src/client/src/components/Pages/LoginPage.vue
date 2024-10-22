@@ -52,6 +52,7 @@ export default {
           console.log(loginMessage);
           this.isLoading = false;
           this.$router.replace({ name: 'DataExplorer' });
+          this.$store.dispatch('createToast', { message: 'Login successful', status: 'success'});
         })
         .catch((loginMessage) => {
           this.isError = true;

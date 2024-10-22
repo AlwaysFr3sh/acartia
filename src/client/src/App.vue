@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Toast></Toast>
     <nav id="navbar-top">
       <router-link to="/home" class="navbar-brand" @click="closeMobileMenu">
         <AcartiaLogo />
@@ -111,9 +112,12 @@
 import axios from "axios";
 import AcartiaLogo from "./assets/css/acartia-logo.vue";
 
+import Toast from './components/Toast.vue';
+
 export default {
   components: {
-    AcartiaLogo
+    AcartiaLogo,
+    Toast
   },
   data() {
     return {
