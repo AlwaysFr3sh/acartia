@@ -159,6 +159,7 @@ export default {
     },
     logoutMethod() {
       this.$store.dispatch("auth_logout").then(() => {
+        this.$store.commit("addToast", { message: "Successfully Logged Out", status: "success" })
         this.$router.push("/");
       });
     },
