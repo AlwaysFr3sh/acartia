@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Info/>
     <MapFilterComponent />
     <div style="z-index:1;" id='mapContainer'></div>
     <Layers />
@@ -8,13 +9,14 @@
 
 <script>
 import MapFilterComponent from './MapFilterComponent.vue'
+import Layers from './MapLayer.vue';
+import Info from './InfoPopUpComponent.vue';
 import mapboxgl from 'mapbox-gl';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { generateMatchExpression, getPopupHtmlString, legendColorMap } from '../mapUtils'
 import { mapActions } from 'vuex';
 
-import Layers from './MapLayer.vue';
 
 import mySVG from '../assets/hydrophone-default.svg';
 
@@ -25,6 +27,7 @@ export default {
   components: {
     MapFilterComponent,
     Layers,
+    Info
   },
   data() {
     return {
