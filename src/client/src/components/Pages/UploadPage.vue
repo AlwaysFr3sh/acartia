@@ -1,108 +1,107 @@
 <template>
-    <div class="upload-container">
-        <div class="header">
-            <h1>Upload Sightings</h1>
-        </div>
-        <Tabs>
-            <Tab title="Manual Upload">
-              <div class="manual-upload">
-                  <form class="manual-form">
-                      <div class ="input">
-                          <label>Date Sighted*</label>
-                      <input type="date" required="True">
-                      </div>
-                      <div class ="input">
-                          <label >Species*</label>
-                          <select required="True">
-                              <option value=""></option>
-                              <option value="whale1">Whale 1</option>
-                              <option value="whale1">Whale 2</option>
-                              <option value="whale1">Whale 3</option>
-                              <option value="whale1">Whale 4</option>
-                          </select>
-                      </div>
-                      <div class ="input">
-                          <label>Pod</label>
-                          <select>
-                              <option value=""></option>
-                              <option value="pod1">Pod 1</option>
-                              <option value="pod2">Pod 2</option>
-                              <option value="pod3">Pod 3</option>
-                              <option value="pod4">Pod 4</option>
-                          </select>
-                      </div>
-                      <div class ="input">
-                          <label>Number Sightings*</label>
-                      <select required="True">
-                          <option value=""></option>
-                          <option value="no1">Number 1</option>
-                          <option value="no2">Number 2</option>
-                          <option value="no3">Number 3</option>
-                          <option value="no4">Number 4</option>
-                      </select>
-                      </div>
-                      <div class ="input">
-                          <label>Observed Behaviours</label>
-                          <select>
-                              <option value=""></option>
-                              <option value="behaviour1">behaviour 1</option>
-                              <option value="behaviour2">behaviour 2</option>
-                              <option value="behaviour3">behaviour 3</option>
-                              <option value="behaviour4">behaviour 4</option>
-                          </select>
-                      </div>
-                      <div class ="input">
-                          <label>Additional notes </label>
-                      <textarea></textarea>
-                      </div>
-                      <div class ="input">
-                          <input type="submit" id="submit-btn" value="Upload sighting">
-                      </div>
-                  </form>
-              </div>
-            </Tab>
-            <Tab title="File Upload">
-              <div class="file-upload">
-                <div class="file-msg">
-                    <p>Import your data as a csv file.</p>
-                    <p>Use the template to format your data before uploading.</p>
-                </div>
-                <a class="btn btn-primary" data-mdb-ripple-init href="/https://github.com/salish-sea/acartia" role="button" id="upload-btn">
-                  <span>Upload file</span>
-                  <img src="@/assets/white-upload.svg" alt="Upload Icon" class="upload-icon" />
-                </a>
-                <a class="btn btn-primary" data-mdb-ripple-init href="/https://github.com/salish-sea/acartia" role="button" id="download-btn">
-                    <span>Download template</span>
-                    <img src="@/assets/download-blue.svg" alt="Download Icon" class="download-icon" />
-                  </a>
-                <div class="download-btn"></div>
-              </div>
-            </Tab>
-        </Tabs>
-
-        <div class="links">
-            <h2>Want to do more? Check out these links!</h2>
-            <div class="row">
-                <a class="a" data-mdb-ripple-init href="/integrate" role="button" id="btns">
-                    <img src="@/assets/htc-icon.svg" alt="Hand Icon" class="cont-icon" />
-                    How to Contribute
-                    <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
-                    <span>New to uploading data? Click here to learn how you can provide data.</span>
-                </a>
-                <a class="btn btn-primary" data-mdb-ripple-init href="https://github.com/salish-sea/acartia" target="_blank" role="button" id="btns">
-                    <img src="@/assets/git-icon.svg" alt="GitHub Icon" class="cont-icon" />
-                    Github
-                    <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
-                    <span>Integrate your application with Acartia.</span>
-                </a>
-                <a class="btn btn-primary" data-mdb-ripple-init href="/contact-us" role="button" id="btns">
-                  <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
-                  <img src="@/assets/mail-icon.svg" alt="Mail Icon" class="cont-icon" />
-                  Contact us
-                  <span>Get in touch with Acartia.</span>
-                </a>
+  <div class="upload-container">
+    <div class="header">
+      <h1>Upload Sightings</h1>
+    </div>
+    <Tabs>
+      <Tab title="Manual Upload">
+        <div id="manual-upload">
+          <form class="manual-form">
+            <div class="input">
+              <label>Date Sighted*</label>
+              <input type="datetime-local" @change="formatDateForAPI" required>
             </div>
+            <div class="input">
+              <label>Latitude*</label>
+              <input type="text" v-model="sighting.latitude" required>
+            </div>
+            <div class="input">
+              <label>Longitude*</label>
+              <input type="text" v-model="sighting.longitude" required>
+            </div>
+
+            <div class="input">
+              <label>Species*</label>
+              <select v-model="sighting.type" required>
+                <option value="" disabled>Select a species</option>
+                <option v-for="species in speciesList" :key="species" :value="species.species">
+                  {{ species.species }}
+                </option>
+              </select>
+            </div>
+            <div class="input">
+              <label>Pod</label>
+              <input type="text" v-model="sighting.pod">
+            </div>
+            <div class="input">
+              <label>Number Sighted*</label>
+              <input type="number" v-model="sighting.no_sighted" required>
+            </div>
+            <div class="input">
+              <label>Additional notes</label>
+              <textarea v-model="sighting.data_source_comments"></textarea>
+            </div>
+            <div class="input">
+              <input type="submit" id="submit-btn" value="Upload sighting" @click.prevent="uploadSighting">
+            </div>
+            <div class="input">
+              <input type="submit" id="submit-btn" value="Delete Hardcoded sighting" @click.prevent="deleteSighting">
+            </div>
+          </form>
         </div>
+
+      </Tab>
+
+      <Tab title="File Upload">
+        <div class="file-upload">
+          <div class="file-msg">
+            <p>Import your data as a csv file.</p>
+            <p>Use the template to format your data before uploading.</p>
+          </div>
+
+          <label class="file-upload-button">
+            Select File
+            <input type="file" id="fileInput" @change="onFileChange">
+          </label>
+
+          <button class="btn btn-primary" id="upload-btn" type="submit" @click="submitFile" :disabled="!fileReady">
+            <span>Upload File</span>
+            <img src="@/assets/white-upload.svg" alt="Upload Icon" class="upload-icon" />
+          </button>
+          <a class="btn btn-primary" @click="downloadTemplate" data-mdb-ripple-init role="button" id="download-btn">
+            <span>Download Template</span>
+            <img src="@/assets/download-blue.svg" alt="Download Icon" class="download-icon" />
+          </a>
+          <div class="download-btn"></div>
+        </div>
+      </Tab>
+    </Tabs>
+
+
+    <div class="links">
+
+      <h2>Want to do more? Check out these links!</h2>
+      <div class="row">
+        <a class="a" data-mdb-ripple-init href="/integrate" role="button" id="btns">
+          <img src="@/assets/htc-icon.svg" alt="Hand Icon" class="cont-icon" />
+          How to Contribute
+          <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
+          <span>New to uploading data? Click here to learn how you can provide data.</span>
+        </a>
+        <a class="btn btn-primary" data-mdb-ripple-init href="https://github.com/salish-sea/acartia" target="_blank"
+          role="button" id="btns">
+          <img src="@/assets/git-icon.svg" alt="GitHub Icon" class="cont-icon" />
+          Github
+          <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
+          <span>Integrate your application with Acartia.</span>
+        </a>
+        <a class="btn btn-primary" data-mdb-ripple-init href="/contact-us" role="button" id="btns">
+          <img src="@/assets/right-icon.svg" alt="Right Icon" class="righticon" />
+          <img src="@/assets/mail-icon.svg" alt="Mail Icon" class="cont-icon" />
+          Contact us
+          <span>Get in touch with Acartia.</span>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -116,49 +115,214 @@ export default {
   components: {
     Tabs,
     Tab
-  }
-  
+  },
+
   data() {
     return {
+      fileReady: false,
+      file: null,
+      tokens: [],
+      alert: {
+        show: false,
+        message: null,
+        type: null,
+      },
       sighting: {
-        data_source_id: "",
-        data_source_witness: "",
+        data_source_witness: this.$store.state.userDetails.user.name,
+        data_source_comments: "",
         data_source_entity: "",
         data_source_name: "Spotter-API",
         no_sighted: "",
         latitude: "",
         longitude: "",
+        trusted: 0,
         type: '',
-        data_source_comments: "",
         created: "",
-        photo_url:"",
-      }
+      },
+      speciesList: [
+        { species: 'Orca' },
+        { species: 'Humpback' },
+        { species: 'Gray Whale' },
+        { species: 'Harbor Porpoise' },
+        { species: 'Minke Whale' },
+        { species: 'Fin Whale' },
+        { species: "Dall's Porpoise" },
+        { species: 'Blue Whale' },
+        { species: 'Other (Write in Comments)' }
+      ]
     };
   },
   methods: {
-    async uploadSighting() {
-      let requestAuth;
-
-      //only allow upload if user is signed in
-      if (this.$store.state.userDetails.token) {
-        requestAuth.headers = {
-          'Authorization': 'Bearer ' + process.env.VUE_APP_MASTER_KEY,
-          'Content-Type': 'application/x-www-form-urlencoded'
+    formatDateForAPI(event) {
+      let [date, time] = event.target.value.split("T")
+      this.sighting.created = [date, [time, ":00"].join("")].join(" ")
+    },
+    async deleteSighting() {
+      let requestAuth = {
+        headers: {
+          'Authorization': 'Bearer ' + this.tokens[0].token,
+          'Content-Type': 'application/json'
         }
       }
 
       try {
-        let res = await axios.post('http://localhost:9000', this.sighting, requestAuth)
-        console.log("success: ", res)
+        await axios.delete(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings/c1420b76-96ea-4230-beb3-18b143347f4a`, requestAuth)
+        console.log("DELETED SIGHTING")
+        this.clearForm()
+        //TODO: add success toast
       } catch (error) {
+        //TODO: add error toast
         console.log(error)
       }
+    },
+    async uploadSighting() {
+      if (this.tokens.length === 0) {
+        //TODO: error toast notifying user they need to generate an API token
+        return
+      } else if (!this.validateForm()) {
+        //TODO: error toast notifying user they need to fill out all fields
+        return
+      }
+
+      let requestAuth = {
+        headers: {
+          'Authorization': 'Bearer ' + this.tokens[0].token,
+          'Content-Type': 'application/json'
+        }
+      }
+
+      console.log("POSTING: ", this.sighting)
+
+      try {
+        await axios.post(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings`, this.sighting, requestAuth)
+        this.clearForm()
+        console.log("SUCCESS POSTING")
+        //TODO: add success toast
+      } catch (error) {
+        //TODO: add error toast
+        console.log(error)
+      }
+    },
+    downloadTemplate() {
+      // Check for event error to prevent propagation
+      event.preventDefault()
+      const request = {
+        headers: {
+          'Authorization': 'Bearer ' + this.tokens[0].token,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+
+      axios.get(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings/import/getTemplate`, request)
+        .then(res => {
+          const fileUrl = window.URL.createObjectURL(new Blob([res.data]))
+          const fileLink = document.createElement('a')
+          fileLink.href = fileUrl
+          fileLink.setAttribute('download', 'acartia-import-template.csv')
+          document.body.appendChild(fileLink)
+          fileLink.click()
+        })
+    },
+    getUserTokens() {
+      this.$store.dispatch("get_user_tokens")
+        .then(res => {
+          let getList = JSON.parse(JSON.stringify(res.data))
+          this.tokens = [];
+          for (let i = 0; i < getList.length; i++) {
+            let tokenMap = {
+              name: getList[i].name,
+              token: getList[i].token,
+            }
+            this.tokens.push(tokenMap)
+          }
+        })
+    },
+    clearForm() {
+      this.sighting = {
+        data_source_witness: "",
+        data_source_comments: "",
+
+        //Private user - not an organisation
+        data_source_entity: "",
+        data_source_name: "Spotter-API",
+        no_sighted: "",
+        latitude: "",
+        longitude: "",
+        trusted: 0,
+        type: "",
+        created: "",
+        photo_url: "",
+      }
+    },
+    validateForm() {
+      if (
+        !this.sighting.created ||
+        !this.sighting.latitude ||
+        !this.sighting.longitude ||
+        !this.sighting.type ||
+        !this.sighting.no_sighted
+      ) { return false } else { return true }
+    },
+    submitFile() {
+      // Check for event error to prevent propagation
+      event.preventDefault()
+      const request = {
+        headers: {
+          'Authorization': 'Bearer ' + this.tokens[0].token,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+
+      let formData = new FormData()
+      formData.append('file', this.file)
+
+      axios.post(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings/import`, formData, request)
+        .then(impRes => {
+          console.log(`Imported ${impRes.data}`)
+          this.alert = {
+            show: true,
+            message: "Your records have been successfully imported",
+            type: 'success'
+          }
+        })
+        // Check for request errors
+        .catch(err => {
+          this.alert = {
+            show: true,
+            message: "There was an error importing your records. Please check your file and try again",
+            type: 'danger'
+          }
+          console.log(err)
+        })
+    },
+    onFileChange(e) {
+      console.log("we changing")
+      const files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      let ext = files[0].name.split('.').pop()
+      if (ext === 'csv') {
+        this.file = files[0]
+        this.fileReady = true
+      } else {
+        this.file = null
+      }
+    },
+  },
+  mounted() {
+    if (sessionStorage.userToken) {
+      this.userToken = sessionStorage.userToken
     }
+    this.getUserTokens()
   }
 }
 </script>
 
 <style scoped>
+.file-upload-button {
+  margin-left: 8rem;
+  margin-bottom: 1rem;
+}
 .IP {
   padding-top: 12px;
 }
@@ -208,12 +372,12 @@ h2 {
 }
 
 .manual-upload {
-    width: 1120px;
-    height: auto;
-    padding: 0px 160px 0px 160px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-    margin: auto;
+  width: 1120px;
+  height: auto;
+  padding: 0px 160px 0px 160px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  margin: auto;
 }
 
 .input {
@@ -286,16 +450,20 @@ h2 {
 .file-upload {
   margin-top: 24px;
   padding-bottom: 114px;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
 }
 
 .file-msg {
   width: 327px;
   height: 88px;
   margin: auto;
-  margin-bottom: 24px;
+  margin-bottom: 4rem;
 }
 
-.file-msg p{
+.file-msg p {
   line-height: 22.4px;
 }
 
@@ -345,13 +513,13 @@ h2 {
 }
 
 .links {
-    font-family: 'Montserrat';
-    text-align: left;
-    position: relative;
-    width: 1120px;
-    height: auto;
-    margin: auto;
-    padding-top: 64px;
+  font-family: 'Montserrat';
+  text-align: left;
+  position: relative;
+  width: 1120px;
+  height: auto;
+  margin: auto;
+  padding-top: 64px;
 }
 
 .cont-icon {
