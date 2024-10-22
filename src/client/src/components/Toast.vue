@@ -8,20 +8,11 @@
 <template>
   <Teleport to="body">
     <ul v-if="toasts.length" class="toasts">
-      <li v-for="toast in toasts" class="toat" :key="toast.id">
+      <li v-for="toast in toasts" :class="toast.status" :key="toast.id">
         <img :src="require('@/assets/tick.svg')">
         <p>{{ toast.message }}</p>
       </li>
     </ul>
-    <!-- For testing purposes -->
-    <!--
-    <ul class="toasts">
-      <li class="toat">
-        <img :src="require('@/assets/tick.svg')">
-        <p>This is a test message</p>
-      </li>
-    </ul>
-    -->
   </Teleport>
 </template>
 <script>
@@ -36,8 +27,8 @@
  }
 
 </script>
-<style scoped>
 
+<style scoped>
 p {
   font-family: "Montserrat";
   font-weight: 300;
@@ -52,17 +43,30 @@ img {
   height: 18px;
 }
 
-.toat {
+.error {
+  background-color: #e86b6b;
+  width: 316px;
+  height: 48px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+.success {
   background-color: #BFEBED;
   width: 316px;
   height: 48px;
   border-radius: 12px;
   padding: 12px 16px;
   margin-top: 10px;
-
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
