@@ -28,22 +28,14 @@
       <div class="text-field">
         <label class="label-text">Password</label>
         <input class="input-text" :type="passwordFieldType" v-model="password" />
-        <img
-          class="password-eye-icon"
-          src="@/assets/password-eye-icon.svg"
-          alt="Toggle Password Visibility"
-          @click="togglePasswordVisibility"
-        />
+        <img class="password-eye-icon" src="@/assets/password-eye-icon.svg" alt="Toggle Password Visibility"
+          @click="togglePasswordVisibility" />
       </div>
       <div class="text-field">
         <label class="label-text">Confirm Password</label>
         <input class="input-text" :type="passwordFieldType" v-model="confirmPassword" />
-        <img
-          class="password-eye-icon"
-          src="@/assets/password-eye-icon.svg"
-          alt="Toggle Password Visibility"
-          @click="togglePasswordVisibility"
-        />
+        <img class="password-eye-icon" src="@/assets/password-eye-icon.svg" alt="Toggle Password Visibility"
+          @click="togglePasswordVisibility" />
       </div>
       <div class="button-container">
         <button type="submit" class="save-button">Save Changes</button>
@@ -103,7 +95,7 @@ export default {
     },
     updateProfile() {
       if (this.password && this.password !== this.confirmPassword) {
-        this.showModalMessage("Error", "Passwords do not match");
+        this.$store.commit("addToast", { message: "Passwords Do Not Match", status: "error" })
         return;
       }
 
@@ -119,19 +111,11 @@ export default {
       this.$store
         .dispatch("update_profile", formData)
         .then(() => {
-          this.showModalMessage("Success", "Profile updated successfully");
+          this.$store.commit("addToast", { message: "Profile Updated Successfully", status: "success" })
         })
-        .catch((err) => {
-          this.showModalMessage("Error", err.message || "Profile update failed");
+        .catch(() => {
+          this.$store.commit("addToast", { message: "Error Updating Profile", status: "error" })
         });
-    },
-    showModalMessage(title, message) {
-      this.modalTitle = title;
-      this.modalMessage = message;
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
     },
   },
 };
