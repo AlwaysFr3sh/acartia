@@ -195,9 +195,7 @@ export default {
         this.currentStage = "start"
       }
     },
-
     register(event) {
-
       if (!this.registerUserData.email) {
         alert('Email required.')
         return false
@@ -232,9 +230,11 @@ export default {
         .then(regUser => {
           console.log(`Successfully added ${regUser.data}`)
           this.$router.push({ name: 'Dashboard' })
+          this.$store.commit("addToast", { message: "Successfully Logged In", status: "success" })
         })
         // Check for request errors
         .catch(err => {
+          this.$store.commit("addToast", { message: "Something Went Wrong", status: "error" })
           console.log(err)
         })
     }

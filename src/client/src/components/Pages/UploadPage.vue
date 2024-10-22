@@ -44,9 +44,6 @@
             <div class="input">
               <input type="submit" id="submit-btn" value="Upload sighting" @click.prevent="uploadSighting">
             </div>
-            <div class="input">
-              <input type="submit" id="submit-btn" value="Delete Hardcoded sighting" @click.prevent="deleteSighting">
-            </div>
           </form>
         </div>
 
@@ -157,29 +154,12 @@ export default {
       let [date, time] = event.target.value.split("T")
       this.sighting.created = [date, [time, ":00"].join("")].join(" ")
     },
-    async deleteSighting() {
-      let requestAuth = {
-        headers: {
-          'Authorization': 'Bearer ' + this.tokens[0].token,
-          'Content-Type': 'application/json'
-        }
-      }
-
-      try {
-        await axios.delete(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings/c1420b76-96ea-4230-beb3-18b143347f4a`, requestAuth)
-        this.clearForm()
-        //TODO: add success toast
-      } catch (error) {
-        //TODO: add error toast
-        console.log(error)
-      }
-    },
     async uploadSighting() {
       if (this.tokens.length === 0) {
-        //TODO: error toast notifying user they need to generate an API token
+        this.$store.commit("addToast", { message : "You Must First Generate an API Token Before Uploading", status : "error"} )
         return
       } else if (!this.validateForm()) {
-        //TODO: error toast notifying user they need to fill out all fields
+        this.$store.commit("addToast", { message : "Please Fill Out All The Fields Before Submitting", status : "error"} )
         return
       }
 
@@ -193,14 +173,12 @@ export default {
       try {
         await axios.post(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings`, this.sighting, requestAuth)
         this.clearForm()
-        //TODO: add success toast
+        this.$store.commit("addToast", { message : "Successfully Uploaded Sighting", status : "success"} )
       } catch (error) {
-        //TODO: add error toast
-        console.log(error)
+        this.$store.commit("addToast", { message : "Error Uploading Sighting", status : "error"} )
       }
     },
     downloadTemplate() {
-      // Check for event error to prevent propagation
       event.preventDefault()
       const request = {
         headers: {
@@ -275,20 +253,12 @@ export default {
       axios.post(`${process.env.VUE_APP_WEB_SERVER_URL}/v1/sightings/import`, formData, request)
         .then(impRes => {
           console.log(`Imported ${impRes.data}`)
-          this.alert = {
-            show: true,
-            message: "Your records have been successfully imported",
-            type: 'success'
-          }
+          this.$store.commit("addToast", { message : "Your records have been successfully imported", status : "success"} )
         })
         // Check for request errors
-        .catch(err => {
-          this.alert = {
-            show: true,
-            message: "There was an error importing your records. Please check your file and try again",
-            type: 'danger'
-          }
+        .catch((err) => {
           console.log(err)
+        this.$store.commit("addToast", { message : "There was an error importing your records. Please check your file and try again", status : "error"} )
         })
     },
     onFileChange(e) {

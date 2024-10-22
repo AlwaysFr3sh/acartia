@@ -96,11 +96,11 @@ export default {
 
 
         if (response.status === 200) {
-          this.responseMessage = 'Email sent successfully!';
+          this.$store.commit("addToast", { message : "Successfully Sent Email", status : "success"} )
         }
 
       } catch (error) {
-        this.responseMessage = 'Error sending email: ' + (error.response ? error.response.data : error.message);
+          this.$store.commit("addToast", { message : "Error Sending Feedback", status : "error"} )
       }
     },
   }

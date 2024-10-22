@@ -140,10 +140,11 @@ export default {
             this.userTokens.push(newToken);
             this.filterTokens(); // Update the filtered list
             this.closeTokenModal(); // Close the modal after creation
+            this.$store.commit("addToast", { message: "Successfully Created Token", status: "success" })
           })
           .catch(err => {
             console.error(err);
-            alert("Failed to create token");
+            this.$store.commit("addToast", { message: "Failed To Create Token", status: "error" })
           });
       }
     },
@@ -183,8 +184,10 @@ export default {
           console.log(response);
           this.loadUserTokens();
           this.closeDeleteModal(); // Close the modal after deletion
+            this.$store.commit("addToast", { message: "Successfully Deleted Token", status: "success" })
         })
         .catch((err) => {
+            this.$store.commit("addToast", { message: "Failed To Delete Token", status: "error" })
           console.error(`Failed to delete token: ${err}`);
         });
     },
@@ -333,7 +336,7 @@ tbody td {
 
 .dropdown {
   position: relative;
-  display: inline-block;
+  display:inline;
 }
 
 .dropdown-toggle {
