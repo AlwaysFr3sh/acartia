@@ -11,7 +11,7 @@
         <p>Enter your email and we'll send you a link to reset your password.</p>
       </div>
 
-      <TextInput v-if="!isSubmitted" v-model.trim="loginData.email" label="Email" :is-password-field="false" 
+      <TextInput v-if="!isSubmitted" v-model.trim="loginData.email" label="Email" :is-password-field="false"
         :isError="isError" />
 
     <Button @click="buttonAction" :isLoading="isLoading" :formData="loginData">
@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     submitEmail() {
-      // TODO: Test this function?
       function validateEmail(email) {
         let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);

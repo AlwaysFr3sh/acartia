@@ -28,7 +28,6 @@ export function getSightingCountsForPrimaryChart(sightings) {
       continue
     }
 
-    //TODO: undo hardcoding of last four years
     if (data[sightings[i].properties.year] < 2021 || data[sightings[i].properties.month] > 2024) {
       continue
     }

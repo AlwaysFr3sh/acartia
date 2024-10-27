@@ -1,6 +1,4 @@
 // ERROR MESSAGE COMPONENT
-// a bit overkill but kinda also nice
-
 <template>
 <div class="error-message">
   <p><slot></slot></p>
@@ -16,7 +14,7 @@
     font-family: "Montserrat";
     font-weight: 400;
     font-size: 14px;
-    border-radius: 12px; 
+    border-radius: 12px;
   }
 
   .error-message p {

@@ -103,18 +103,18 @@ import { filterUserSightings } from '@/mapUtils.js';
 export default {
   data() {
     return {
-      allSightings: [], // This will hold all the fetched sightings
-      contributions: [], // This will hold the filtered contributions
+      allSightings: [],
+      contributions: [],
       searchTerm_contribution: "",
       activeFilters: [],
       currentPage: 1,
       itemsPerPage: 10,
-      userDid: 'did:ethr:0x20fd1096eaafb242a88272e20d7a77b552fa6cd8',
-      isFilterModalOpen: false, // Modal state
+      userDid: '',
+      isFilterModalOpen: false,
       filterOptions: {
-        species: [] // This will store species with the `filter` attribute
+        species: []
       },
-      sortOrder: 'asc' // New property to store the current sort order
+      sortOrder: 'asc'
     };
   },
   computed: {

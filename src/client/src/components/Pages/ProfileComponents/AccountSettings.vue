@@ -60,10 +60,10 @@ export default {
       password: "",
       confirmPassword: "",
       passwordFieldType: "password",
-      logoFile: null, // For storing the uploaded profile picture
-      showModal: false, // For toggling modal visibility
-      modalTitle: "", // Modal title (e.g., "Success" or "Error")
-      modalMessage: "", // Modal message to display
+      logoFile: null,
+      showModal: false,
+      modalTitle: "",
+      modalMessage: "",
     };
   },
   computed: {
@@ -88,7 +88,7 @@ export default {
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.logoFile = e.target.result; // Save the base64 image
+          this.logoFile = e.target.result;
         };
         reader.readAsDataURL(file);
       }

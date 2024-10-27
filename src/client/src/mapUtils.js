@@ -143,7 +143,6 @@ export function getSpeciesCounts(sightingData) {
   sightingData = filterByDateRange(sightingData, { dateBegin: getNDaysAgo(diff), dateEnd: getNDaysAgo(0) })
 
   sightingData = sightingData.forEach(sighting => {
-    //check if type of killer whale or orca. lets combine due to messy data
     let species = sighting.properties.type
 
     if (whaleRegex.test(sighting.properties.type)) {
@@ -171,6 +170,8 @@ export function getSpeciesCounts(sightingData) {
 }
 
 
+//Note. Data must be sorted chronologically before filtering by date.
+//This as done before sightings are saved to the store
 export function filterByDateRange(sightingData, filterObj) {
   let startDate = filterObj.dateBegin
   let endDate = filterObj.dateEnd
@@ -210,7 +211,6 @@ export function filterByVerificationStatus(sightingData, filterObj) {
 export function filterBySpecies(sightingData, filterObj) {
   if (sightingData.length == 0) return []
 
-  //If no applied species filters, return data untouched.
   if (filterObj.species.length == 0) return sightingData
 
   let selectedSpecies = filterObj.species.map(obj => obj.name)
@@ -228,7 +228,6 @@ export function filterBySpecies(sightingData, filterObj) {
 export function filterByContributor(sightingData, filterObj) {
   if (sightingData.length == 0) return []
 
-  //If no applied species filters, return data untouched.
   if (filterObj.contributor.length == 0) return sightingData
 
   let selectedContributors = filterObj.contributor.map(obj => obj.name)
